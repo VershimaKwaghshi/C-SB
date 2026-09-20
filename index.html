@@ -1,1899 +1,465 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>C&SB Capital and Social Bond</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C&amp;SB Capital and Social Bond</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
 <style>
-
-:root {
-  --black: #050505;
-  --dark: #0b0b0b;
-  --panel: #111111;
-  --panel2: #171717;
-  --line: #282828;
-  --white: #ffffff;
-  --muted: #777777;
-  --soft: #a2a2a2;
-  --green: #62d995;
-  --red: #df6666;
-  --yellow: #e5bd59;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: var(--black);
-  color: var(--white);
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh;
-}
-
-button {
-  font-family: inherit;
-}
-
-header {
-  height: 76px;
-  padding: 0 5vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  background: rgba(5,5,5,.97);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-}
-
-.brand-logo {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: contain;
-  background: white;
-}
-
-.brand-name {
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.brand-subtitle {
-  color: var(--muted);
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-top: 4px;
-}
-
-.demo {
-  color: #777;
-  border: 1px solid #303030;
-  padding: 7px 11px;
-  border-radius: 20px;
-  font-size: 9px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.hero {
-  max-width: 1200px;
-  margin: auto;
-  padding: 85px 5vw 65px;
-}
-
-.hero-small {
-  color: #777;
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-}
-
-.hero h1 {
-  max-width: 900px;
-  font-size: clamp(48px, 7vw, 88px);
-  line-height: .95;
-  letter-spacing: -5px;
-}
-
-.hero h1 span {
-  color: #777;
-}
-
-.hero-story {
-  max-width: 690px;
-  margin-top: 30px;
-  color: #999;
-  font-size: 17px;
-  line-height: 1.8;
-}
-
-.hero-story strong {
-  color: white;
-  font-weight: 600;
-}
-
-.hero-button {
-  margin-top: 30px;
-  display: inline-block;
-  border: 1px solid white;
-  background: white;
-  color: black;
-  padding: 14px 20px;
-  border-radius: 7px;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.hero-button:hover {
-  background: #dddddd;
-}
-
-.simulation {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 5vw 90px;
-}
-
-.simulation-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 15px;
-}
-
-.simulation-title {
-  font-size: 23px;
-  font-weight: 800;
-}
-
-.day-area {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.day {
-  color: #777;
-  font-size: 11px;
-}
-
-.day strong {
-  color: white;
-}
-
-.reset {
-  background: #111;
-  border: 1px solid #333;
-  color: #888;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-
-.reset:hover {
-  color: white;
-  border-color: #555;
-}
-
-.progress {
-  height: 4px;
-  background: #1c1c1c;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 25px;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 1%;
-  background: white;
-  transition: width .5s ease;
-}
-
-.story {
-  border: 1px solid var(--line);
-  background: var(--panel);
-  border-radius: 11px;
-  padding: 30px;
-  margin-bottom: 17px;
-}
-
-.story-label {
-  color: #666;
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 13px;
-}
-
-.story h2 {
-  font-size: 31px;
-  letter-spacing: -1px;
-  line-height: 1.1;
-}
-
-.story p {
-  max-width: 760px;
-  color: #999;
-  font-size: 13px;
-  line-height: 1.75;
-  margin-top: 13px;
-}
-
-.story p strong {
-  color: white;
-  font-weight: 600;
-}
-
-.dashboard {
-  display: grid;
-  grid-template-columns: 1.15fr .85fr;
-  gap: 17px;
-}
-
-.card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  padding: 25px;
-}
-
-.label {
-  color: #666;
-  font-size: 9px;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.account-number {
-  font-size: 53px;
-  line-height: 1;
-  font-weight: 850;
-  letter-spacing: -4px;
-}
-
-.account-status {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 6px 9px;
-  border-radius: 5px;
-  background: #202020;
-  color: #777;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.account-status.active {
-  color: var(--green);
-  background: rgba(98,217,149,.08);
-}
-
-.account-status.finished {
-  color: var(--green);
-  background: rgba(98,217,149,.08);
-}
-
-.account-status.recovered {
-  color: var(--red);
-  background: rgba(223,102,102,.08);
-}
-
-.balance-area {
-  margin-top: 45px;
-}
-
-.balance-label {
-  color: #666;
-  font-size: 10px;
-}
-
-.balance {
-  font-size: 56px;
-  font-weight: 850;
-  letter-spacing: -4px;
-  margin-top: 4px;
-}
-
-.account-info {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 12px;
-  margin-top: 30px;
-}
-
-.info {
-  border-top: 1px solid var(--line);
-  padding-top: 10px;
-}
-
-.info span {
-  display: block;
-  color: #666;
-  font-size: 9px;
-  text-transform: uppercase;
-}
-
-.info strong {
-  display: block;
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-.money-number {
-  font-size: 42px;
-  font-weight: 850;
-  letter-spacing: -2px;
-}
-
-.money-text {
-  color: #777;
-  font-size: 11px;
-  margin-top: 5px;
-  margin-bottom: 27px;
-}
-
-.payment-track {
-  height: 10px;
-  background: #292929;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.payment-fill {
-  width: 0;
-  height: 100%;
-  background: white;
-  transition: width .5s ease;
-}
-
-.payment-text {
-  display: flex;
-  justify-content: space-between;
-  color: #666;
-  font-size: 10px;
-  margin-top: 8px;
-}
-
-.purchase-info {
-  margin-top: 28px;
-}
-
-.purchase-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #242424;
-  font-size: 11px;
-}
-
-.purchase-row span {
-  color: #666;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 17px;
-}
-
-.action {
-  border: 1px solid #333;
-  background: #111;
-  color: white;
-  padding: 13px 17px;
-  border-radius: 7px;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.action:hover {
-  background: #1d1d1d;
-  border-color: #555;
-}
-
-.action.primary {
-  background: white;
-  color: black;
-  border-color: white;
-  font-weight: 800;
-}
-
-.action.danger {
-  color: var(--red);
-  border-color: rgba(223,102,102,.35);
-}
-
-.action:disabled {
-  opacity: .25;
-  cursor: not-allowed;
-}
-
-.manager,
-.extra {
-  margin-top: 17px;
-  display: none;
-}
-
-.manager-box {
-  border: 1px solid #292929;
-  background: #0d0d0d;
-  border-radius: 8px;
-  padding: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.manager-title {
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.manager-text {
-  color: #666;
-  font-size: 10px;
-  line-height: 1.6;
-  margin-top: 5px;
-}
-
-.active-pill {
-  color: var(--green);
-  font-size: 9px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.extra-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 10px;
-}
-
-.extra-box {
-  background: #0d0d0d;
-  border: 1px solid #282828;
-  border-radius: 8px;
-  padding: 17px;
-}
-
-.extra-label {
-  color: #666;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.extra-value {
-  font-size: 25px;
-  font-weight: 800;
-  margin-top: 7px;
-}
-
-.extra-text {
-  color: #666;
-  font-size: 9px;
-  line-height: 1.5;
-  margin-top: 5px;
-}
-
-.activity {
-  margin-top: 17px;
-  background: #0b0b0b;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  padding: 21px;
-}
-
-.activity-title {
-  color: #666;
-  font-size: 9px;
-  letter-spacing: 1.7px;
-  text-transform: uppercase;
-  margin-bottom: 15px;
-}
-
-.activity-list {
-  display: grid;
-  gap: 10px;
-  max-height: 230px;
-  overflow-y: auto;
-}
-
-.activity-item {
-  display: grid;
-  grid-template-columns: 55px 1fr;
-  gap: 10px;
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.activity-day {
-  color: #555;
-}
-
-.activity-message {
-  color: #999;
-}
-
-.outcome {
-  display: none;
-  margin-top: 17px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  padding: 28px;
-}
-
-.outcome.visible {
-  display: block;
-}
-
-.outcome.finished {
-  border-color: rgba(98,217,149,.35);
-}
-
-.outcome.recovered {
-  border-color: rgba(223,102,102,.35);
-}
-
-.outcome.refund {
-  border-color: rgba(229,189,89,.35);
-}
-
-.outcome h2 {
-  font-size: 28px;
-  letter-spacing: -1px;
-}
-
-.outcome p {
-  max-width: 760px;
-  color: #999;
-  font-size: 13px;
-  line-height: 1.75;
-  margin-top: 10px;
-}
-
-footer {
-  border-top: 1px solid var(--line);
-  padding: 30px 5vw;
-  text-align: center;
-  color: #4f4f4f;
-  font-size: 10px;
-  line-height: 1.7;
-}
-
-@media(max-width:850px) {
-
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
-
-  .extra-grid {
-    grid-template-columns: 1fr;
-  }
-
-}
-
-@media(max-width:600px) {
-
-  header {
-    padding: 0 20px;
-  }
-
-  .demo {
-    display: none;
-  }
-
-  .hero,
-  .simulation {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .hero {
-    padding-top: 60px;
-  }
-
-  .hero h1 {
-    font-size: 51px;
-    letter-spacing: -3px;
-  }
-
-  .simulation-head {
-    align-items: flex-start;
-  }
-
-  .day-area {
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .account-number {
-    font-size: 42px;
-  }
-
-  .balance {
-    font-size: 46px;
-  }
-
-  .account-info {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .account-info .info:last-child {
-    grid-column: span 2;
-  }
-
-}
-
+:root{
+--paper:#F1F4F1;--pine:#14453D;--gold:#E2A72E;--coral:#C4553B;--ink:#22303A;--mist:#DCE6E2;--soft:#55666E;--mint:#CDEBDD;
+--head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+--body:"Source Serif 4",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.65;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding-left:20px;padding-right:20px}
+h1,h2,h3{font-family:var(--head);color:var(--pine);line-height:1.12;margin:0 0 .55em}
+h1{font-size:clamp(2.3rem,9vw,3.8rem);font-weight:700;letter-spacing:-.025em}
+h2{font-size:clamp(1.7rem,6vw,2.3rem);font-weight:700;letter-spacing:-.015em}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0 0 1.05em}
+.brand{font-family:var(--head);font-weight:700;color:var(--pine);font-size:1.1rem;margin-bottom:28px}
+.brand span{font-weight:500;color:var(--soft);margin-left:.4em}
+.hero{padding-top:36px;padding-bottom:20px}
+.lead{font-size:1.2rem}
+section.wrap{padding-top:52px;padding-bottom:20px}
+
+.stage{position:sticky;top:0;z-index:5;background:var(--pine);color:#fff;margin:22px -20px;padding:12px 20px 6px;font-family:var(--head)}
+.day{display:flex;justify-content:space-between;font-size:.95rem;margin-bottom:8px}
+.lab{display:flex;justify-content:space-between;align-items:baseline;font-size:.88rem}
+.lab b{font-size:1.1rem}
+.bar{position:relative;height:18px;background:rgba(255,255,255,.16);margin:4px 0 10px;overflow:hidden}
+.bar.thin{height:8px}
+.bar i{position:absolute;top:0;bottom:0;left:0;width:0;transition:width .6s ease,left .6s ease}
+.bar .bal{background:var(--mint)}
+.bar .fall{background:var(--coral)}
+.bar .paid{background:var(--gold)}
+.bar .out{background:var(--coral)}
+.bar .half{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:#fff}
+
+.story{min-height:220px}
+.tbl{width:100%;border-collapse:collapse;font-family:var(--head);font-size:.95rem;margin:0 0 1em}
+.tbl td{padding:7px 0;border-bottom:1px solid var(--mist);vertical-align:top}
+.tbl td:last-child{text-align:right;font-weight:700;white-space:nowrap;padding-left:12px}
+.extra{background:var(--mist);padding:12px 14px;margin:0 0 1em;font-family:var(--head);font-size:.95rem}
+.extra label{display:flex;justify-content:space-between;margin-bottom:6px}
+input[type=range]{width:100%;accent-color:var(--pine)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 0}
+button{font-family:var(--head);font-size:1rem;font-weight:700;border:0;cursor:pointer;padding:13px 18px;border-radius:4px;min-height:48px}
+.go{background:var(--pine);color:#fff}
+.alt{background:var(--gold);color:var(--ink)}
+.ghost{background:transparent;color:var(--pine);box-shadow:inset 0 0 0 2px var(--pine)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chips button{background:#fff;color:var(--pine);box-shadow:inset 0 0 0 2px var(--mist);border-radius:999px;padding:9px 16px;min-height:44px;font-size:.95rem}
+.chips button[aria-pressed=true]{background:var(--pine);color:#fff;box-shadow:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+.roles div{padding:14px 0;border-bottom:1px solid var(--mist)}
+.roles p{margin:0}
+
+.field{margin:0 0 14px;font-family:var(--head)}
+.fl{display:flex;justify-content:space-between;gap:12px;font-size:.95rem;margin-bottom:6px}
+.fl output{font-weight:700}
+.grp{margin:28px 0 10px}
+.result{background:var(--pine);color:#fff;padding:18px 20px;margin:24px -20px}
+.result h3{color:#fff}
+dl.rows{margin:0 0 18px;font-family:var(--head)}
+dl.rows div{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:.95rem}
+dl.rows dt{margin:0}
+dl.rows dd{margin:0;font-weight:700;white-space:nowrap}
+dl.rows .total{font-size:1.15rem}
+
+ol.build{padding:0;margin:0;list-style:none;counter-reset:b}
+ol.build li{padding:14px 0 14px 48px;border-bottom:1px solid var(--mist);position:relative;counter-increment:b}
+ol.build li:before{content:counter(b);position:absolute;left:0;top:16px;width:32px;height:32px;background:var(--pine);color:#fff;font-family:var(--head);font-weight:700;display:grid;place-items:center;border-radius:50%}
+ol.build h3{margin-bottom:.2em}
+ol.build p{margin:0}
+
+dl.nums{margin:0;font-family:var(--head)}
+dl.nums div{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--mist);font-size:.95rem}
+dl.nums dt{margin:0}
+dl.nums dd{margin:0;font-weight:700;text-align:right}
+
+footer{padding-top:36px;padding-bottom:64px;color:var(--soft);font-size:.95rem}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
-
 <body>
 
-
-<header>
-
-  <div class="brand">
-
-    <img
-      src="assets/logo.png"
-      alt="C&SB"
-      class="brand-logo"
-    >
-
-    <div>
-
-      <div class="brand-name">
-        C&SB
-      </div>
-
-      <div class="brand-subtitle">
-        Capital and Social Bond
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="demo">
-    Product Story
-  </div>
-
+<header class="wrap hero">
+<div class="brand">C&amp;SB <span>Capital and Social Bond</span></div>
+<h1>A trader should not have to stop because money came first.</h1>
+<p class="lead">C&amp;SB is where a trader begins with what is in hand, gets a real account to trade, and keeps going even after the account falls by half.</p>
 </header>
 
-
-<section class="hero">
-
-  <div class="hero-small">
-    C&SB
-  </div>
-
-  <h1>
-    A trader should not have to stop
-    <span>because capital came first.</span>
-  </h1>
-
-  <p class="hero-story">
-
-    A trader sees an opportunity and knows the account needed to trade it is
-    <strong>$10,000</strong>.
-
-    The problem is simple.
-
-    The trader does not have $10,000 ready today.
-
-    C&SB starts from that reality.
-
-    The trader begins with what is available, moves toward the account,
-    and keeps moving after the account becomes available.
-
-  </p>
-
-  <button
-    class="hero-button"
-    onclick="startSimulation()"
-  >
-    Follow the trader
-  </button>
-
+<section class="wrap" id="why">
+<h2>Why C&amp;SB should exist</h2>
+<p>A trader finds a chance in the market. The account it needs costs $10,000. The trader has $1,000. The skill is there and the chance is real. Only the money is missing.</p>
+<p>So the trader waits and saves, or buys a practice account where the money is never real. C&amp;SB gives a real account from the first payment. The trader pays for it in small payments over 90 days.</p>
+<p>Then a second problem arrives. Every trader has a bad stretch. When an account falls by half, the trader is out. One bad stretch ends a good trader.</p>
+<p>C&amp;SB is built for both problems. The account comes before the full price. When the account falls by half, people who choose to take part put money in so the trader keeps trading. The manager works to win it back.</p>
+<p>Nobody in the story is left alone. The trader has a manager. The manager has a manager. Bonders stand beside the trader. Partners put in the money. Each one earns for taking part. That is why C&amp;SB should exist. The rest of this page shows how it works and how to build it.</p>
 </section>
 
-
-<section
-  class="simulation"
-  id="simulation"
->
-
-
-  <div class="simulation-head">
-
-    <div class="simulation-title">
-      The trader
-    </div>
-
-    <div class="day-area">
-
-      <div class="day">
-        Day
-        <strong id="dayNumber">1</strong>
-        of 90
-      </div>
-
-      <button
-        class="reset"
-        onclick="resetSimulation()"
-      >
-        Reset
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="progress">
-
-    <div
-      class="progress-fill"
-      id="mainProgress"
-    ></div>
-
-  </div>
-
-
-  <div class="story">
-
-    <div class="story-label">
-      Day 1
-    </div>
-
-    <h2 id="storyTitle">
-      The trader needs $10,000
-    </h2>
-
-    <p id="storyText">
-
-      The trader wants a real funded account.
-
-      The account is $10,000.
-
-      The trader does not have the full amount ready.
-
-      That should not be the end of the story.
-
-    </p>
-
-  </div>
-
-
-  <div class="dashboard">
-
-
-    <div class="card">
-
-      <div class="label">
-        The account
-      </div>
-
-      <div class="account-number">
-        $10,000
-      </div>
-
-      <div
-        class="account-status"
-        id="accountStatus"
-      >
-        Not yet available
-      </div>
-
-
-      <div class="balance-area">
-
-        <div class="balance-label">
-          Money available to trade
-        </div>
-
-        <div
-          class="balance"
-          id="accountBalance"
-        >
-          $0
-        </div>
-
-      </div>
-
-
-      <div class="account-info">
-
-        <div class="info">
-
-          <span>
-            Account
-          </span>
-
-          <strong>
-            Real
-          </strong>
-
-        </div>
-
-
-        <div class="info">
-
-          <span>
-            Size
-          </span>
-
-          <strong>
-            $10,000
-          </strong>
-
-        </div>
-
-
-        <div class="info">
-
-          <span>
-            Time to finish
-          </span>
-
-          <strong>
-            90 days
-          </strong>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="label">
-        What the trader has paid
-      </div>
-
-      <div
-        class="money-number"
-        id="paidAmountLarge"
-      >
-        $0
-      </div>
-
-      <div class="money-text">
-        The trader pays toward the account over time
-      </div>
-
-
-      <div class="payment-track">
-
-        <div
-          class="payment-fill"
-          id="paymentProgress"
-        ></div>
-
-      </div>
-
-
-      <div class="payment-text">
-
-        <span id="paidAmount">
-          $0 paid
-        </span>
-
-        <span>
-          $10,000
-        </span>
-
-      </div>
-
-
-      <div class="purchase-info">
-
-        <div class="purchase-row">
-
-          <span>
-            Service fee
-          </span>
-
-          <strong>
-            1 percent
-          </strong>
-
-        </div>
-
-
-        <div class="purchase-row">
-
-          <span>
-            Time available
-          </span>
-
-          <strong>
-            90 days
-          </strong>
-
-        </div>
-
-
-        <div class="purchase-row">
-
-          <span>
-            Account
-          </span>
-
-          <strong id="earlyStatus">
-            Waiting
-          </strong>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="actions">
-
-
-    <button
-      class="action primary"
-      id="paymentButton"
-      onclick="makeInitialPayment()"
-    >
-      Start with $1,000
-    </button>
-
-
-    <button
-      class="action"
-      id="issueButton"
-      onclick="issueAccount()"
-      disabled
-    >
-      Give the trader the account
-    </button>
-
-
-    <button
-      class="action"
-      id="tradeButton"
-      onclick="startTrading()"
-      disabled
-    >
-      Start trading
-    </button>
-
-
-    <button
-      class="action"
-      id="managerButton"
-      onclick="assignManager()"
-      disabled
-    >
-      Bring in a manager
-    </button>
-
-
-    <button
-      class="action"
-      id="installmentButton"
-      onclick="makeInstallment()"
-      disabled
-    >
-      Keep paying
-    </button>
-
-
-    <button
-      class="action"
-      id="completeButton"
-      onclick="completePurchase()"
-      disabled
-    >
-      Finish the account
-    </button>
-
-
-    <button
-      class="action danger"
-      id="failureButton"
-      onclick="simulate90DayFailure()"
-    >
-      Reach day 90
-    </button>
-
-  </div>
-
-
-  <div
-    class="manager card"
-    id="managerCard"
-  >
-
-    <div class="label">
-      The trader has a manager
-    </div>
-
-    <div class="manager-box">
-
-      <div>
-
-        <div class="manager-title">
-          Someone else can trade the account
-        </div>
-
-        <div class="manager-text">
-          The trader can bring in a manager to trade the account
-          while the trader continues the journey.
-        </div>
-
-      </div>
-
-      <div class="active-pill">
-        Manager active
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div
-    class="extra card"
-    id="additionalAccountsCard"
-  >
-
-    <div class="label">
-      More room to trade
-    </div>
-
-    <div class="extra-grid">
-
-
-      <div class="extra-box">
-
-        <div class="extra-label">
-          First account
-        </div>
-
-        <div class="extra-value">
-          $10K
-        </div>
-
-        <div class="extra-text">
-          The trader's own funded account
-        </div>
-
-      </div>
-
-
-      <div class="extra-box">
-
-        <div class="extra-label">
-          Another account
-        </div>
-
-        <div class="extra-value">
-          $10K
-        </div>
-
-        <div class="extra-text">
-          Another account for the trader to manage
-        </div>
-
-      </div>
-
-
-      <div class="extra-box">
-
-        <div class="extra-label">
-          More accounts
-        </div>
-
-        <div class="extra-value">
-          +5
-        </div>
-
-        <div class="extra-text">
-          More funded accounts can be placed under the trader's management
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="activity">
-
-    <div class="activity-title">
-      The story so far
-    </div>
-
-    <div
-      class="activity-list"
-      id="activityList"
-    >
-
-      <div class="activity-item">
-
-        <div class="activity-day">
-          DAY 1
-        </div>
-
-        <div class="activity-message">
-          The trader needs a $10,000 account and does not have the full amount ready.
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div
-    class="outcome"
-    id="outcome"
-  >
-
-    <h2 id="outcomeTitle"></h2>
-
-    <p id="outcomeText"></p>
-
-  </div>
-
-
+<section class="wrap" id="follow">
+<h2>Follow one trader</h2>
+<p>Follow one trader through 90 days. Pick an account size, then press the button at the bottom. The bars at the top show the account. The white line on the top bar marks half.</p>
+<div class="chips" id="sizeChips" role="group" aria-label="Account size"></div>
+
+<div class="stage">
+<div class="day"><span>Day <b id="sDay">1</b> of 90</span><span id="sState">Waiting</span></div>
+<div class="lab"><span>Money in the account</span><b id="sBal">$0</b></div>
+<div class="bar"><i class="bal" id="bBal"></i><i class="fall" id="bFall"></i><em class="half"></em></div>
+<div class="lab"><span>Paid by the trader</span><b id="sPaid">$0</b></div>
+<div class="bar thin"><i class="paid" id="bPaid"></i></div>
+<div class="lab" id="rowOut" hidden><span>Money still out with partners and Bonders</span><b id="sOut">$0</b></div>
+<div class="bar thin" id="barOut" hidden><i class="out" id="bOut"></i></div>
+</div>
+
+<div class="story" aria-live="polite">
+<h3 id="stepTitle"></h3>
+<div id="stepBody"></div>
+<div id="stepExtra"></div>
+</div>
+<div class="btns">
+<button type="button" id="nextBtn" class="go"></button>
+<button type="button" id="altBtn" class="alt" hidden></button>
+<button type="button" id="resetBtn" class="ghost">Start again</button>
+</div>
 </section>
 
+<section class="wrap" id="people">
+<h2>Who takes part</h2>
+<div class="roles">
+<div><h3>The trader</h3><p>Wants to trade a real account and does not have the full amount. Pays for the account in small payments over 90 days.</p></div>
+<div><h3>The manager</h3><p>Trades accounts for traders and has a trading record. Also has another manager trading their own account, so every manager stands on both sides.</p></div>
+<div><h3>The Bonders</h3><p>Up to 10 join each Social Bond. Each puts in up to 10 percent of the amount. Together they share 40 percent of the fee.</p></div>
+<div><h3>The partner</h3><p>A bank, a fintech, a microfinance bank, a cooperative or a trader who chooses to take part. Puts in whatever the Bonders do not, and receives 40 percent of the fee.</p></div>
+<div><h3>The broker</h3><p>Holds the accounts and keeps the rules, including the stop when an account reaches half.</p></div>
+<div><h3>C&amp;SB</h3><p>Passes the messages between everyone, sets the rules, keeps the records, and earns 20 percent of the fee along with its other earnings. C&amp;SB does not put in money for Social Bond.</p></div>
+</div>
+</section>
 
-<footer>
+<section class="wrap" id="company">
+<h2>C&amp;SB as a company</h2>
+<p>Now look at C&amp;SB as a company. Set the numbers below. The page shows what C&amp;SB earns in a month and where the money sits. The numbers are inputs to play with. They are not forecasts.</p>
+<div id="ctl"></div>
+<div class="result">
+<h3>What C&amp;SB earns in a month</h3>
+<dl class="rows" id="rev"></dl>
+<h3>Where the money is</h3>
+<dl class="rows" id="mon"></dl>
+</div>
+</section>
 
-  C&SB Capital and Social Bond
+<section class="wrap" id="build">
+<h2>Building C&amp;SB from the ground up</h2>
+<p>Build the desks in this order. Each one stands on the one before it.</p>
+<ol class="build">
+<li><h3>The account desk</h3><p>Takes the first payment, opens the account, keeps every payment, and counts the days. Everything else stands on this.</p></li>
+<li><h3>The manager desk</h3><p>Lists managers with their trading records, shows a trader three choices, and records who trades which account. Every account has a manager and every manager has a manager.</p></li>
+<li><h3>The broker link</h3><p>The broker holds the accounts and enforces the rules, including the stop at half. C&amp;SB reads every account through this link.</p></li>
+<li><h3>The watcher</h3><p>Reads every account all day. When an account falls by half, it opens Social Bond on its own.</p></li>
+<li><h3>The Social Bond desk</h3><p>Sends the request to Bonders and partners, starts the 5 minute clock, matches who puts in what, takes the 20 percent fee and shares it 40, 40 and 20 at once.</p></li>
+<li><h3>The recovery desk</h3><p>Collects the manager earnings from the six places and pays them back in order, bond first, then Bonders, then the partner.</p></li>
+<li><h3>The money record</h3><p>Every dollar has a line saying where it came from and where it went. Trader payments, account money, partner money and C&amp;SB earnings never share a line.</p></li>
+<li><h3>The dashboards</h3><p>The trader, the manager, the partner and the Bonder each see their own. C&amp;SB sees all of it.</p></li>
+</ol>
+</section>
 
-  <br><br>
+<section class="wrap" id="numbers">
+<h2>The numbers C&amp;SB runs on</h2>
+<dl class="nums">
+<div><dt>Time to finish the account</dt><dd>90 days</dd></div>
+<div><dt>Service fee</dt><dd>1 percent of the account</dd></div>
+<div><dt>Daily payment plan</dt><dd>1.1 percent a day for 100 days</dd></div>
+<div><dt>Earliest account on the daily plan</dt><dd>Day 30</dd></div>
+<div><dt>Extra accounts of the same size</dt><dd>Up to 5</dd></div>
+<div><dt>Profit split with the manager side</dt><dd>Half and half</dd></div>
+<div><dt>Fall that opens Social Bond</dt><dd>Half the account</dd></div>
+<div><dt>Bonders in each Social Bond</dt><dd>Up to 10</dd></div>
+<div><dt>Most one Bonder puts in</dt><dd>10 percent</dd></div>
+<div><dt>Time to answer a request</dt><dd>5 minutes</dd></div>
+<div><dt>Social Bond window</dt><dd>30 days</dd></div>
+<div><dt>Activation fee</dt><dd>20 percent of the amount put in</dd></div>
+<div><dt>Who receives the fee</dt><dd>40 partner, 40 Bonders, 20 C&amp;SB</dd></div>
+<div><dt>Subscription</dt><dd>$4.99 a month</dd></div>
+<div><dt>Withdrawal fee</dt><dd>15 percent</dd></div>
+<div><dt>Trading commission</dt><dd>$12 a lot, set with the broker</dd></div>
+</dl>
+</section>
 
-  This is a product story and simulation.
-  It does not promise trading results.
-
+<footer class="wrap">
+<p>C&amp;SB Capital and Social Bond. This is a simulation. It does not promise trading results.</p>
 </footer>
 
-
 <script>
+(function(){
+"use strict";
+function $(id){return document.getElementById(id);}
+function m(n){return "$"+Math.round(Math.max(0,n)).toLocaleString("en-US");}
+function m2(n){return "$"+Math.max(0,n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function big(n){n=Math.max(0,n);if(n>=1e9)return "$"+(n/1e9).toFixed(2)+" billion";if(n>=1e6)return "$"+(n/1e6).toFixed(2)+" million";return m(n);}
+function txt(x){return typeof x==="function"?x():x;}
 
+/* The fee comes out of the amount put in. Set to false to send the full amount to the account. */
+var FEE_FROM_AMOUNT=true;
+var SIZES=[1000,5000,10000,25000];
+var SOURCES=[["The manager own account",30],["The extra accounts",25],["Managing other traders",15],["Submanaging",10],["Referrals",6],["The referral marketplace",4]];
+var T={S:10000,step:0,day:1,paid:0,bal:0,put:0,rec:0,still:0,bonders:6,earn:0.9,end:"",shown:-1};
 
-const ACCOUNT_VALUE = 10000;
+function first(){return T.S*0.1;}
+function paidAt(d){var f=first();return Math.min(T.S,f+(T.S-f)*(d-1)/89);}
+function perDay(){return T.S*T.earn/100;}
+function sb(){
+  var P=T.S/2,fee=P*0.2,b=Math.min(10,Math.max(1,T.bonders));
+  var bond=P*0.1*b;
+  return {P:P,fee:fee,b:b,bonders:bond,partner:P-bond,fp:fee*0.4,fb:fee*0.4,fc:fee*0.2,net:FEE_FROM_AMOUNT?P-fee:P};
+}
 
-const INITIAL_PAYMENT = 1000;
-
-const INSTALLMENT_AMOUNT = 2250;
-
-
-let state = {
-  day: 1,
-  paid: 0,
-  accountIssued: false,
-  trading: false,
-  managerAssigned: false,
-  completed: false,
-  failed: false
-};
-
-
-const story = [
-
-  {
-    title: "The trader needs $10,000",
-    text: "The trader wants a real funded account. The account is $10,000. The trader does not have the full amount ready. That should not be the end of the story."
+var steps=[
+{
+  t:"The trader needs an account.",
+  b:function(){return "<p>The trader wants a real account of "+m(T.S)+". The trader has "+m(first())+" today. That is not enough to trade it. Without C&amp;SB, this is where the story stops.</p>";},
+  btn:function(){return "Start with "+m(first());},
+  on:function(){T.day=1;T.paid=0;T.bal=0;T.put=0;T.rec=0;T.end="";}
+},
+{
+  t:"The account opens.",
+  b:function(){return "<p>The trader pays "+m(first())+" and the account opens with "+m(T.S)+" to trade. It is real money in a real account. The rest is paid in small payments over 90 days. The service fee is 1 percent of the account, "+m(T.S*0.01)+".</p>";},
+  btn:"Bring in a manager",
+  on:function(){T.day=1;T.paid=first();T.bal=T.S;}
+},
+{
+  t:"A manager trades the account.",
+  b:function(){return "<p>Three managers are shown, each with a trading record. The trader picks one. The manager trades the account while the trader keeps paying. Profit is shared, half to the trader and half to the manager side.</p><p>The manager also has another manager trading their own account, so every manager stands on both sides.</p>";},
+  btn:"Let the days pass"
+},
+{
+  t:"The account grows.",
+  b:function(){return "<p>By day 12 the account is at "+m(T.bal)+". The trader has paid "+m(T.paid)+" and keeps paying a little each day.</p>";},
+  btn:"Keep going",
+  on:function(){T.day=12;T.bal=Math.round(T.S*1.08);T.paid=paidAt(12);}
+},
+{
+  t:"The account falls by half.",
+  b:function(){return "<p>On day 24 a run of bad trades takes the account down to "+m(T.bal)+". C&amp;SB reads every account and sees it the moment it happens. For a trader on their own, this is where the story ends.</p>";},
+  btn:"Open Social Bond",
+  on:function(){T.day=24;T.bal=T.S/2;T.paid=paidAt(24);}
+},
+{
+  t:"Social Bond opens.",
+  b:function(){
+    var s=sb();
+    return "<p>The "+m(s.P)+" still in the account is the bond. The trader needs "+m(s.P)+" to get back to trading. The request goes out to Bonders and to a partner, and each has 5 minutes to answer.</p>"+
+    "<table class='tbl'>"+
+    "<tr><td>"+s.b+" Bonders put in</td><td>"+m(s.bonders)+"</td></tr>"+
+    "<tr><td>A partner puts in the rest</td><td>"+m(s.partner)+"</td></tr>"+
+    "<tr><td>Activation fee, 20 percent of the amount put in</td><td>"+m(s.fee)+"</td></tr>"+
+    "<tr><td>Fee to the partner, 40 percent</td><td>"+m(s.fp)+"</td></tr>"+
+    "<tr><td>Fee to the Bonders, 40 percent</td><td>"+m(s.fb)+"</td></tr>"+
+    "<tr><td>Fee to C&amp;SB, 20 percent</td><td>"+m(s.fc)+"</td></tr>"+
+    "<tr><td>The account receives</td><td>"+m(s.net)+"</td></tr></table>"+
+    "<p>The fee is taken as the money arrives and shared at once. The account is at "+m(T.bal)+" and the trader is trading again.</p>";
   },
-
-  {
-    title: "The trader starts with what is available",
-    text: "The trader starts with $1,000. The goal remains the same. The trader is now moving toward the account instead of waiting for the full amount to appear at once."
+  x:function(){return "<div class='extra'><label for='bRange'><span>Bonders who join</span><output id='bOutv'>"+T.bonders+"</output></label><input type='range' id='bRange' min='1' max='10' step='1' value='"+T.bonders+"'></div>";},
+  btn:"Recovery begins",
+  on:function(){var s=sb();T.put=s.P;T.rec=0;T.bal=s.P+s.net;}
+},
+{
+  t:function(){return T.end==="second"?"The account falls by half again.":"Recovery.";},
+  b:function(){
+    var s=sb(),pd=perDay(),rows="",i,h;
+    if(T.end==="second"){
+      return "<p>The account falls by half again and is stopped at "+m(T.S/2)+". The "+m(T.still)+" still out is paid from the "+m(T.S/2)+" left in the account. Everyone who put in has all "+m(T.put)+" back and keeps their fee shares, "+m(s.fp+s.fb)+" in all. C&amp;SB keeps its "+m(s.fc)+". The account closes and the trader stops here.</p>";
+    }
+    for(i=0;i<SOURCES.length;i++){rows+="<tr><td>"+SOURCES[i][0]+"</td><td>"+m2(pd*SOURCES[i][1]/90)+" a day</td></tr>";}
+    h="<p>The manager keeps trading. Every earning the manager makes goes toward recovery, from six places. Recovered money goes back to the bond first, then to the Bonders, then to the partner.</p>"+
+    "<table class='tbl'>"+rows+"<tr><td>All six together</td><td>"+m2(pd)+" a day</td></tr></table>"+
+    "<p>Recovered so far "+m(T.rec)+" of "+m(T.put)+". Still out "+m(T.put-T.rec)+".</p>";
+    if(T.end==="done"){
+      h+="<p>Day 90. The trader has paid "+m(T.S)+" and the account belongs to the trader. "+(T.put-T.rec>0?"Manager earnings keep going to the "+m(T.put-T.rec)+" still out.":"Everyone who put in has all their money back.")+"</p>";
+    }
+    return h;
   },
-
-  {
-    title: "The account becomes available",
-    text: "The trader has made the first payment. The $10,000 account is now placed with the trader while the rest of the payment continues."
-  },
-
-  {
-    title: "The trader starts trading",
-    text: "The trader now has $10,000 of real trading capital. The trader can focus on trading while continuing to complete the account."
-  },
-
-  {
-    title: "The trader can bring in a manager",
-    text: "Trading does not always have to depend on the trader being the person behind every position. A manager can take responsibility for trading the account."
-  },
-
-  {
-    title: "The trader keeps moving",
-    text: "The trader continues paying until the account is fully completed. The trading journey and the payment journey now move together."
-  },
-
-  {
-    title: "The account has a clear ending",
-    text: "The trader reaches the end of the 90 day period with a clear result. The account is completed or the account follows the terms that apply when the payment is not completed."
-  }
-
+  x:function(){return "<div class='extra'><label for='eRange'><span>Manager earnings each day, percent of the account</span><output id='eOutv'>"+T.earn.toFixed(1)+"</output></label><input type='range' id='eRange' min='0' max='3' step='0.1' value='"+T.earn+"'></div>";}
+}
 ];
 
-
-function startSimulation() {
-
-  document
-    .getElementById("simulation")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-
+function state(){
+  if(T.end==="second")return "Account closed";
+  if(T.end==="done")return "Account paid";
+  return ["Waiting","Account open","Manager trading","Growing","Fallen by half","Social Bond active","Recovering"][T.step];
 }
 
-
-function resetSimulation() {
-
-  state = {
-    day: 1,
-    paid: 0,
-    accountIssued: false,
-    trading: false,
-    managerAssigned: false,
-    completed: false,
-    failed: false
-  };
-
-
-  document
-    .getElementById("managerCard")
-    .style.display = "none";
-
-
-  document
-    .getElementById("additionalAccountsCard")
-    .style.display = "none";
-
-
-  const outcome =
-    document.getElementById("outcome");
-
-  outcome.className = "outcome";
-
-
-  document
-    .getElementById("outcomeTitle")
-    .textContent = "";
-
-
-  document
-    .getElementById("outcomeText")
-    .textContent = "";
-
-
-  document
-    .getElementById("activityList")
-    .innerHTML = `
-
-      <div class="activity-item">
-
-        <div class="activity-day">
-          DAY 1
-        </div>
-
-        <div class="activity-message">
-          The trader needs a $10,000 account and does not have the full amount ready.
-        </div>
-
-      </div>
-
-  `;
-
-
-  updateUI();
-
-
-  document
-    .getElementById("simulation")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-
+function render(){
+  var s=steps[T.step],S=T.S,bw,out;
+  $("stepTitle").textContent=txt(s.t);
+  $("stepBody").innerHTML=s.b();
+  if(T.shown!==T.step){$("stepExtra").innerHTML=s.x?s.x():"";T.shown=T.step;}
+  bw=Math.min(T.bal,S)/S*100;
+  $("bBal").style.width=bw+"%";
+  $("bFall").style.left=bw+"%";
+  $("bFall").style.width=(T.step>=4?100-bw:0)+"%";
+  $("bPaid").style.width=(T.paid/S*100)+"%";
+  out=Math.max(0,T.put-T.rec);
+  $("rowOut").hidden=T.step<5;
+  $("barOut").hidden=T.step<5;
+  $("bOut").style.width=(out/S*100)+"%";
+  $("sDay").textContent=T.day;
+  $("sState").textContent=state();
+  $("sBal").textContent=m(T.bal);
+  $("sPaid").textContent=m(T.paid);
+  $("sOut").textContent=m(out);
+  var nb=$("nextBtn"),ab=$("altBtn");
+  if(T.step<6){nb.hidden=false;nb.textContent=txt(s.btn);ab.hidden=true;}
+  else if(!T.end){nb.hidden=false;nb.textContent="Move ahead 10 days";ab.hidden=(T.put-T.rec)<=0;ab.textContent="Show a second fall";}
+  else{nb.hidden=true;ab.hidden=true;}
 }
 
-
-function updateStory(index) {
-
-  const current =
-    story[index];
-
-
-  document
-    .getElementById("storyTitle")
-    .textContent =
-    current.title;
-
-
-  document
-    .getElementById("storyText")
-    .textContent =
-    current.text;
-
+function next(){
+  if(T.step<6){
+    T.step++;
+    if(steps[T.step].on)steps[T.step].on();
+  }else if(!T.end){
+    T.day=Math.min(90,T.day+10);
+    T.paid=paidAt(T.day);
+    T.rec=Math.min(T.put,Math.max(0,T.day-24)*perDay());
+    if(T.day>=90)T.end="done";
+  }
+  render();
 }
 
-
-function makeInitialPayment() {
-
-  if (state.paid > 0) {
-    return;
-  }
-
-
-  state.paid = INITIAL_PAYMENT;
-
-  state.day = 5;
-
-
-  addActivity(
-    5,
-    "The trader starts with $1,000."
-  );
-
-
-  addActivity(
-    5,
-    "The trader now has a clear path toward the $10,000 account."
-  );
-
-
-  updateUI();
-
+function second(){
+  T.still=Math.max(0,T.put-T.rec);
+  T.end="second";
+  T.rec=T.put;
+  T.bal=0;
+  render();
 }
 
-
-function issueAccount() {
-
-  if (state.paid < INITIAL_PAYMENT) {
-    return;
-  }
-
-
-  if (state.accountIssued) {
-    return;
-  }
-
-
-  state.accountIssued = true;
-
-  state.day = 8;
-
-
-  addActivity(
-    8,
-    "The $10,000 account is placed with the trader."
-  );
-
-
-  addActivity(
-    8,
-    "The trader continues paying after receiving the account."
-  );
-
-
-  updateUI();
-
+function buildSizes(){
+  var h="",i;
+  for(i=0;i<SIZES.length;i++){h+="<button type='button' data-s='"+SIZES[i]+"' aria-pressed='"+(SIZES[i]===T.S)+"'>"+m(SIZES[i])+"</button>";}
+  $("sizeChips").innerHTML=h;
 }
 
-
-function startTrading() {
-
-  if (!state.accountIssued) {
-    return;
-  }
-
-
-  state.trading = true;
-
-  state.day = 15;
-
-
-  addActivity(
-    15,
-    "The trader starts trading with $10,000 of real trading capital."
-  );
-
-
-  updateUI();
-
+function reset(){
+  T.step=0;T.day=1;T.paid=0;T.bal=0;T.put=0;T.rec=0;T.still=0;T.end="";T.shown=-1;
+  buildSizes();
+  render();
 }
 
-
-function assignManager() {
-
-  if (!state.trading) {
-    return;
+$("sizeChips").addEventListener("click",function(e){
+  var b=e.target.closest("button");
+  if(!b)return;
+  T.S=+b.getAttribute("data-s");
+  reset();
+});
+$("nextBtn").addEventListener("click",next);
+$("altBtn").addEventListener("click",second);
+$("resetBtn").addEventListener("click",reset);
+$("stepExtra").addEventListener("input",function(e){
+  var t=e.target;
+  if(t.id==="bRange"){
+    T.bonders=+t.value;
+    $("bOutv").textContent=t.value;
+    render();
   }
+  if(t.id==="eRange"){
+    T.earn=+t.value;
+    $("eOutv").textContent=T.earn.toFixed(1);
+    if(T.step===6&&!T.end){T.rec=Math.min(T.put,Math.max(0,T.day-24)*perDay());}
+    render();
+  }
+});
 
-
-  state.managerAssigned = true;
-
-  state.day = 23;
-
-
-  document
-    .getElementById("managerCard")
-    .style.display = "block";
-
-
-  document
-    .getElementById("additionalAccountsCard")
-    .style.display = "block";
-
-
-  addActivity(
-    23,
-    "The trader brings in a manager to trade the account."
-  );
-
-
-  addActivity(
-    23,
-    "The trader now has room to manage more funded accounts."
-  );
-
-
-  updateUI();
-
+/* The company */
+var C={traders:10000,join:10,size:5000,first:10,fall:8,rec:50,wPct:20,wAmt:300,lots:4,perLot:12};
+var cfg=[
+  {g:"The traders"},
+  {k:"traders",l:"Traders on C&amp;SB",type:"chips",opts:[100,1000,10000,100000,1000000]},
+  {k:"join",l:"Traders joining this month, percent of all traders",type:"range",min:0,max:30,step:1},
+  {k:"size",l:"Average account size",type:"chips",opts:[1000,5000,10000,25000],money:true},
+  {k:"first",l:"Paid on day 1, percent of the account",type:"range",min:5,max:100,step:5},
+  {g:"The falls"},
+  {k:"fall",l:"Accounts that fall by half this month, percent",type:"range",min:0,max:30,step:1},
+  {k:"rec",l:"Recovered from managers, percent",type:"range",min:0,max:100,step:5},
+  {g:"The other earnings"},
+  {k:"wPct",l:"Traders who withdraw this month, percent",type:"range",min:0,max:60,step:5},
+  {k:"wAmt",l:"Average withdrawal",type:"range",min:0,max:2000,step:50,money:true},
+  {k:"lots",l:"Lots traded by each trader in a month",type:"range",min:0,max:20,step:1},
+  {k:"perLot",l:"Earned on each lot",type:"chips",opts:[6,12],money:true}
+];
+var CF={};
+function lab(o,v){return o.money?m(v):v.toLocaleString("en-US");}
+function buildC(){
+  var h="",i,j,o;
+  for(i=0;i<cfg.length;i++){
+    o=cfg[i];
+    if(o.g){h+="<h3 class='grp'>"+o.g+"</h3>";continue;}
+    CF[o.k]=o;
+    if(o.type==="chips"){
+      h+="<div class='field'><div class='fl'>"+o.l+"</div><div class='chips' data-k='"+o.k+"'>";
+      for(j=0;j<o.opts.length;j++){h+="<button type='button' data-v='"+o.opts[j]+"' aria-pressed='"+(C[o.k]===o.opts[j])+"'>"+lab(o,o.opts[j])+"</button>";}
+      h+="</div></div>";
+    }else{
+      h+="<div class='field'><label class='fl' for='r"+o.k+"'><span>"+o.l+"</span><output id='o"+o.k+"'>"+lab(o,C[o.k])+"</output></label><input type='range' id='r"+o.k+"' data-k='"+o.k+"' min='"+o.min+"' max='"+o.max+"' step='"+o.step+"' value='"+C[o.k]+"'></div>";
+    }
+  }
+  $("ctl").innerHTML=h;
 }
-
-
-function makeInstallment() {
-
-  if (!state.accountIssued) {
-    return;
-  }
-
-
-  if (state.completed) {
-    return;
-  }
-
-
-  state.paid += INSTALLMENT_AMOUNT;
-
-
-  if (state.paid > ACCOUNT_VALUE) {
-    state.paid = ACCOUNT_VALUE;
-  }
-
-
-  state.day += 12;
-
-
-  addActivity(
-    state.day,
-    "The trader makes another payment toward the account."
-  );
-
-
-  updateUI();
-
+function row(l,v,cls){return "<div"+(cls?" class='"+cls+"'":"")+"><dt>"+l+"</dt><dd>"+v+"</dd></div>";}
+function calc(){
+  var N=C.traders,S=C.size,nu=N*C.join/100,falls=N*C.fall/100,P=S/2;
+  var sub=N*4.99,svc=nu*S*0.01,act=falls*P*0.04,wit=N*C.wPct/100*C.wAmt*0.15,trd=N*C.lots*C.perLot;
+  var tot=sub+svc+act+wit+trd;
+  $("rev").innerHTML=
+    row("Subscriptions at $4.99 a trader",big(sub))+
+    row("Service fees on new accounts, 1 percent",big(svc))+
+    row("C&amp;SB share of Social Bond fees, 4 percent of the amount put in",big(act))+
+    row("Withdrawal fees, 15 percent",big(wit))+
+    row("Trading commission from the broker",big(trd))+
+    row("C&amp;SB earns in a month",big(tot),"total")+
+    row("Average for each trader",m2(tot/N));
+  var need=nu*S,fi=nu*S*C.first/100,put=falls*P,rc=put*C.rec/100;
+  $("mon").innerHTML=
+    row("Real account money new traders need",big(need))+
+    row("Paid in by them on day 1",big(fi))+
+    row("C&amp;SB must have ready for the rest",big(need-fi),"total")+
+    row("Put in by partners and Bonders for the falls",big(put))+
+    row("Recovered from managers",big(rc))+
+    row("Still out",big(put-rc))+
+    row("Fee shares paid to partners and Bonders",big(falls*P*0.16));
 }
-
-
-function completePurchase() {
-
-  if (state.paid < ACCOUNT_VALUE) {
-    return;
-  }
-
-
-  if (state.completed) {
-    return;
-  }
-
-
-  state.completed = true;
-
-  state.day =
-    Math.min(state.day + 8, 90);
-
-
-  addActivity(
-    state.day,
-    "The trader completes the $10,000 account."
-  );
-
-
-  addActivity(
-    state.day,
-    "The trader has reached the end of the journey."
-  );
-
-
-  showOutcome(
-    "The trader gets to the end",
-    "The full account has been completed within the 90 day period. The account continues under the terms that apply to the trader.",
-    "finished"
-  );
-
-
-  updateUI();
-
-}
-
-
-function simulate90DayFailure() {
-
-  if (state.completed || state.failed) {
-    return;
-  }
-
-
-  state.day = 90;
-
-  state.failed = true;
-
-
-  if (state.accountIssued) {
-
-    addActivity(
-      90,
-      "The trader reaches day 90 without completing the account."
-    );
-
-
-    addActivity(
-      90,
-      "The account is recovered under the terms that apply after an incomplete payment journey."
-    );
-
-
-    showOutcome(
-      "The account comes back",
-      "The account was already placed with the trader. The trader did not complete the payment within 90 days, so the account follows the terms that apply to an incomplete account.",
-      "recovered"
-    );
-
-  }
-
-  else {
-
-    addActivity(
-      90,
-      "The trader reaches day 90 without receiving the account."
-    );
-
-
-    addActivity(
-      90,
-      "The amount paid follows the applicable return terms."
-    );
-
-
-    showOutcome(
-      "The money follows the terms",
-      "The account was never placed with the trader. The amount paid follows the applicable return terms after the 90 day period.",
-      "refund"
-    );
-
-  }
-
-
-  updateUI();
-
-}
-
-
-function addActivity(day, message) {
-
-  const list =
-    document.getElementById("activityList");
-
-
-  const item =
-    document.createElement("div");
-
-
-  item.className =
-    "activity-item";
-
-
-  item.innerHTML = `
-
-    <div class="activity-day">
-      DAY ${day}
-    </div>
-
-    <div class="activity-message">
-      ${message}
-    </div>
-
-  `;
-
-
-  list.prepend(item);
-
-}
-
-
-function showOutcome(title, text, type) {
-
-  const box =
-    document.getElementById("outcome");
-
-
-  box.className =
-    "outcome visible " + type;
-
-
-  document
-    .getElementById("outcomeTitle")
-    .textContent =
-    title;
-
-
-  document
-    .getElementById("outcomeText")
-    .textContent =
-    text;
-
-
-  setTimeout(() => {
-
-    box.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-
-  }, 100);
-
-}
-
-
-function updateUI() {
-
-
-  document
-    .getElementById("dayNumber")
-    .textContent =
-    state.day;
-
-
-  const progress =
-    Math.min(
-      state.day / 90 * 100,
-      100
-    );
-
-
-  document
-    .getElementById("mainProgress")
-    .style.width =
-    progress + "%";
-
-
-  const payment =
-    Math.min(
-      state.paid / ACCOUNT_VALUE * 100,
-      100
-    );
-
-
-  document
-    .getElementById("paymentProgress")
-    .style.width =
-    payment + "%";
-
-
-  document
-    .getElementById("paidAmount")
-    .textContent =
-    "$" +
-    state.paid.toLocaleString() +
-    " paid";
-
-
-  document
-    .getElementById("paidAmountLarge")
-    .textContent =
-    "$" +
-    state.paid.toLocaleString();
-
-
-  document
-    .getElementById("accountBalance")
-    .textContent =
-    state.accountIssued
-      ? "$10,000"
-      : "$0";
-
-
-  const status =
-    document.getElementById("accountStatus");
-
-
-  status.className =
-    "account-status";
-
-
-  if (state.failed) {
-
-    status.textContent =
-      "Account returned";
-
-    status.classList.add(
-      "recovered"
-    );
-
-  }
-
-  else if (state.completed) {
-
-    status.textContent =
-      "Completed";
-
-    status.classList.add(
-      "finished"
-    );
-
-  }
-
-  else if (state.accountIssued) {
-
-    status.textContent =
-      "With the trader";
-
-    status.classList.add(
-      "active"
-    );
-
-  }
-
-  else {
-
-    status.textContent =
-      "Not yet available";
-
-  }
-
-
-  document
-    .getElementById("earlyStatus")
-    .textContent =
-    state.accountIssued
-      ? "With trader"
-      : "Waiting";
-
-
-  document
-    .getElementById("paymentButton")
-    .disabled =
-    state.paid > 0 ||
-    state.failed ||
-    state.completed;
-
-
-  document
-    .getElementById("issueButton")
-    .disabled =
-    state.paid < INITIAL_PAYMENT ||
-    state.accountIssued ||
-    state.failed ||
-    state.completed;
-
-
-  document
-    .getElementById("tradeButton")
-    .disabled =
-    !state.accountIssued ||
-    state.trading ||
-    state.failed ||
-    state.completed;
-
-
-  document
-    .getElementById("managerButton")
-    .disabled =
-    !state.trading ||
-    state.managerAssigned ||
-    state.failed ||
-    state.completed;
-
-
-  document
-    .getElementById("installmentButton")
-    .disabled =
-    !state.accountIssued ||
-    state.completed ||
-    state.failed ||
-    state.paid >= ACCOUNT_VALUE;
-
-
-  document
-    .getElementById("completeButton")
-    .disabled =
-    state.paid < ACCOUNT_VALUE ||
-    state.completed ||
-    state.failed;
-
-
-  document
-    .getElementById("failureButton")
-    .disabled =
-    state.completed ||
-    state.failed;
-
-
-  let storyIndex = 0;
-
-
-  if (state.paid > 0) {
-    storyIndex = 1;
-  }
-
-
-  if (state.accountIssued) {
-    storyIndex = 2;
-  }
-
-
-  if (state.trading) {
-    storyIndex = 3;
-  }
-
-
-  if (state.managerAssigned) {
-    storyIndex = 4;
-  }
-
-
-  if (state.paid >= ACCOUNT_VALUE && !state.failed) {
-    storyIndex = 5;
-  }
-
-
-  if (state.completed || state.failed) {
-    storyIndex = 6;
-  }
-
-
-  updateStory(storyIndex);
-
-}
-
-
-updateUI();
-
+$("ctl").addEventListener("click",function(e){
+  var b=e.target.closest("button"),p,k,i;
+  if(!b)return;
+  p=b.parentNode;
+  k=p.getAttribute("data-k");
+  C[k]=+b.getAttribute("data-v");
+  for(i=0;i<p.children.length;i++){p.children[i].setAttribute("aria-pressed",p.children[i]===b?"true":"false");}
+  calc();
+});
+$("ctl").addEventListener("input",function(e){
+  var t=e.target,k;
+  if(t.type!=="range")return;
+  k=t.getAttribute("data-k");
+  C[k]=+t.value;
+  $("o"+k).textContent=lab(CF[k],C[k]);
+  calc();
+});
+
+reset();
+buildC();
+calc();
+})();
 </script>
-
 </body>
 </html>
