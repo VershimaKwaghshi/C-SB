@@ -1,0 +1,6 @@
+.brand-logo {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  display: block;
+}
