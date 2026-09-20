@@ -118,7 +118,8 @@ footer{padding-top:36px;padding-bottom:64px;color:var(--soft);font-size:.95rem}
 <div class="bar"><i class="bal" id="bBal"></i><i class="fall" id="bFall"></i><em class="half"></em></div>
 <div class="lab"><span>Paid by the trader</span><b id="sPaid">$0</b></div>
 <div class="bar thin"><i class="paid" id="bPaid"></i></div>
-<div class="lab" id="rowOut" hidden><span>Money still out with partners and Bonders</span><b id="sOut">$0</b></div>
+<div class="lab"><span>Can be withdrawn now</span><b id="sWd">$0</b></div>
+<div class="lab" id="rowOut" hidden><span id="sOutLab">Still out with the partner</span><b id="sOut">$0</b></div>
 <div class="bar thin" id="barOut" hidden><i class="out" id="bOut"></i></div>
 </div>
 
@@ -137,10 +138,10 @@ footer{padding-top:36px;padding-bottom:64px;color:var(--soft);font-size:.95rem}
 <section class="wrap" id="people">
 <h2>Who takes part</h2>
 <div class="roles">
-<div><h3>The trader</h3><p>Wants to trade a real account and does not have the full amount. Pays for the account in small payments over 90 days.</p></div>
+<div><h3>The trader</h3><p>Wants to trade a real account and does not have the full amount. Pays for the account in small payments over 90 days. Can withdraw profit at any time. The funded amount stays locked until it is paid.</p></div>
 <div><h3>The manager</h3><p>Trades accounts for traders and has a trading record. Also has another manager trading their own account, so every manager stands on both sides.</p></div>
-<div><h3>The Bonders</h3><p>Up to 10 join each Social Bond. Each puts in up to 10 percent of the amount. Together they share 40 percent of the fee.</p></div>
-<div><h3>The partner</h3><p>A bank, a fintech, a microfinance bank, a cooperative or a trader who chooses to take part. Puts in whatever the Bonders do not, and receives 40 percent of the fee.</p></div>
+<div><h3>The Bonders</h3><p>Ten join each Social Bond. Each has trading capital above the amount asked for and agrees to a hold of 10 percent of the amount on their own trading account. Each earns 0.8 percent of the amount. Nothing leaves a Bonder account unless recovery falls short after 30 days.</p></div>
+<div><h3>The partner</h3><p>A bank, a fintech, a microfinance bank, a cooperative or a trader who chooses to take part. Puts in the full amount and receives 40 percent of the fee. If C&amp;SB cannot collect from a Bonder account at that moment, the partner waits until it is fixed or recovery is made.</p></div>
 <div><h3>The broker</h3><p>Holds the accounts and keeps the rules, including the stop when an account reaches half.</p></div>
 <div><h3>C&amp;SB</h3><p>Passes the messages between everyone, sets the rules, keeps the records, and earns 20 percent of the fee along with its other earnings. C&amp;SB does not put in money for Social Bond.</p></div>
 </div>
@@ -162,12 +163,12 @@ footer{padding-top:36px;padding-bottom:64px;color:var(--soft);font-size:.95rem}
 <h2>Building C&amp;SB from the ground up</h2>
 <p>Build the desks in this order. Each one stands on the one before it.</p>
 <ol class="build">
-<li><h3>The account desk</h3><p>Takes the first payment, opens the account, keeps every payment, and counts the days. Everything else stands on this.</p></li>
+<li><h3>The account desk</h3><p>Takes the first payment, opens the account, keeps every payment, counts the days, and locks the funded amount until it is paid. Everything else stands on this.</p></li>
 <li><h3>The manager desk</h3><p>Lists managers with their trading records, shows a trader three choices, and records who trades which account. Every account has a manager and every manager has a manager.</p></li>
 <li><h3>The broker link</h3><p>The broker holds the accounts and enforces the rules, including the stop at half. C&amp;SB reads every account through this link.</p></li>
 <li><h3>The watcher</h3><p>Reads every account all day. When an account falls by half, it opens Social Bond on its own.</p></li>
-<li><h3>The Social Bond desk</h3><p>Sends the request to Bonders and partners, starts the 5 minute clock, matches who puts in what, takes the 20 percent fee and shares it 40, 40 and 20 at once.</p></li>
-<li><h3>The recovery desk</h3><p>Collects the manager earnings from the six places and pays them back in order, bond first, then Bonders, then the partner.</p></li>
+<li><h3>The Social Bond desk</h3><p>Sends the request to a partner and to the ten Bonders, starts the 5 minute clock, places the 10 percent hold on each Bonder account, takes the 20 percent fee and shares it 40, 40 and 20 at once.</p></li>
+<li><h3>The recovery desk</h3><p>Collects the manager earnings from the six places. If the 30 days end with money still out, it takes the shortfall from the Bonder accounts to settle the partner, then sends later recovery back to the Bonders.</p></li>
 <li><h3>The money record</h3><p>Every dollar has a line saying where it came from and where it went. Trader payments, account money, partner money and C&amp;SB earnings never share a line.</p></li>
 <li><h3>The dashboards</h3><p>The trader, the manager, the partner and the Bonder each see their own. C&amp;SB sees all of it.</p></li>
 </ol>
@@ -183,14 +184,17 @@ footer{padding-top:36px;padding-bottom:64px;color:var(--soft);font-size:.95rem}
 <div><dt>Extra accounts of the same size</dt><dd>Up to 5</dd></div>
 <div><dt>Profit split with the manager side</dt><dd>Half and half</dd></div>
 <div><dt>Fall that opens Social Bond</dt><dd>Half the account</dd></div>
-<div><dt>Bonders in each Social Bond</dt><dd>Up to 10</dd></div>
-<div><dt>Most one Bonder puts in</dt><dd>10 percent</dd></div>
+<div><dt>Bonders in each Social Bond</dt><dd>10</dd></div>
+<div><dt>Hold on each Bonder account</dt><dd>10 percent of the amount</dd></div>
+<div><dt>Earned by each Bonder</dt><dd>0.8 percent of the amount</dd></div>
 <div><dt>Time to answer a request</dt><dd>5 minutes</dd></div>
 <div><dt>Social Bond window</dt><dd>30 days</dd></div>
 <div><dt>Activation fee</dt><dd>20 percent of the amount put in</dd></div>
 <div><dt>Who receives the fee</dt><dd>40 partner, 40 Bonders, 20 C&amp;SB</dd></div>
 <div><dt>Subscription</dt><dd>$4.99 a month</dd></div>
 <div><dt>Withdrawal fee</dt><dd>15 percent</dd></div>
+<div><dt>Locked until settled</dt><dd>The funded amount until paid, the Social Bond amount for 30 days</dd></div>
+<div><dt>Always withdrawable</dt><dd>Profit</dd></div>
 <div><dt>Trading commission</dt><dd>$12 a lot, set with the broker</dd></div>
 </dl>
 </section>
@@ -212,16 +216,19 @@ function txt(x){return typeof x==="function"?x():x;}
 var FEE_FROM_AMOUNT=true;
 var SIZES=[1000,5000,10000,25000];
 var SOURCES=[["The manager own account",30],["The extra accounts",25],["Managing other traders",15],["Submanaging",10],["Referrals",6],["The referral marketplace",4]];
-var T={S:10000,step:0,day:1,paid:0,bal:0,put:0,rec:0,still:0,bonders:6,earn:0.9,end:"",shown:-1};
+var T={S:10000,step:0,day:1,paid:0,bal:0,put:0,rec:0,still:0,earn:0.9,end:"",shown:-1};
 
 function first(){return T.S*0.1;}
 function paidAt(d){var f=first();return Math.min(T.S,f+(T.S-f)*(d-1)/89);}
 function perDay(){return T.S*T.earn/100;}
 function sb(){
-  var P=T.S/2,fee=P*0.2,b=Math.min(10,Math.max(1,T.bonders));
-  var bond=P*0.1*b;
-  return {P:P,fee:fee,b:b,bonders:bond,partner:P-bond,fp:fee*0.4,fb:fee*0.4,fc:fee*0.2,net:FEE_FROM_AMOUNT?P-fee:P};
+  var P=T.S/2,fee=P*0.2;
+  return {P:P,fee:fee,hold:P*0.1,each:P*0.008,fp:fee*0.4,fb:fee*0.4,fc:fee*0.2,net:FEE_FROM_AMOUNT?P-fee:P};
 }
+function recAt(d){return Math.min(T.put,Math.max(0,d-24)*perDay());}
+function gap54(){return T.put-recAt(54);}
+function locked(){var l=0;if(T.paid<T.S-0.5)l+=T.S;if(T.step>=5&&T.day<54)l+=T.put;return l;}
+function wd(){if(T.end==="second")return 0;return Math.max(0,T.bal-locked());}
 
 var steps=[
 {
@@ -232,7 +239,7 @@ var steps=[
 },
 {
   t:"The account opens.",
-  b:function(){return "<p>The trader pays "+m(first())+" and the account opens with "+m(T.S)+" to trade. It is real money in a real account. The rest is paid in small payments over 90 days. The service fee is 1 percent of the account, "+m(T.S*0.01)+".</p>";},
+  b:function(){return "<p>The trader pays "+m(first())+" and the account opens with "+m(T.S)+" to trade. It is real money in a real account. Where C&amp;SB approves, the account opens right after the first payment and the trader accepts the small payments that follow over 90 days. The service fee is 1 percent of the account, "+m(T.S*0.01)+".</p><p>The funded amount stays locked until the trader has paid in full. Profit can be withdrawn at any time.</p>";},
   btn:"Bring in a manager",
   on:function(){T.day=1;T.paid=first();T.bal=T.S;}
 },
@@ -243,7 +250,7 @@ var steps=[
 },
 {
   t:"The account grows.",
-  b:function(){return "<p>By day 12 the account is at "+m(T.bal)+". The trader has paid "+m(T.paid)+" and keeps paying a little each day.</p>";},
+  b:function(){return "<p>By day 12 the account is at "+m(T.bal)+". The trader has paid "+m(T.paid)+" and keeps paying a little each day.</p><p>The first "+m(T.S)+" is locked until the trader finishes paying. The "+m(T.bal-T.S)+" above it is profit and can be withdrawn at any time, less the 15 percent withdrawal fee.</p>";},
   btn:"Keep going",
   on:function(){T.day=12;T.bal=Math.round(T.S*1.08);T.paid=paidAt(12);}
 },
@@ -257,34 +264,41 @@ var steps=[
   t:"Social Bond opens.",
   b:function(){
     var s=sb();
-    return "<p>The "+m(s.P)+" still in the account is the bond. The trader needs "+m(s.P)+" to get back to trading. The request goes out to Bonders and to a partner, and each has 5 minutes to answer.</p>"+
+    return "<p>The "+m(s.P)+" still in the account is the bond. The trader needs "+m(s.P)+" to get back to trading. The request goes to a partner and to the Bonders whose trading capital is above "+m(s.P)+". Each has 5 minutes to answer.</p>"+
+    "<p>The partner puts in the full amount. Each of the ten Bonders agrees to a hold of 10 percent of the amount on their own trading account. No Bonder money moves unless recovery falls short after 30 days.</p>"+
     "<table class='tbl'>"+
-    "<tr><td>"+s.b+" Bonders put in</td><td>"+m(s.bonders)+"</td></tr>"+
-    "<tr><td>A partner puts in the rest</td><td>"+m(s.partner)+"</td></tr>"+
-    "<tr><td>Activation fee, 20 percent of the amount put in</td><td>"+m(s.fee)+"</td></tr>"+
+    "<tr><td>The partner puts in</td><td>"+m(s.P)+"</td></tr>"+
+    "<tr><td>Hold on each of the ten Bonder accounts, 10 percent</td><td>"+m(s.hold)+"</td></tr>"+
+    "<tr><td>Activation fee, 20 percent of the amount</td><td>"+m(s.fee)+"</td></tr>"+
     "<tr><td>Fee to the partner, 40 percent</td><td>"+m(s.fp)+"</td></tr>"+
-    "<tr><td>Fee to the Bonders, 40 percent</td><td>"+m(s.fb)+"</td></tr>"+
+    "<tr><td>Fee to the ten Bonders, 40 percent</td><td>"+m(s.fb)+"</td></tr>"+
+    "<tr><td>Earned by each Bonder, 0.8 percent of the amount</td><td>"+m(s.each)+"</td></tr>"+
     "<tr><td>Fee to C&amp;SB, 20 percent</td><td>"+m(s.fc)+"</td></tr>"+
     "<tr><td>The account receives</td><td>"+m(s.net)+"</td></tr></table>"+
-    "<p>The fee is taken as the money arrives and shared at once. The account is at "+m(T.bal)+" and the trader is trading again.</p>";
+    "<p>The fee is taken as the money arrives and shared at once. The account is at "+m(T.bal)+" and the trader is trading again. The Social Bond amount cannot be withdrawn until the 30 days end and the partner is paid in full. Profit can still be withdrawn at any time.</p>";
   },
-  x:function(){return "<div class='extra'><label for='bRange'><span>Bonders who join</span><output id='bOutv'>"+T.bonders+"</output></label><input type='range' id='bRange' min='1' max='10' step='1' value='"+T.bonders+"'></div>";},
   btn:"Recovery begins",
   on:function(){var s=sb();T.put=s.P;T.rec=0;T.bal=s.P+s.net;}
 },
 {
   t:function(){return T.end==="second"?"The account falls by half again.":"Recovery.";},
   b:function(){
-    var s=sb(),pd=perDay(),rows="",i,h;
+    var s=sb(),pd=perDay(),rows="",i,h,sh=gap54();
     if(T.end==="second"){
-      return "<p>The account falls by half again and is stopped at "+m(T.S/2)+". The "+m(T.still)+" still out is paid from the "+m(T.S/2)+" left in the account. Everyone who put in has all "+m(T.put)+" back and keeps their fee shares, "+m(s.fp+s.fb)+" in all. C&amp;SB keeps its "+m(s.fc)+". The account closes and the trader stops here.</p>";
+      if(T.day>=54&&sh>0){
+        return "<p>The account falls by half again and is stopped at "+m(T.S/2)+". The "+m(T.still)+" still out goes back to the Bonders from the "+m(T.S/2)+" left in the account. The partner was already paid in full and keeps "+m(s.fp)+". The Bonders have all their money back and keep "+m(s.fb)+" in fee shares. C&amp;SB keeps its "+m(s.fc)+". The account closes and the trader stops here.</p>";
+      }
+      return "<p>The account falls by half again and is stopped at "+m(T.S/2)+". The "+m(T.still)+" still out is paid to the partner from the "+m(T.S/2)+" left in the account. The partner has all "+m(T.put)+" back and keeps "+m(s.fp)+". The Bonders keep "+m(s.fb)+" in fee shares and nothing is taken from their accounts. C&amp;SB keeps its "+m(s.fc)+". The account closes and the trader stops here.</p>";
     }
     for(i=0;i<SOURCES.length;i++){rows+="<tr><td>"+SOURCES[i][0]+"</td><td>"+m2(pd*SOURCES[i][1]/90)+" a day</td></tr>";}
-    h="<p>The manager keeps trading. Every earning the manager makes goes toward recovery, from six places. Recovered money goes back to the bond first, then to the Bonders, then to the partner.</p>"+
-    "<table class='tbl'>"+rows+"<tr><td>All six together</td><td>"+m2(pd)+" a day</td></tr></table>"+
-    "<p>Recovered so far "+m(T.rec)+" of "+m(T.put)+". Still out "+m(T.put-T.rec)+".</p>";
+    h="<p>The manager keeps trading. Every earning the manager makes goes toward recovery, from six places. The Social Bond window is 30 days, from day 24 to day 54. Recovered money pays the partner. If recovery falls short by day 54, the shortfall is taken from the Bonder accounts so the partner is never kept waiting.</p>"+
+    "<table class='tbl'>"+rows+"<tr><td>All six together</td><td>"+m2(pd)+" a day</td></tr></table>";
+    if(T.day>=54){
+      h+=sh>0?"<p>Day 54. The 30 days are over with "+m(sh)+" still out. The partner is paid at once, "+m(sh/10)+" from each of the ten Bonder accounts. From here, recovery goes back to the Bonders. If C&amp;SB cannot collect from a Bonder account at that moment, the partner waits until it is fixed or recovery is made.</p>":"<p>Day 54. Recovery finished inside the 30 days. The holds on the Bonder accounts are released.</p>";
+    }
+    h+="<p>Recovered so far "+m(T.rec)+" of "+m(T.put)+". Still out "+m(T.put-T.rec)+".</p>";
     if(T.end==="done"){
-      h+="<p>Day 90. The trader has paid "+m(T.S)+" and the account belongs to the trader. "+(T.put-T.rec>0?"Manager earnings keep going to the "+m(T.put-T.rec)+" still out.":"Everyone who put in has all their money back.")+"</p>";
+      h+="<p>Day 90. The trader has paid "+m(T.S)+" and the account belongs to the trader. "+(T.put-T.rec>0?"Manager earnings keep going back to the Bonders until they are whole.":"The partner and the Bonders have all their money back.")+"</p>";
     }
     return h;
   },
@@ -317,6 +331,8 @@ function render(){
   $("sBal").textContent=m(T.bal);
   $("sPaid").textContent=m(T.paid);
   $("sOut").textContent=m(out);
+  $("sWd").textContent=m(wd());
+  $("sOutLab").textContent=(T.step>=6&&T.day>=54&&gap54()>0)?"Still out with the Bonders":"Still out with the partner";
   var nb=$("nextBtn"),ab=$("altBtn");
   if(T.step<6){nb.hidden=false;nb.textContent=txt(s.btn);ab.hidden=true;}
   else if(!T.end){nb.hidden=false;nb.textContent="Move ahead 10 days";ab.hidden=(T.put-T.rec)<=0;ab.textContent="Show a second fall";}
@@ -330,7 +346,7 @@ function next(){
   }else if(!T.end){
     T.day=Math.min(90,T.day+10);
     T.paid=paidAt(T.day);
-    T.rec=Math.min(T.put,Math.max(0,T.day-24)*perDay());
+    T.rec=recAt(T.day);
     if(T.day>=90)T.end="done";
   }
   render();
@@ -367,15 +383,10 @@ $("altBtn").addEventListener("click",second);
 $("resetBtn").addEventListener("click",reset);
 $("stepExtra").addEventListener("input",function(e){
   var t=e.target;
-  if(t.id==="bRange"){
-    T.bonders=+t.value;
-    $("bOutv").textContent=t.value;
-    render();
-  }
   if(t.id==="eRange"){
     T.earn=+t.value;
     $("eOutv").textContent=T.earn.toFixed(1);
-    if(T.step===6&&!T.end){T.rec=Math.min(T.put,Math.max(0,T.day-24)*perDay());}
+    if(T.step===6&&!T.end){T.rec=recAt(T.day);}
     render();
   }
 });
@@ -390,7 +401,7 @@ var cfg=[
   {k:"first",l:"Paid on day 1, percent of the account",type:"range",min:5,max:100,step:5},
   {g:"The falls"},
   {k:"fall",l:"Accounts that fall by half this month, percent",type:"range",min:0,max:30,step:1},
-  {k:"rec",l:"Recovered from managers, percent",type:"range",min:0,max:100,step:5},
+  {k:"rec",l:"Recovered from managers inside 30 days, percent",type:"range",min:0,max:100,step:5},
   {g:"The other earnings"},
   {k:"wPct",l:"Traders who withdraw this month, percent",type:"range",min:0,max:60,step:5},
   {k:"wAmt",l:"Average withdrawal",type:"range",min:0,max:2000,step:50,money:true},
@@ -433,9 +444,10 @@ function calc(){
     row("Real account money new traders need",big(need))+
     row("Paid in by them on day 1",big(fi))+
     row("C&amp;SB must have ready for the rest",big(need-fi),"total")+
-    row("Put in by partners and Bonders for the falls",big(put))+
-    row("Recovered from managers",big(rc))+
-    row("Still out",big(put-rc))+
+    row("Put in by partners for the falls",big(put))+
+    row("Held on Bonder accounts while the cases run",big(put))+
+    row("Recovered from managers inside 30 days",big(rc))+
+    row("Taken from Bonder accounts when recovery falls short",big(put-rc))+
     row("Fee shares paid to partners and Bonders",big(falls*P*0.16));
 }
 $("ctl").addEventListener("click",function(e){
