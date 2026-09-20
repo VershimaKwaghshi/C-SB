@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>C&SB — Capital and Social Bond</title>
 
   <style>
     :root {
-      --black: #090909;
-      --dark: #111111;
-      --panel: #171717;
-      --panel-2: #202020;
+      --black: #050505;
+      --dark: #0b0b0b;
+      --panel: #121212;
+      --panel-light: #191919;
+      --line: #292929;
       --white: #ffffff;
-      --muted: #9b9b9b;
-      --line: #2d2d2d;
-      --green: #58d68d;
-      --yellow: #f5c451;
-      --red: #ef6666;
-      --blue: #5aa9ff;
+      --muted: #858585;
+      --green: #57d58b;
+      --yellow: #e9bd4e;
+      --red: #e75f5f;
+      --blue: #5da8ff;
     }
 
     * {
@@ -27,193 +27,266 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background: #050505;
+      background: var(--black);
       color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
       min-height: 100vh;
     }
 
     button {
-      font: inherit;
+      font-family: inherit;
     }
 
-    /* ---------------- HEADER ---------------- */
+    /* =========================
+       HEADER
+    ========================= */
 
     header {
-      height: 74px;
-      border-bottom: 1px solid var(--line);
+      height: 76px;
+      padding: 0 5vw;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 5vw;
-      background: rgba(5, 5, 5, 0.95);
+
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 5, 5, 0.96);
+
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 100;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 13px;
     }
 
-    .brand img {
-      width: 44px;
-      height: 44px;
-      object-fit: contain;
+    .brand-logo {
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
+      object-fit: contain;
       background: white;
     }
 
-    .brand-text {
-      line-height: 1.05;
-    }
-
     .brand-name {
+      font-size: 18px;
       font-weight: 800;
-      font-size: 17px;
-      letter-spacing: -0.4px;
+      letter-spacing: -0.5px;
     }
 
-    .brand-sub {
+    .brand-subtitle {
       color: var(--muted);
-      font-size: 10px;
+      font-size: 9px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
       margin-top: 5px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
     }
 
-    .demo-badge {
-      border: 1px solid #383838;
-      color: #aaa;
-      padding: 7px 11px;
+    .demo-label {
+      border: 1px solid #343434;
       border-radius: 20px;
-      font-size: 11px;
-      letter-spacing: 1px;
+      padding: 7px 12px;
+      color: #888;
+      font-size: 10px;
       text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    /* ---------------- HERO ---------------- */
+    /* =========================
+       HERO
+    ========================= */
 
     .hero {
-      padding: 70px 5vw 45px;
       max-width: 1250px;
       margin: auto;
+      padding: 80px 5vw 60px;
     }
 
     .eyebrow {
       color: var(--muted);
-      text-transform: uppercase;
+      font-size: 10px;
       letter-spacing: 3px;
-      font-size: 11px;
-      margin-bottom: 18px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
-    h1 {
-      font-size: clamp(40px, 7vw, 82px);
-      line-height: 0.95;
-      letter-spacing: -4px;
-      max-width: 900px;
+    .hero h1 {
+      font-size: clamp(46px, 7vw, 88px);
+      line-height: 0.94;
+      letter-spacing: -5px;
+      max-width: 850px;
     }
 
-    h1 span {
-      color: var(--muted);
+    .hero h1 span {
+      color: #777;
     }
 
     .hero-description {
+      color: #aaa;
+      font-size: 16px;
+      line-height: 1.75;
       max-width: 680px;
-      color: #b6b6b6;
-      font-size: 17px;
-      line-height: 1.7;
       margin-top: 28px;
     }
 
-    .start-button {
-      margin-top: 32px;
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .button {
+      border: 1px solid #333;
+      background: var(--panel);
+      color: white;
+      padding: 13px 18px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: 0.2s ease;
+    }
+
+    .button:hover {
+      background: #222;
+      border-color: #555;
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
       background: white;
       color: black;
-      border: none;
-      padding: 15px 23px;
-      border-radius: 8px;
-      cursor: pointer;
+      border-color: white;
       font-weight: 800;
-      transition: 0.2s;
     }
 
-    .start-button:hover {
-      transform: translateY(-2px);
+    .button.primary:hover {
+      background: #ddd;
     }
 
-    /* ---------------- SIMULATION ---------------- */
+    .button.danger {
+      color: var(--red);
+      border-color: rgba(231, 95, 95, 0.35);
+    }
+
+    .button:disabled {
+      opacity: 0.28;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================
+       SIMULATION
+    ========================= */
 
     .simulation {
       max-width: 1250px;
-      margin: 0 auto;
-      padding: 0 5vw 80px;
-      
-      <button class="action-button" onclick="resetSimulation()">
-  Reset Simulation
-</button>
+      margin: auto;
+      padding: 0 5vw 90px;
     }
 
-    .sim-top {
+    .simulation-header {
       display: flex;
       justify-content: space-between;
-      align-items: end;
+      align-items: flex-end;
       gap: 20px;
-      margin-bottom: 15px;
+      margin-bottom: 14px;
     }
 
-    .section-title {
-      font-size: 22px;
-      font-weight: 750;
+    .simulation-title {
+      font-size: 23px;
+      font-weight: 800;
     }
 
-    .day-display {
-      color: var(--muted);
-      font-size: 13px;
+    .day-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
+
+    .day-counter {
+      color: #888;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .day-counter strong {
+      color: white;
+    }
+
+    .reset-button {
+      padding: 8px 12px;
+      border: 1px solid #363636;
+      border-radius: 6px;
+      background: #111;
+      color: #aaa;
+      font-size: 10px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .reset-button:hover {
+      color: white;
+      border-color: #666;
+    }
+
+    /* =========================
+       MAIN PROGRESS
+    ========================= */
 
     .progress-track {
       height: 5px;
-      background: #1d1d1d;
+      background: #1c1c1c;
       border-radius: 20px;
       overflow: hidden;
-      margin-bottom: 28px;
+      margin-bottom: 25px;
     }
 
-    .progress-bar {
+    .progress-fill {
+      width: 1%;
       height: 100%;
-      width: 0%;
       background: white;
-      transition: width 0.6s ease;
+      transition: width 0.5s ease;
     }
 
-    /* ---------------- STAGE NAV ---------------- */
+    /* =========================
+       STAGES
+    ========================= */
 
-    .stage-nav {
+    .stages {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       border: 1px solid var(--line);
-      border-radius: 10px;
+      border-radius: 9px;
       overflow: hidden;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
     .stage {
-      padding: 14px 8px;
+      padding: 13px 5px;
       text-align: center;
-      background: #101010;
-      color: #777;
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: #666;
+      background: #0d0d0d;
       border-right: 1px solid var(--line);
-      font-size: 11px;
       transition: 0.25s;
     }
 
     .stage:last-child {
-      border-right: none;
+      border-right: 0;
     }
 
     .stage.active {
@@ -226,164 +299,166 @@
       color: var(--green);
     }
 
-    /* ---------------- DASHBOARD ---------------- */
+    /* =========================
+       DASHBOARD
+    ========================= */
 
     .dashboard {
       display: grid;
-      grid-template-columns: 1.25fr 0.75fr;
-      gap: 18px;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 17px;
     }
 
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 11px;
       padding: 25px;
     }
 
     .card-label {
-      color: #858585;
-      text-transform: uppercase;
-      letter-spacing: 1.8px;
-      font-size: 10px;
-      margin-bottom: 12px;
-    }
-
-    .big-number {
-      font-size: 46px;
-      font-weight: 800;
-      letter-spacing: -2px;
-    }
-
-    .small-note {
       color: #777;
-      font-size: 12px;
-      margin-top: 7px;
+      font-size: 9px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      margin-bottom: 11px;
     }
 
-    /* ACCOUNT */
+    /* =========================
+       ACCOUNT
+    ========================= */
 
     .account-card {
-      min-height: 300px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      min-height: 330px;
     }
 
-    .account-header {
+    .account-top {
       display: flex;
+      align-items: flex-start;
       justify-content: space-between;
-      align-items: start;
+      gap: 20px;
     }
 
-    .account-status {
+    .account-size {
+      font-size: 48px;
+      line-height: 1;
+      font-weight: 850;
+      letter-spacing: -3px;
+    }
+
+    .status {
       padding: 7px 10px;
       border-radius: 5px;
       background: #202020;
-      color: #999;
-      font-size: 10px;
+      color: #888;
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      white-space: nowrap;
     }
 
-    .account-status.active {
-      background: rgba(88, 214, 141, 0.12);
+    .status.active {
       color: var(--green);
+      background: rgba(87, 213, 139, 0.09);
     }
 
-    .account-status.warning {
-      background: rgba(245, 196, 81, 0.12);
+    .status.warning {
       color: var(--yellow);
+      background: rgba(233, 189, 78, 0.09);
     }
 
-    .account-status.danger {
-      background: rgba(239, 102, 102, 0.12);
+    .status.danger {
       color: var(--red);
+      background: rgba(231, 95, 95, 0.09);
     }
 
-    .account-balance {
-      margin-top: 30px;
+    .balance-area {
+      margin-top: 45px;
     }
 
-    .balance-label {
+    .balance-caption {
       color: #777;
       font-size: 11px;
     }
 
     .balance {
-      font-size: 56px;
+      font-size: 57px;
       font-weight: 850;
-      letter-spacing: -3px;
-      margin-top: 5px;
+      letter-spacing: -4px;
+      margin-top: 4px;
     }
 
     .account-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 28px;
+      gap: 12px;
+      margin-top: 30px;
     }
 
     .stat {
       border-top: 1px solid var(--line);
-      padding-top: 12px;
+      padding-top: 11px;
     }
 
     .stat-label {
-      color: #777;
-      font-size: 10px;
+      color: #666;
+      font-size: 9px;
+      text-transform: uppercase;
     }
 
     .stat-value {
-      font-size: 15px;
-      margin-top: 5px;
+      font-size: 14px;
       font-weight: 700;
+      margin-top: 5px;
     }
 
-    /* ---------------- PURCHASE ---------------- */
+    /* =========================
+       PURCHASE
+    ========================= */
 
     .purchase-card {
-      min-height: 300px;
+      min-height: 330px;
     }
 
-    .purchase-amount {
-      font-size: 40px;
-      font-weight: 800;
-      margin-bottom: 8px;
+    .purchase-value {
+      font-size: 41px;
+      font-weight: 850;
+      letter-spacing: -2px;
     }
 
-    .purchase-price {
-      color: #aaa;
-      font-size: 13px;
-      margin-bottom: 25px;
+    .purchase-description {
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+      margin-bottom: 27px;
     }
 
-    .payment-progress {
-      height: 12px;
-      border-radius: 20px;
+    .payment-track {
+      height: 11px;
       background: #292929;
+      border-radius: 20px;
       overflow: hidden;
     }
 
-    .payment-progress-fill {
+    .payment-fill {
       height: 100%;
       width: 0%;
       background: white;
-      transition: width 0.5s;
+      transition: width 0.5s ease;
     }
 
     .payment-meta {
       display: flex;
       justify-content: space-between;
-      color: #777;
-      font-size: 11px;
-      margin-top: 9px;
+      color: #666;
+      font-size: 10px;
+      margin-top: 8px;
     }
 
     .purchase-details {
-      margin-top: 25px;
+      margin-top: 27px;
       display: grid;
-      gap: 12px;
+      gap: 11px;
     }
 
     .purchase-row {
@@ -391,95 +466,30 @@
       justify-content: space-between;
       border-bottom: 1px solid #242424;
       padding-bottom: 9px;
-      font-size: 13px;
+      font-size: 12px;
     }
 
-    .purchase-row span:first-child {
+    .purchase-row span {
       color: #777;
     }
 
-    /* ---------------- ACTIONS ---------------- */
+    /* =========================
+       ACTIONS
+    ========================= */
 
     .actions {
-      margin-top: 18px;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 9px;
+      margin-top: 17px;
     }
 
-    .action-button {
-      border: 1px solid #343434;
-      background: #171717;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: 0.2s;
-    }
+    /* =========================
+       SECONDARY PANELS
+    ========================= */
 
-    .action-button:hover {
-      border-color: #777;
-      background: #222;
-    }
-
-    .action-button.primary {
-      background: white;
-      color: black;
-      border-color: white;
-      font-weight: 800;
-    }
-
-    .action-button.danger {
-      border-color: rgba(239,102,102,0.4);
-      color: var(--red);
-    }
-
-    /* ---------------- EVENT LOG ---------------- */
-
-    .event-log {
-      margin-top: 18px;
-      background: #0d0d0d;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .log-title {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #777;
-      margin-bottom: 15px;
-    }
-
-    .log-list {
-      display: grid;
-      gap: 10px;
-      max-height: 190px;
-      overflow-y: auto;
-    }
-
-    .log-item {
-      display: flex;
-      gap: 12px;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .log-day {
-      color: #666;
-      min-width: 45px;
-    }
-
-    .log-message {
-      color: #aaa;
-    }
-
-    /* ---------------- MANAGER ---------------- */
-
-    .manager-card {
-      margin-top: 18px;
+    .secondary-card {
+      margin-top: 17px;
     }
 
     .manager-box {
@@ -487,128 +497,187 @@
       align-items: center;
       justify-content: space-between;
       gap: 20px;
+      background: #0d0d0d;
+      border: 1px solid #252525;
       padding: 17px;
-      background: #111;
-      border: 1px solid #272727;
       border-radius: 8px;
     }
 
-    .manager-info strong {
-      display: block;
-      font-size: 14px;
+    .manager-title {
+      font-size: 13px;
+      font-weight: 700;
     }
 
-    .manager-info span {
-      color: #777;
-      font-size: 11px;
+    .manager-description {
+      color: #666;
+      font-size: 10px;
+      margin-top: 5px;
     }
 
-    /* ---------------- EXTRA ACCOUNTS ---------------- */
+    /* =========================
+       ADDITIONAL ACCOUNTS
+    ========================= */
 
-    .accounts {
-      margin-top: 18px;
+    .additional-accounts {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 10px;
     }
 
     .mini-account {
-      padding: 18px;
-      background: #111;
-      border: 1px solid #292929;
-      border-radius: 9px;
+      border: 1px solid #282828;
+      background: #0d0d0d;
+      padding: 17px;
+      border-radius: 8px;
     }
 
-    .mini-account .mini-title {
-      color: #777;
-      font-size: 10px;
+    .mini-label {
+      color: #666;
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
-    .mini-account strong {
-      display: block;
-      font-size: 24px;
-      margin-top: 8px;
+    .mini-value {
+      font-size: 25px;
+      font-weight: 800;
+      margin-top: 7px;
     }
 
-    .mini-account span {
-      display: block;
-      color: #777;
-      font-size: 10px;
+    .mini-description {
+      color: #666;
+      font-size: 9px;
       margin-top: 4px;
     }
 
-    /* ---------------- OUTCOME ---------------- */
+    /* =========================
+       ACTIVITY
+    ========================= */
+
+    .activity {
+      margin-top: 17px;
+      background: #0b0b0b;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 21px;
+    }
+
+    .activity-title {
+      color: #666;
+      font-size: 9px;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .activity-list {
+      display: grid;
+      gap: 10px;
+      max-height: 190px;
+      overflow-y: auto;
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: 55px 1fr;
+      gap: 10px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .activity-day {
+      color: #555;
+    }
+
+    .activity-message {
+      color: #999;
+    }
+
+    /* =========================
+       OUTCOME
+    ========================= */
 
     .outcome {
-      margin-top: 18px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 28px;
       display: none;
+      margin-top: 17px;
+      padding: 27px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
     }
 
     .outcome.visible {
       display: block;
     }
 
+    .outcome.complete {
+      border-color: rgba(87, 213, 139, 0.4);
+    }
+
+    .outcome.recovered {
+      border-color: rgba(231, 95, 95, 0.4);
+    }
+
+    .outcome.refund {
+      border-color: rgba(233, 189, 78, 0.4);
+    }
+
     .outcome h2 {
       font-size: 27px;
+      letter-spacing: -1px;
       margin-bottom: 10px;
     }
 
     .outcome p {
+      max-width: 760px;
       color: #999;
+      font-size: 13px;
       line-height: 1.7;
-      max-width: 700px;
     }
 
-    .outcome.complete {
-      border-color: rgba(88,214,141,0.4);
-    }
-
-    .outcome.recovered {
-      border-color: rgba(239,102,102,0.4);
-    }
-
-    .outcome.refund {
-      border-color: rgba(245,196,81,0.4);
-    }
-
-    /* ---------------- FOOTER ---------------- */
+    /* =========================
+       FOOTER
+    ========================= */
 
     footer {
       border-top: 1px solid var(--line);
       padding: 30px 5vw;
-      color: #555;
-      font-size: 11px;
       text-align: center;
+      color: #4d4d4d;
+      font-size: 10px;
+      line-height: 1.7;
     }
 
-    /* ---------------- MOBILE ---------------- */
+    /* =========================
+       MOBILE
+    ========================= */
 
     @media (max-width: 850px) {
+
       .dashboard {
         grid-template-columns: 1fr;
       }
 
-      .stage-nav {
+      .stages {
         grid-template-columns: repeat(4, 1fr);
       }
 
-      .stage:nth-child(n+5) {
+      .stage:nth-child(n + 5) {
         display: none;
       }
 
-      .accounts {
+      .additional-accounts {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 600px) {
+
       header {
         padding: 0 20px;
+      }
+
+      .demo-label {
+        display: none;
       }
 
       .hero,
@@ -617,17 +686,27 @@
         padding-right: 20px;
       }
 
-      h1 {
-        font-size: 48px;
-        letter-spacing: -2.5px;
+      .hero {
+        padding-top: 60px;
       }
 
-      .demo-badge {
-        display: none;
+      .hero h1 {
+        font-size: 50px;
+        letter-spacing: -3px;
       }
 
-      .big-number {
-        font-size: 38px;
+      .simulation-header {
+        align-items: flex-start;
+      }
+
+      .day-area {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 7px;
+      }
+
+      .account-size {
+        font-size: 39px;
       }
 
       .balance {
@@ -637,101 +716,241 @@
       .account-stats {
         grid-template-columns: 1fr 1fr;
       }
+
+      .account-stats .stat:last-child {
+        grid-column: span 2;
+      }
     }
   </style>
 </head>
 
+
 <body>
 
-<header>
-  <div class="brand">
-    <img src="assets/logo.png" alt="C&SB logo">
-    <div class="brand-text">
-      <div class="brand-name">C&SB</div>
-      <div class="brand-sub">Capital and Social Bond</div>
-    </div>
-  </div>
+  <!-- =========================
+       HEADER
+  ========================= -->
 
-  <div class="demo-badge">Interactive Simulation</div>
-</header>
+  <header>
 
+    <div class="brand">
 
-<section class="hero">
-
-  <div class="eyebrow">Capital Building</div>
-
-  <h1>
-    Buy your<br>
-    <span>funded account.</span>
-  </h1>
-
-  <p class="hero-description">
-    Follow a trader through the C&SB capital purchase model —
-    from selecting a real funded account, making installment payments,
-    receiving early account access, trading, management and the 90-day completion window.
-  </p>
-
-  <button class="start-button" onclick="startSimulation()">
-    Start Simulation
-  </button>
-
-</section>
-
-
-<section class="simulation" id="simulation">
-
-  <div class="sim-top">
-    <div class="section-title">Trader Journey</div>
-    <div class="day-display">
-      Day <strong id="dayNumber">1</strong> / 90
-    </div>
-  </div>
-
-  <div class="progress-track">
-    <div class="progress-bar" id="mainProgress"></div>
-  </div>
-
-
-  <div class="stage-nav">
-
-    <div class="stage active" id="stage0">SELECT</div>
-    <div class="stage" id="stage1">PURCHASE</div>
-    <div class="stage" id="stage2">ISSUE</div>
-    <div class="stage" id="stage3">TRADE</div>
-    <div class="stage" id="stage4">MANAGE</div>
-    <div class="stage" id="stage5">COMPLETE</div>
-    <div class="stage" id="stage6">OUTCOME</div>
-
-  </div>
-
-
-  <div class="dashboard">
-
-    <!-- ACCOUNT -->
-
-    <div class="card account-card">
+      <img
+        src="assets/logo.png"
+        alt="C&SB logo"
+        class="brand-logo"
+      >
 
       <div>
+        <div class="brand-name">
+          C&SB
+        </div>
 
-        <div class="account-header">
+        <div class="brand-subtitle">
+          Capital and Social Bond
+        </div>
+      </div>
+
+    </div>
+
+    <div class="demo-label">
+      Interactive Simulation
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <section class="hero">
+
+    <div class="eyebrow">
+      Capital Building
+    </div>
+
+    <h1>
+      Buy your<br>
+      <span>funded account.</span>
+    </h1>
+
+    <p class="hero-description">
+      Follow a trader through the C&SB capital purchase model —
+      selecting a real funded account, making installment payments,
+      receiving an account early, trading, assigning a manager,
+      and completing the purchase within the 90-day period.
+    </p>
+
+    <div class="hero-actions">
+
+      <button
+        class="button primary"
+        onclick="startSimulation()"
+      >
+        Start Simulation
+      </button>
+
+      <button
+        class="button"
+        onclick="resetSimulation()"
+      >
+        Reset
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SIMULATION
+  ========================= -->
+
+  <section
+    class="simulation"
+    id="simulation"
+  >
+
+    <div class="simulation-header">
+
+      <div class="simulation-title">
+        Trader Journey
+      </div>
+
+      <div class="day-area">
+
+        <div class="day-counter">
+          Day
+          <strong id="dayNumber">1</strong>
+          / 90
+        </div>
+
+        <button
+          class="reset-button"
+          onclick="resetSimulation()"
+        >
+          Reset
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 90-DAY PROGRESS -->
+
+    <div class="progress-track">
+
+      <div
+        class="progress-fill"
+        id="mainProgress"
+      ></div>
+
+    </div>
+
+
+    <!-- STAGES -->
+
+    <div class="stages">
+
+      <div
+        class="stage active"
+        id="stage0"
+      >
+        SELECT
+      </div>
+
+      <div
+        class="stage"
+        id="stage1"
+      >
+        PURCHASE
+      </div>
+
+      <div
+        class="stage"
+        id="stage2"
+      >
+        ISSUE
+      </div>
+
+      <div
+        class="stage"
+        id="stage3"
+      >
+        TRADE
+      </div>
+
+      <div
+        class="stage"
+        id="stage4"
+      >
+        MANAGE
+      </div>
+
+      <div
+        class="stage"
+        id="stage5"
+      >
+        COMPLETE
+      </div>
+
+      <div
+        class="stage"
+        id="stage6"
+      >
+        OUTCOME
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN DASHBOARD
+    ========================= -->
+
+    <div class="dashboard">
+
+
+      <!-- ACCOUNT CARD -->
+
+      <div class="card account-card">
+
+        <div class="account-top">
 
           <div>
-            <div class="card-label">Funded Account</div>
-            <div class="big-number">$10,000</div>
+
+            <div class="card-label">
+              Funded Account
+            </div>
+
+            <div class="account-size">
+              $10,000
+            </div>
+
           </div>
 
-          <div class="account-status" id="accountStatus">
+          <div
+            class="status"
+            id="accountStatus"
+          >
             Not Issued
           </div>
 
         </div>
 
 
-        <div class="account-balance">
+        <div class="balance-area">
 
-          <div class="balance-label">Trading Capital</div>
+          <div class="balance-caption">
+            Trading Capital
+          </div>
 
-          <div class="balance" id="accountBalance">
+          <div
+            class="balance"
+            id="accountBalance"
+          >
             $0
           </div>
 
@@ -741,18 +960,126 @@
         <div class="account-stats">
 
           <div class="stat">
-            <div class="stat-label">Account Type</div>
-            <div class="stat-value">Real</div>
+
+            <div class="stat-label">
+              Account
+            </div>
+
+            <div class="stat-value">
+              Real
+            </div>
+
           </div>
 
-          <div class="stat">
-            <div class="stat-label">Target</div>
-            <div class="stat-value">$10K</div>
-          </div>
 
           <div class="stat">
-            <div class="stat-label">Window</div>
-            <div class="stat-value">90 Days</div>
+
+            <div class="stat-label">
+              Package
+            </div>
+
+            <div class="stat-value">
+              $10K
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-label">
+              Purchase Window
+            </div>
+
+            <div class="stat-value">
+              90 Days
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PURCHASE CARD -->
+
+      <div class="card purchase-card">
+
+        <div class="card-label">
+          Account Purchase
+        </div>
+
+        <div class="purchase-value">
+          $10,000
+        </div>
+
+        <div class="purchase-description">
+          Funded account package
+        </div>
+
+
+        <div class="payment-track">
+
+          <div
+            class="payment-fill"
+            id="paymentProgress"
+          ></div>
+
+        </div>
+
+
+        <div class="payment-meta">
+
+          <span id="paidAmount">
+            $0 paid
+          </span>
+
+          <span>
+            1% service fee
+          </span>
+
+        </div>
+
+
+        <div class="purchase-details">
+
+          <div class="purchase-row">
+
+            <span>
+              Service fee
+            </span>
+
+            <strong>
+              $100
+            </strong>
+
+          </div>
+
+
+          <div class="purchase-row">
+
+            <span>
+              Maximum completion
+            </span>
+
+            <strong>
+              90 days
+            </strong>
+
+          </div>
+
+
+          <div class="purchase-row">
+
+            <span>
+              Early issuance
+            </span>
+
+            <strong id="earlyStatus">
+              Pending
+            </strong>
+
           </div>
 
         </div>
@@ -762,657 +1089,1040 @@
     </div>
 
 
-    <!-- PURCHASE -->
+    <!-- =========================
+         ACTION BUTTONS
+    ========================= -->
 
-    <div class="card purchase-card">
+    <div class="actions">
+
+      <button
+        class="button primary"
+        id="paymentButton"
+        onclick="makeInitialPayment()"
+      >
+        Make Initial Payment
+      </button>
+
+
+      <button
+        class="button"
+        id="issueButton"
+        onclick="issueAccount()"
+        disabled
+      >
+        Issue Account Early
+      </button>
+
+
+      <button
+        class="button"
+        id="tradeButton"
+        onclick="startTrading()"
+        disabled
+      >
+        Start Trading
+      </button>
+
+
+      <button
+        class="button"
+        id="managerButton"
+        onclick="assignManager()"
+        disabled
+      >
+        Assign Manager
+      </button>
+
+
+      <button
+        class="button"
+        id="installmentButton"
+        onclick="makeInstallment()"
+        disabled
+      >
+        Continue Installment
+      </button>
+
+
+      <button
+        class="button"
+        id="completeButton"
+        onclick="completePurchase()"
+        disabled
+      >
+        Complete Purchase
+      </button>
+
+
+      <button
+        class="button danger"
+        id="failureButton"
+        onclick="simulate90DayFailure()"
+      >
+        Simulate 90-Day Failure
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         MANAGER
+    ========================= -->
+
+    <div
+      class="card secondary-card"
+      id="managerCard"
+      style="display:none;"
+    >
 
       <div class="card-label">
-        Account Purchase
+        Account Management
       </div>
 
-      <div class="purchase-amount">
-        $10,000
-      </div>
+      <div class="manager-box">
 
-      <div class="purchase-price">
-        Funded account package
-      </div>
+        <div>
 
+          <div class="manager-title">
+            Trading Manager Assigned
+          </div>
 
-      <div class="payment-progress">
-        <div
-          class="payment-progress-fill"
-          id="paymentProgress">
-        </div>
-      </div>
+          <div class="manager-description">
+            The manager can operate the funded account
+            under the applicable C&SB rules.
+          </div>
 
-      <div class="payment-meta">
-        <span id="paidAmount">$0 paid</span>
-        <span>$100 service fee</span>
-      </div>
-
-
-      <div class="purchase-details">
-
-        <div class="purchase-row">
-          <span>Service fee</span>
-          <strong>1%</strong>
         </div>
 
-        <div class="purchase-row">
-          <span>Maximum completion</span>
-          <strong>90 days</strong>
-        </div>
-
-        <div class="purchase-row">
-          <span>Early issuance</span>
-          <strong id="earlyStatus">Pending</strong>
+        <div class="status active">
+          ACTIVE
         </div>
 
       </div>
 
     </div>
 
-  </div>
 
+    <!-- =========================
+         ADDITIONAL ACCOUNTS
+    ========================= -->
 
-  <!-- ACTIONS -->
+    <div
+      class="card secondary-card"
+      id="additionalAccountsCard"
+      style="display:none;"
+    >
 
-  <div class="actions">
-
-    <button
-      class="action-button primary"
-      id="paymentButton"
-      onclick="makePayment()">
-      Make Initial Payment
-    </button>
-
-    <button
-      class="action-button"
-      id="issueButton"
-      onclick="issueAccount()"
-      disabled>
-      Issue Account Early
-    </button>
-
-    <button
-      class="action-button"
-      id="tradeButton"
-      onclick="trade()"
-      disabled>
-      Start Trading
-    </button>
-
-    <button
-      class="action-button"
-      id="managerButton"
-      onclick="assignManager()"
-      disabled>
-      Assign Manager
-    </button>
-
-    <button
-      class="action-button"
-      id="payment2Button"
-      onclick="makePayment2()"
-      disabled>
-      Continue Installments
-    </button>
-
-    <button
-      class="action-button"
-      id="completeButton"
-      onclick="completePurchase()"
-      disabled>
-      Complete Purchase
-    </button>
-
-    <button
-      class="action-button danger"
-      id="failButton"
-      onclick="simulateFailure()">
-      Simulate 90-Day Failure
-    </button>
-
-  </div>
-
-
-  <!-- MANAGER -->
-
-  <div class="card manager-card" id="managerCard" style="display:none">
-
-    <div class="card-label">
-      Account Management
-    </div>
-
-    <div class="manager-box">
-
-      <div class="manager-info">
-        <strong>Trading Manager Assigned</strong>
-        <span>Manager can operate the funded account under C&SB rules.</span>
+      <div class="card-label">
+        Account Expansion
       </div>
 
-      <div class="account-status active">
-        ACTIVE
-      </div>
-
-    </div>
-
-  </div>
+      <div class="additional-accounts">
 
 
-  <!-- EXTRA ACCOUNTS -->
+        <div class="mini-account">
 
-  <div class="card manager-card" id="extraAccountsCard" style="display:none">
+          <div class="mini-label">
+            Primary Account
+          </div>
 
-    <div class="card-label">
-      Account Expansion
-    </div>
+          <div class="mini-value">
+            $10K
+          </div>
 
-    <div class="accounts">
+          <div class="mini-description">
+            Trader's funded account
+          </div>
 
-      <div class="mini-account">
-        <div class="mini-title">Primary</div>
-        <strong>$10K</strong>
-        <span>Trader's funded account</span>
-      </div>
-
-      <div class="mini-account">
-        <div class="mini-title">Additional</div>
-        <strong>$10K</strong>
-        <span>Available for assignment</span>
-      </div>
-
-      <div class="mini-account">
-        <div class="mini-title">Expansion</div>
-        <strong>+5</strong>
-        <span>Potential additional accounts</span>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- EVENT LOG -->
-
-  <div class="event-log">
-
-    <div class="log-title">
-      Simulation Activity
-    </div>
-
-    <div class="log-list" id="logList">
-
-      <div class="log-item">
-        <div class="log-day">DAY 1</div>
-        <div class="log-message">
-          Trader selected a $10,000 C&SB funded account.
         </div>
+
+
+        <div class="mini-account">
+
+          <div class="mini-label">
+            Additional Account
+          </div>
+
+          <div class="mini-value">
+            $10K
+          </div>
+
+          <div class="mini-description">
+            Available for assignment
+          </div>
+
+        </div>
+
+
+        <div class="mini-account">
+
+          <div class="mini-label">
+            Expansion
+          </div>
+
+          <div class="mini-value">
+            +5
+          </div>
+
+          <div class="mini-description">
+            Potential additional funded accounts
+          </div>
+
+        </div>
+
       </div>
 
     </div>
 
-  </div>
+
+    <!-- =========================
+         ACTIVITY LOG
+    ========================= -->
+
+    <div class="activity">
+
+      <div class="activity-title">
+        Simulation Activity
+      </div>
+
+      <div
+        class="activity-list"
+        id="activityList"
+      >
+
+        <div class="activity-item">
+
+          <div class="activity-day">
+            DAY 1
+          </div>
+
+          <div class="activity-message">
+            Trader selected a $10,000 C&SB funded account.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
 
-  <!-- OUTCOME -->
+    <!-- =========================
+         OUTCOME
+    ========================= -->
 
-  <div class="outcome" id="outcome">
+    <div
+      class="outcome"
+      id="outcome"
+    >
 
-    <h2 id="outcomeTitle"></h2>
+      <h2 id="outcomeTitle"></h2>
 
-    <p id="outcomeText"></p>
+      <p id="outcomeText"></p>
 
-  </div>
+    </div>
 
-</section>
-
-
-<footer>
-  C&SB — Capital and Social Bond
-  <br><br>
-  Interactive product simulation. Not a trading offer or guarantee of returns.
-</footer>
+  </section>
 
 
-<script>
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
-  /* ==========================================
-     C&SB SIMULATION ENGINE
-     ========================================== */
+  <footer>
 
-  let state = {
-    day: 1,
-    stage: 0,
-    paid: 0,
-    accountIssued: false,
-    trading: false,
-    manager: false,
-    completed: false,
-    failed: false
-  };
+    C&SB — Capital and Social Bond
+
+    <br><br>
+
+    Interactive product simulation.
+    Not a trading offer or guarantee of returns.
+
+  </footer>
 
 
-  const ACCOUNT_PRICE = 10000;
-  const SERVICE_FEE = 100;
+  <script>
+
+    /* =====================================================
+       C&SB CAPITAL PURCHASE MODEL
+       ===================================================== */
+
+    const ACCOUNT_VALUE = 10000;
+
+    const INITIAL_PAYMENT = 1000;
+
+    const INSTALLMENT_AMOUNT = 2250;
 
 
-  function startSimulation() {
+    /* =====================================================
+       SIMULATION STATE
+       ===================================================== */
 
-    document
-      .getElementById("simulation")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
-
-    addLog(
-      1,
-      "Trader entered the C&SB capital purchase journey."
-    );
-
-  }
-
-
-  function updateUI() {
-
-    document.getElementById("dayNumber").textContent =
-      state.day;
-
-    const progress =
-      Math.min((state.day / 90) * 100, 100);
-
-    document.getElementById("mainProgress").style.width =
-      progress + "%";
+    let state = {
+      day: 1,
+      paid: 0,
+      accountIssued: false,
+      trading: false,
+      managerAssigned: false,
+      completed: false,
+      failed: false
+    };
 
 
-    document.getElementById("paymentProgress").style.width =
-      Math.min((state.paid / ACCOUNT_PRICE) * 100, 100) + "%";
+    /* =====================================================
+       START
+       ===================================================== */
 
+    function startSimulation() {
 
-    document.getElementById("paidAmount").textContent =
-      "$" + state.paid.toLocaleString() + " paid";
-
-
-    /* ACCOUNT */
-
-    const accountBalance =
-      document.getElementById("accountBalance");
-
-    accountBalance.textContent =
-      state.accountIssued
-        ? "$10,000"
-        : "$0";
-
-
-    const status =
-      document.getElementById("accountStatus");
-
-
-    if (state.failed) {
-
-      status.textContent = "Recovered";
-      status.className = "account-status danger";
-
-    } else if (state.completed) {
-
-      status.textContent = "Completed";
-      status.className = "account-status active";
-
-    } else if (state.accountIssued) {
-
-      status.textContent = "Active";
-      status.className = "account-status active";
-
-    } else {
-
-      status.textContent = "Not Issued";
-      status.className = "account-status";
+      document
+        .getElementById("simulation")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
 
     }
 
 
-    /* EARLY ISSUE */
+    /* =====================================================
+       RESET
+       ===================================================== */
 
-    document.getElementById("earlyStatus").textContent =
-      state.accountIssued
-        ? "Issued"
-        : "Pending";
+    function resetSimulation() {
 
-
-    /* BUTTONS */
-
-    document.getElementById("issueButton").disabled =
-      state.paid < 1000 || state.accountIssued;
-
-    document.getElementById("tradeButton").disabled =
-      !state.accountIssued || state.trading;
-
-    document.getElementById("managerButton").disabled =
-      !state.trading || state.manager;
-
-    document.getElementById("payment2Button").disabled =
-      !state.accountIssued || state.completed;
-
-    document.getElementById("completeButton").disabled =
-      state.paid < ACCOUNT_PRICE || state.completed;
+      state = {
+        day: 1,
+        paid: 0,
+        accountIssued: false,
+        trading: false,
+        managerAssigned: false,
+        completed: false,
+        failed: false
+      };
 
 
-    /* STAGES */
+      /* Hide secondary panels */
 
-    let currentStage = 0;
+      document
+        .getElementById("managerCard")
+        .style.display = "none";
 
-    if (state.paid > 0) currentStage = 1;
-    if (state.accountIssued) currentStage = 2;
-    if (state.trading) currentStage = 3;
-    if (state.manager) currentStage = 4;
-    if (state.completed) currentStage = 5;
-    if (state.failed) currentStage = 6;
-
-
-    state.stage = currentStage;
+      document
+        .getElementById("additionalAccountsCard")
+        .style.display = "none";
 
 
-    for (let i = 0; i < 7; i++) {
+      /* Clear outcome */
 
-      const element =
-        document.getElementById("stage" + i);
+      const outcome =
+        document.getElementById("outcome");
 
-      element.classList.remove(
-        "active",
-        "done"
-      );
+      outcome.className = "outcome";
 
-      if (i < currentStage) {
-        element.classList.add("done");
+      document
+        .getElementById("outcomeTitle")
+        .textContent = "";
+
+      document
+        .getElementById("outcomeText")
+        .textContent = "";
+
+
+      /* Reset activity */
+
+      document
+        .getElementById("activityList")
+        .innerHTML = `
+          <div class="activity-item">
+
+            <div class="activity-day">
+              DAY 1
+            </div>
+
+            <div class="activity-message">
+              Trader selected a $10,000 C&SB funded account.
+            </div>
+
+          </div>
+        `;
+
+
+      updateUI();
+
+
+      /* Return to simulation */
+
+      document
+        .getElementById("simulation")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    }
+
+
+    /* =====================================================
+       INITIAL PAYMENT
+       ===================================================== */
+
+    function makeInitialPayment() {
+
+      if (state.paid > 0) {
+        return;
       }
 
-      if (i === currentStage) {
-        element.classList.add("active");
-      }
 
-    }
+      state.paid = INITIAL_PAYMENT;
 
-  }
+      state.day = 5;
 
 
-  /* ==========================================
-     PAYMENT
-     ========================================== */
-
-  function makePayment() {
-
-    if (state.paid > 0) return;
-
-    state.paid = 1000;
-    state.day = 5;
-
-    addLog(
-      state.day,
-      "Trader made the initial qualifying payment of $1,000."
-    );
-
-    addLog(
-      state.day,
-      "C&SB eligibility check opened for possible early account issuance."
-    );
-
-    updateUI();
-
-  }
-
-
-  function issueAccount() {
-
-    if (state.paid < 1000) return;
-
-    state.accountIssued = true;
-    state.day = 8;
-
-    addLog(
-      state.day,
-      "C&SB issued the real $10,000 funded account before full purchase completion."
-    );
-
-    addLog(
-      state.day,
-      "Trader can continue completing the account purchase after issuance."
-    );
-
-    updateUI();
-
-  }
-
-
-  /* ==========================================
-     TRADING
-     ========================================== */
-
-  function trade() {
-
-    if (!state.accountIssued) return;
-
-    state.trading = true;
-    state.day = 15;
-
-    addLog(
-      state.day,
-      "Trader started trading with the real funded account."
-    );
-
-    updateUI();
-
-  }
-
-
-  /* ==========================================
-     MANAGER
-     ========================================== */
-
-  function assignManager() {
-
-    if (!state.trading) return;
-
-    state.manager = true;
-    state.day = 23;
-
-    document
-      .getElementById("managerCard")
-      .style.display = "block";
-
-    document
-      .getElementById("extraAccountsCard")
-      .style.display = "block";
-
-
-    addLog(
-      state.day,
-      "Trader assigned a manager to operate the funded account."
-    );
-
-    addLog(
-      state.day,
-      "C&SB account expansion pathway opened."
-    );
-
-    addLog(
-      state.day,
-      "Up to five additional funded accounts may become available for assignment."
-    );
-
-    updateUI();
-
-  }
-
-
-  /* ==========================================
-     INSTALLMENTS
-     ========================================== */
-
-  function makePayment2() {
-
-    if (!state.accountIssued) return;
-
-    state.paid += 2250;
-
-    if (state.paid > ACCOUNT_PRICE) {
-      state.paid = ACCOUNT_PRICE;
-    }
-
-    state.day += 12;
-
-    addLog(
-      state.day,
-      "Trader continued installment payments toward the funded account purchase."
-    );
-
-    updateUI();
-
-  }
-
-
-  /* ==========================================
-     COMPLETE PURCHASE
-     ========================================== */
-
-  function completePurchase() {
-
-    if (state.paid < ACCOUNT_PRICE) return;
-
-    state.completed = true;
-    state.day = Math.min(state.day + 8, 90);
-
-    addLog(
-      state.day,
-      "Trader completed the full funded account purchase."
-    );
-
-    addLog(
-      state.day,
-      "The $10,000 funded account remains active under the applicable C&SB rules."
-    );
-
-
-    showOutcome(
-      "Purchase Completed",
-      "The trader completed the purchase within the 90-day window. The funded account continues as an active C&SB account.",
-      "complete"
-    );
-
-    updateUI();
-
-  }
-
-
-  /* ==========================================
-     FAILURE
-     ========================================== */
-
-  function simulateFailure() {
-
-    state.day = 90;
-    state.failed = true;
-
-    if (state.accountIssued) {
-
-      addLog(
-        90,
-        "Day 90 reached without completing the funded account purchase."
+      addActivity(
+        state.day,
+        "Trader made the initial qualifying payment of $1,000."
       );
 
-      addLog(
-        90,
-        "Because the account had already been issued, C&SB begins account recovery/termination under the applicable agreement."
+
+      addActivity(
+        state.day,
+        "The account is now eligible for the early issuance pathway."
+      );
+
+
+      updateUI();
+
+    }
+
+
+    /* =====================================================
+       EARLY ACCOUNT ISSUANCE
+       ===================================================== */
+
+    function issueAccount() {
+
+      if (state.paid < INITIAL_PAYMENT) {
+        return;
+      }
+
+
+      if (state.accountIssued) {
+        return;
+      }
+
+
+      state.accountIssued = true;
+
+      state.day = 8;
+
+
+      addActivity(
+        state.day,
+        "C&SB issued the real $10,000 funded account before full purchase completion."
+      );
+
+
+      addActivity(
+        state.day,
+        "The trader can continue completing the purchase after receiving the account."
+      );
+
+
+      updateUI();
+
+    }
+
+
+    /* =====================================================
+       START TRADING
+       ===================================================== */
+
+    function startTrading() {
+
+      if (!state.accountIssued) {
+        return;
+      }
+
+
+      state.trading = true;
+
+      state.day = 15;
+
+
+      addActivity(
+        state.day,
+        "Trader started trading with the real funded account."
+      );
+
+
+      updateUI();
+
+    }
+
+
+    /* =====================================================
+       ASSIGN MANAGER
+       ===================================================== */
+
+    function assignManager() {
+
+      if (!state.trading) {
+        return;
+      }
+
+
+      state.managerAssigned = true;
+
+      state.day = 23;
+
+
+      document
+        .getElementById("managerCard")
+        .style.display = "block";
+
+
+      document
+        .getElementById("additionalAccountsCard")
+        .style.display = "block";
+
+
+      addActivity(
+        state.day,
+        "Trader assigned a manager to operate the funded account."
+      );
+
+
+      addActivity(
+        state.day,
+        "The account expansion pathway is now displayed."
+      );
+
+
+      addActivity(
+        state.day,
+        "Up to five additional funded accounts may become available for assignment."
+      );
+
+
+      updateUI();
+
+    }
+
+
+    /* =====================================================
+       INSTALLMENT
+       ===================================================== */
+
+    function makeInstallment() {
+
+      if (!state.accountIssued) {
+        return;
+      }
+
+
+      if (state.completed) {
+        return;
+      }
+
+
+      state.paid += INSTALLMENT_AMOUNT;
+
+
+      if (state.paid > ACCOUNT_VALUE) {
+        state.paid = ACCOUNT_VALUE;
+      }
+
+
+      state.day += 12;
+
+
+      addActivity(
+        state.day,
+        "Trader continued the installment purchase."
+      );
+
+
+      updateUI();
+
+    }
+
+
+    /* =====================================================
+       COMPLETE PURCHASE
+       ===================================================== */
+
+    function completePurchase() {
+
+      if (state.paid < ACCOUNT_VALUE) {
+        return;
+      }
+
+
+      if (state.completed) {
+        return;
+      }
+
+
+      state.completed = true;
+
+
+      state.day = Math.min(
+        state.day + 8,
+        90
+      );
+
+
+      addActivity(
+        state.day,
+        "Trader completed the full $10,000 account purchase."
+      );
+
+
+      addActivity(
+        state.day,
+        "The funded account continues under the applicable C&SB rules."
       );
 
 
       showOutcome(
-        "Account Recovered",
-        "The trader did not complete the purchase within 90 days after receiving the account early. The account is recovered/terminated under the applicable C&SB terms. There is no standard purchase refund entitlement in this scenario.",
-        "recovered"
-      );
-
-    } else {
-
-      addLog(
-        90,
-        "Day 90 reached without the funded account ever being issued."
-      );
-
-      addLog(
-        90,
-        "Applicable amount is returned subject to the agreed service fee and customer terms."
+        "Purchase Completed",
+        "The trader completed the funded account purchase within the 90-day period. The funded account remains active under the applicable C&SB terms.",
+        "complete"
       );
 
 
-      showOutcome(
-        "Refund Path",
-        "The trader did not complete the purchase and the account was never issued. The applicable amount is returned less the agreed service fee, subject to the customer agreement.",
-        "refund"
-      );
+      updateUI();
 
     }
 
+
+    /* =====================================================
+       90-DAY FAILURE
+       ===================================================== */
+
+    function simulate90DayFailure() {
+
+      if (state.completed) {
+        return;
+      }
+
+
+      state.day = 90;
+
+      state.failed = true;
+
+
+      if (state.accountIssued) {
+
+        addActivity(
+          90,
+          "Day 90 was reached without completing the purchase."
+        );
+
+
+        addActivity(
+          90,
+          "Because the funded account had already been issued, C&SB begins account recovery/termination under the applicable agreement."
+        );
+
+
+        showOutcome(
+          "Account Recovered",
+          "The trader did not complete the purchase within 90 days after receiving the account early. The account is recovered or terminated under the applicable C&SB terms. There is no standard purchase refund entitlement in this scenario.",
+          "recovered"
+        );
+
+      }
+
+      else {
+
+        addActivity(
+          90,
+          "Day 90 was reached without the funded account being issued."
+        );
+
+
+        addActivity(
+          90,
+          "The applicable amount enters the refund path, subject to the agreed service fee and customer terms."
+        );
+
+
+        showOutcome(
+          "Refund Path",
+          "The trader did not complete the purchase and the account was never issued. The applicable amount is returned less the agreed service fee, subject to the customer agreement.",
+          "refund"
+        );
+
+      }
+
+
+      updateUI();
+
+    }
+
+
+    /* =====================================================
+       ACTIVITY LOG
+       ===================================================== */
+
+    function addActivity(day, message) {
+
+      const list =
+        document.getElementById("activityList");
+
+
+      const item =
+        document.createElement("div");
+
+
+      item.className =
+        "activity-item";
+
+
+      item.innerHTML = `
+        <div class="activity-day">
+          DAY ${day}
+        </div>
+
+        <div class="activity-message">
+          ${message}
+        </div>
+      `;
+
+
+      list.prepend(item);
+
+    }
+
+
+    /* =====================================================
+       OUTCOME
+       ===================================================== */
+
+    function showOutcome(
+      title,
+      text,
+      type
+    ) {
+
+      const box =
+        document.getElementById("outcome");
+
+
+      box.className =
+        "outcome visible " + type;
+
+
+      document
+        .getElementById("outcomeTitle")
+        .textContent = title;
+
+
+      document
+        .getElementById("outcomeText")
+        .textContent = text;
+
+
+      setTimeout(() => {
+
+        box.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+      }, 100);
+
+    }
+
+
+    /* =====================================================
+       UPDATE UI
+       ===================================================== */
+
+    function updateUI() {
+
+
+      /* -------------------------
+         DAY
+      ------------------------- */
+
+      document
+        .getElementById("dayNumber")
+        .textContent = state.day;
+
+
+      /* -------------------------
+         90-DAY PROGRESS
+      ------------------------- */
+
+      const dayProgress =
+        Math.min(
+          (state.day / 90) * 100,
+          100
+        );
+
+
+      document
+        .getElementById("mainProgress")
+        .style.width =
+        dayProgress + "%";
+
+
+      /* -------------------------
+         PURCHASE PAYMENT
+      ------------------------- */
+
+      const paymentProgress =
+        Math.min(
+          (state.paid / ACCOUNT_VALUE) * 100,
+          100
+        );
+
+
+      document
+        .getElementById("paymentProgress")
+        .style.width =
+        paymentProgress + "%";
+
+
+      document
+        .getElementById("paidAmount")
+        .textContent =
+        "$" +
+        state.paid.toLocaleString() +
+        " paid";
+
+
+      /* -------------------------
+         ACCOUNT BALANCE
+      ------------------------- */
+
+      document
+        .getElementById("accountBalance")
+        .textContent =
+        state.accountIssued
+          ? "$10,000"
+          : "$0";
+
+
+      /* -------------------------
+         ACCOUNT STATUS
+      ------------------------- */
+
+      const status =
+        document.getElementById(
+          "accountStatus"
+        );
+
+
+      status.className =
+        "status";
+
+
+      if (state.failed) {
+
+        status.textContent =
+          "Recovered";
+
+        status.classList.add(
+          "danger"
+        );
+
+      }
+
+      else if (state.completed) {
+
+        status.textContent =
+          "Completed";
+
+        status.classList.add(
+          "active"
+        );
+
+      }
+
+      else if (state.accountIssued) {
+
+        status.textContent =
+          "Active";
+
+        status.classList.add(
+          "active"
+        );
+
+      }
+
+      else {
+
+        status.textContent =
+          "Not Issued";
+
+      }
+
+
+      /* -------------------------
+         EARLY STATUS
+      ------------------------- */
+
+      document
+        .getElementById("earlyStatus")
+        .textContent =
+        state.accountIssued
+          ? "Issued"
+          : "Pending";
+
+
+      /* -------------------------
+         BUTTON STATES
+      ------------------------- */
+
+      document
+        .getElementById("paymentButton")
+        .disabled =
+        state.paid > 0 ||
+        state.failed ||
+        state.completed;
+
+
+      document
+        .getElementById("issueButton")
+        .disabled =
+        state.paid < INITIAL_PAYMENT ||
+        state.accountIssued ||
+        state.failed ||
+        state.completed;
+
+
+      document
+        .getElementById("tradeButton")
+        .disabled =
+        !state.accountIssued ||
+        state.trading ||
+        state.failed ||
+        state.completed;
+
+
+      document
+        .getElementById("managerButton")
+        .disabled =
+        !state.trading ||
+        state.managerAssigned ||
+        state.failed ||
+        state.completed;
+
+
+      document
+        .getElementById("installmentButton")
+        .disabled =
+        !state.accountIssued ||
+        state.completed ||
+        state.failed ||
+        state.paid >= ACCOUNT_VALUE;
+
+
+      document
+        .getElementById("completeButton")
+        .disabled =
+        state.paid < ACCOUNT_VALUE ||
+        state.completed ||
+        state.failed;
+
+
+      document
+        .getElementById("failureButton")
+        .disabled =
+        state.completed ||
+        state.failed;
+
+
+      /* -------------------------
+         DETERMINE CURRENT STAGE
+      ------------------------- */
+
+      let currentStage = 0;
+
+
+      if (state.paid > 0) {
+        currentStage = 1;
+      }
+
+
+      if (state.accountIssued) {
+        currentStage = 2;
+      }
+
+
+      if (state.trading) {
+        currentStage = 3;
+      }
+
+
+      if (state.managerAssigned) {
+        currentStage = 4;
+      }
+
+
+      if (state.completed) {
+        currentStage = 5;
+      }
+
+
+      if (state.failed) {
+        currentStage = 6;
+      }
+
+
+      /* -------------------------
+         UPDATE STAGE DISPLAY
+      ------------------------- */
+
+      for (
+        let i = 0;
+        i < 7;
+        i++
+      ) {
+
+        const stage =
+          document.getElementById(
+            "stage" + i
+          );
+
+
+        stage.classList.remove(
+          "active",
+          "done"
+        );
+
+
+        if (i < currentStage) {
+
+          stage.classList.add(
+            "done"
+          );
+
+        }
+
+
+        if (i === currentStage) {
+
+          stage.classList.add(
+            "active"
+          );
+
+        }
+
+      }
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
+
     updateUI();
 
-  }
-
-
-  /* ==========================================
-     LOG
-     ========================================== */
-
-  function addLog(day, message) {
-
-    const list =
-      document.getElementById("logList");
-
-    const item =
-      document.createElement("div");
-
-    item.className = "log-item";
-
-    item.innerHTML = `
-      <div class="log-day">DAY ${day}</div>
-      <div class="log-message">${message}</div>
-    `;
-
-    list.prepend(item);
-
-  }
-
-
-  /* ==========================================
-     OUTCOME
-     ========================================== */
-
-  function showOutcome(title, text, type) {
-
-    const box =
-      document.getElementById("outcome");
-
-    box.className =
-      "outcome visible " + type;
-
-    document.getElementById(
-      "outcomeTitle"
-    ).textContent = title;
-
-    document.getElementById(
-      "outcomeText"
-    ).textContent = text;
-
-    box.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
-
-  }
-
-
-  updateUI();
-
-</script>
+  </script>
 
 </body>
 </html>
