@@ -1,144 +1,731 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C&SB Platform Architecture & Revenue Engine</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C&amp;SB Capital and Social Bond</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--paper:#F1F4F1;--pine:#14453D;--gold:#E2A72E;--coral:#C4553B;--ink:#22303A;--mist:#DCE6E2;--soft:#55666E;--mint:#CDEBDD;
+--head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+--body:"Source Serif 4",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.65;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding-left:20px;padding-right:20px}
+h1,h2,h3{font-family:var(--head);color:var(--pine);line-height:1.12;margin:0 0 .55em}
+h1{font-size:clamp(2.3rem,9vw,3.8rem);font-weight:700;letter-spacing:-.025em}
+h2{font-size:clamp(1.7rem,6vw,2.3rem);font-weight:700;letter-spacing:-.015em}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0 0 1.05em}
+.brand{font-family:var(--head);font-weight:700;color:var(--pine);font-size:1.1rem;margin-bottom:28px}
+.brand span{font-weight:500;color:var(--soft);margin-left:.4em}
+.hero{padding-top:36px;padding-bottom:20px}
+.lead{font-size:1.2rem}
+section.wrap{padding-top:52px;padding-bottom:20px}
+
+.stage{position:sticky;top:0;z-index:5;background:var(--pine);color:#fff;margin:22px -20px;padding:12px 20px 6px;font-family:var(--head)}
+.day{display:flex;justify-content:space-between;font-size:.95rem;margin-bottom:8px}
+.lab{display:flex;justify-content:space-between;align-items:baseline;font-size:.88rem}
+.lab b{font-size:1.1rem}
+.bar{position:relative;height:18px;background:rgba(255,255,255,.16);margin:4px 0 10px;overflow:hidden}
+.bar.thin{height:8px}
+.bar i{position:absolute;top:0;bottom:0;left:0;width:0;transition:width .6s ease,left .6s ease}
+.bar .bal{background:var(--mint)}
+.bar .fall{background:var(--coral)}
+.bar .paid{background:var(--gold)}
+.bar .out{background:var(--coral)}
+.bar .half{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:#fff}
+
+.story{min-height:220px}
+.tbl{width:100%;border-collapse:collapse;font-family:var(--head);font-size:.95rem;margin:0 0 1em}
+.tbl td{padding:7px 0;border-bottom:1px solid var(--mist);vertical-align:top}
+.tbl td:last-child{text-align:right;font-weight:700;white-space:nowrap;padding-left:12px}
+.extra{background:var(--mist);padding:12px 14px;margin:0 0 1em;font-family:var(--head);font-size:.95rem}
+.extra label{display:flex;justify-content:space-between;margin-bottom:6px}
+input[type=range]{width:100%;accent-color:var(--pine)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 0}
+button{font-family:var(--head);font-size:1rem;font-weight:700;border:0;cursor:pointer;padding:13px 18px;border-radius:4px;min-height:48px}
+.go{background:var(--pine);color:#fff}
+.alt{background:var(--gold);color:var(--ink)}
+.ghost{background:transparent;color:var(--pine);box-shadow:inset 0 0 0 2px var(--pine)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chips button{background:#fff;color:var(--pine);box-shadow:inset 0 0 0 2px var(--mist);border-radius:999px;padding:9px 16px;min-height:44px;font-size:.95rem}
+.chips button[aria-pressed=true]{background:var(--pine);color:#fff;box-shadow:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+.roles div{padding:14px 0;border-bottom:1px solid var(--mist)}
+.roles p{margin:0}
+
+.field{margin:0 0 14px;font-family:var(--head)}
+.fl{display:flex;justify-content:space-between;gap:12px;font-size:.95rem;margin-bottom:6px}
+.fl output{font-weight:700}
+.grp{margin:28px 0 10px}
+.result{background:var(--pine);color:#fff;padding:18px 20px;margin:24px -20px}
+.result h3{color:#fff}
+dl.rows{margin:0 0 18px;font-family:var(--head)}
+dl.rows div{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:.95rem}
+dl.rows dt{margin:0}
+dl.rows dd{margin:0;font-weight:700;white-space:nowrap}
+dl.rows .total{font-size:1.15rem}
+
+ol.build{padding:0;margin:0;list-style:none;counter-reset:b}
+ol.build li{padding:14px 0 14px 48px;border-bottom:1px solid var(--mist);position:relative;counter-increment:b}
+ol.build li:before{content:counter(b);position:absolute;left:0;top:16px;width:32px;height:32px;background:var(--pine);color:#fff;font-family:var(--head);font-weight:700;display:grid;place-items:center;border-radius:50%}
+ol.build h3{margin-bottom:.2em}
+ol.build p{margin:0}
+
+dl.nums{margin:0;font-family:var(--head)}
+dl.nums div{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--mist);font-size:.95rem}
+dl.nums dt{margin:0}
+dl.nums dd{margin:0;font-weight:700;text-align:right}
+
+.result p{font-size:.95rem;margin:0}
+.roles h3{margin-bottom:.15em}
+
+footer{padding-top:36px;padding-bottom:64px;color:var(--soft);font-size:.95rem}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
-  <header>
-    <h1>C&SB Capital & Social Bond Architecture</h1>
-    <p>Complete Enterprise Financial Engine & Multi-Channel Intercept</p>
-  </header>
 
-  <main class="grid-container">
-    <!-- Corporate Treasury Overview -->
-    <section class="card full-width">
-      <h2>C&SB Corporate Revenue Metrics</h2>
-      <div class="metrics-grid">
-        <div class="metric"><span class="label">1% Service Charge Revenue</span><span id="rev-service" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">15% Withdrawal Fee Revenue</span><span id="rev-withdraw" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">Brokerage Rebate Revenue ($12/lot)</span><span id="rev-rebate" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">6% SB Protocol Fee Revenue</span><span id="rev-sb" class="val">$0.00</span></div>
-      </div>
-    </section>
+<header class="wrap hero">
+<div class="brand">C&amp;SB <span>Capital and Social Bond</span></div>
+<h1>A trader should not have to stop because money came first.</h1>
+<p class="lead">C&amp;SB is where a trader begins with what is in hand, gets a real account to trade, and keeps going even after the account falls by half.</p>
+</header>
 
-    <!-- 1. Account Purchase Engine -->
-    <section class="card">
-      <h2>1. Capital Purchase Engine</h2>
-      <form id="capital-form">
-        <label for="user-name">Trader / Account Owner Name</label>
-        <input type="text" id="user-name" value="Trader Alex" required>
-        
-        <label for="account-price">Funded Capital Account Size ($)</label>
-        <input type="number" id="account-price" value="10000" step="1000" required>
+<section class="wrap" id="why">
+<h2>Why C&amp;SB should exist</h2>
+<p>A trader finds a chance in the market. The account it needs costs $10,000. The trader has $1,000. The skill is there and the chance is real. Only the money is missing.</p>
+<p>So the trader waits and saves, or buys a practice account where the money is never real. C&amp;SB gives a real account from the first payment. The trader pays for it in small payments over 90 days.</p>
+<p>Then a second problem arrives. Every trader has a bad stretch. When an account falls by half, the trader is out. One bad stretch ends a good trader.</p>
+<p>C&amp;SB is built for both problems. The account comes before the full price. When the account falls by half, people who choose to take part put money in so the trader keeps trading. The manager works to win it back.</p>
+<p>Nobody in the story is left alone. The trader has a manager. The manager has a manager. Bonders stand beside the trader. Partners put in the money. Each one earns for taking part. That is why C&amp;SB should exist. The rest of this page shows how it works and how to build it.</p>
+</section>
 
-        <label for="purchase-type">Purchase Method</label>
-        <select id="purchase-type">
-          <option value="direct">Direct Purchase (1% Fee Included)</option>
-          <option value="installment">Installment Plan (Up to 90 Days)</option>
-        </select>
+<section class="wrap" id="loop">
+<h2>The whole path</h2>
+<p>This is the path a trader can follow on C&amp;SB, from the first payment to the next chance. Everyone enters through a referral and buys an account. There is no direct deposit route.</p>
+<ol class="build">
+<li><p>The trader joins through a referral, is verified and subscribes.</p></li>
+<li><p>The trader picks an account and pays for it in full or in small payments.</p></li>
+<li><p>The account opens and a manager trades it.</p></li>
+<li><p>Up to four sub accounts of the same size follow.</p></li>
+<li><p>The account falls by half.</p></li>
+<li><p>Social Bond puts money in and trading continues.</p></li>
+<li><p>Manager earnings win the money back and everyone who put in is settled.</p></li>
+<li><p>The money that comes back is used again for the next trader.</p></li>
+<li><p>Trading goes on.</p></li>
+</ol>
+</section>
 
-        <button type="submit" class="btn-primary">Purchase Account</button>
-      </form>
+<section class="wrap" id="follow">
+<h2>Follow one trader</h2>
+<p>Follow one trader through 90 days. Pick an account size and how the trader pays, then press the button at the bottom. The bars at the top show the account. The white line on the top bar marks half.</p>
+<div class="chips" id="sizeChips" role="group" aria-label="Account size"></div>
+<div class="chips" id="payChips" role="group" aria-label="How the trader pays"></div>
 
-      <div id="capital-status" class="status-box">No active account purchase.</div>
-      
-      <div class="control-group">
-        <label for="installment-pay-amt">Submit Installment Payment ($)</label>
-        <input type="number" id="installment-pay-amt" value="2500">
-        <button id="btn-pay-installment" class="btn-secondary" disabled>Process Installment Payment</button>
-      </div>
+<div class="stage">
+<div class="day"><span>Day <b id="sDay">1</b> of 90</span><span id="sState">Waiting</span></div>
+<div class="lab"><span>Money in the account</span><b id="sBal">$0</b></div>
+<div class="bar"><i class="bal" id="bBal"></i><i class="fall" id="bFall"></i><em class="half"></em></div>
+<div class="lab"><span>Paid by the trader</span><b id="sPaid">$0</b></div>
+<div class="bar thin"><i class="paid" id="bPaid"></i></div>
+<div class="lab"><span>Can be withdrawn now</span><b id="sWd">$0</b></div>
+<div class="lab" id="rowOut" hidden><span id="sOutLab">Still out with the partner</span><b id="sOut">$0</b></div>
+<div class="bar thin" id="barOut" hidden><i class="out" id="bOut"></i></div>
+</div>
 
-      <div class="control-group">
-        <label for="withdraw-amt">Request Profit Withdrawal ($)</label>
-        <input type="number" id="withdraw-amt" value="1000">
-        <button id="btn-withdraw" class="btn-success" disabled>Withdraw Profits (15% Fee Applies)</button>
-      </div>
-    </section>
+<div class="story" aria-live="polite">
+<h3 id="stepTitle"></h3>
+<div id="stepBody"></div>
+<div id="stepExtra"></div>
+</div>
+<div class="btns">
+<button type="button" id="nextBtn" class="go"></button>
+<button type="button" id="altBtn" class="alt" hidden></button>
+<button type="button" id="alt2Btn" class="alt" hidden></button>
+<button type="button" id="resetBtn" class="ghost">Start again</button>
+</div>
+</section>
 
-    <!-- 2. Multi-Account Management & Trading -->
-    <section class="card">
-      <h2>2. Reciprocal Accounts & Trading Volume</h2>
-      <p>Simulate market execution and volume rebates ($12/lot).</p>
-      
-      <div id="management-status" class="status-box">No active accounts assigned.</div>
+<section class="wrap" id="people">
+<h2>Who takes part</h2>
+<div class="roles">
+<div><h3>The trader</h3><p>Wants to trade a real account. Pays for it in full up front, or in installments over 90 days. The price is the account plus a 1 percent service charge. On installments, no profit can be withdrawn until the last payment is made.</p></div>
+<div><h3>The manager</h3><p>Trades accounts for traders and has a trading record. Earns through seven channels. Also has another manager trading their own account, so every manager stands on both sides. A manager who reaches the 50 percent limit is isolated, and all seven channels go to recovery.</p></div>
+<div><h3>The Bonders</h3><p>Ten join each Social Bond. Each has trading capital above the amount asked for and agrees to a hold of 10 percent of the amount on their own trading account. Each earns 0.8 percent of the amount. The holds are second in line. Nothing leaves a Bonder account unless the bond in the trader account is not enough on day 54.</p></div>
+<div><h3>The partner</h3><p>A bank, a fintech, a microfinance bank, a cooperative or a trader who chooses to take part. Puts in the full amount and earns 8 percent of it within 30 days. If C&amp;SB cannot collect from a Bonder account at that moment, the partner waits until it is fixed or recovery is made.</p></div>
+<div><h3>The referrer</h3><p>Brings a trader in and earns a share while the referral stays active. If the referrer goes quiet, the trader can move to a new referrer.</p></div>
+<div><h3>The broker</h3><p>Holds the accounts and keeps the rules, including the stop when an account reaches half. Pays C&amp;SB a rebate of up to $12 on each lot traded.</p></div>
+<div><h3>C&amp;SB</h3><p>Passes the messages between everyone, sets the rules, keeps the records, and earns 6 percent of the amount on each Social Bond along with its other earnings. C&amp;SB does not put in money for Social Bond.</p></div>
+</div>
+</section>
 
-      <div class="control-group">
-        <label for="lots-traded">Simulate Traded Volume (Lots)</label>
-        <input type="number" id="lots-traded" value="10" min="1">
-        <label for="trade-pct">Trade Return (%)</label>
-        <input type="number" id="trade-pct" value="-50" min="-90" max="50">
-        <button id="btn-run-trade" class="btn-danger" disabled>Execute Market Position</button>
-      </div>
-    </section>
+<section class="wrap" id="accounts">
+<h2>Accounts and managers</h2>
+<p>Every account has a manager and every account has a known origin. The trader does not trade the main account. A manager does.</p>
+<div class="roles">
+<div><h3>Five accounts</h3><p>Each trader has one main account. After the account is funded, up to four sub accounts of the same size can follow. Five accounts of $1,000 make $5,000 of accounts to manage. It is not cash. Sub accounts can also be placed with other traders to manage.</p></div>
+<div><h3>Where accounts come from</h3><p>An extra account can come from C&amp;SB, from other traders, from banks and fintechs, from partners who supply accounts, from subaccounts, or from approved money partners. Each account carries a record of where it came from, who first owned it, who manages it, its size, when it was funded and everything that happened on it, including falls, Social Bond, recovery, profit, withdrawals and fees.</p></div>
+<div><h3>Choosing a manager</h3><p>The Manager Marketplace shows the trader three managers. It picks them by trading record, results, risk, account size, how many accounts each manager already runs, trading style, past falls and who is free. A manager stays with the account until the trader changes manager or the platform makes a change. Every manager the account has had is kept on record. A manager can use an alias so a personal identity is not shown. The verified identity stays on file inside C&amp;SB.</p></div>
+<div><h3>Becoming a manager</h3><p>A trader becomes a manager with at least one month of live trading under their own name, or by passing a one month challenge. Manager is a role on the platform. It is not a licence. Every manager also has their own main account traded by another manager, chosen from the pool of eligible managers.</p></div>
+<div><h3>Submanagers</h3><p>A manager can hand an account to a submanager. Without a submanager, profit splits half to the account owner and half to the manager side. With a submanager, the owner still gets half. The other half splits, a quarter to the original manager and a quarter to the submanager. Longer chains work the same way, following the people actually in the chain.</p></div>
+<div><h3>Trading Leaders</h3><p>A Trading Leader coordinates a large group of up to 1,000 managers, 500 who trade in the morning and 500 in the evening. If each manager runs four sub accounts, that is up to 4,000 account positions. The leader coordinates. Each account keeps its own owner and its own manager history. The leader can set a rule, for example that two managers under the same leader do not open opposite trades on the same pair, so managers do not work against each other.</p></div>
+</div>
+</section>
 
-    <!-- 3. Social Bond (SB) Credit Mechanism -->
-    <section class="card">
-      <h2>3. Social Bond (SB) Facility (30 Days)</h2>
-      <p>Lock remaining collateral to receive credit from external facilitators.</p>
+<section class="wrap" id="seven">
+<h2>Seven ways a manager earns</h2>
+<p>Every manager earns through seven channels. C&amp;SB tracks each one on its own.</p>
+<ol class="build">
+<li><h3>The main account</h3><p>The manager earns 50 percent of the profit on the main account assigned to them.</p></li>
+<li><h3>Sub account 1</h3><p>The manager earns a 25 percent share of the fees from the first sub account.</p></li>
+<li><h3>Sub account 2</h3><p>The same 25 percent share from the second sub account.</p></li>
+<li><h3>Sub account 3</h3><p>The same 25 percent share from the third sub account.</p></li>
+<li><h3>Sub account 4</h3><p>The same 25 percent share from the fourth sub account.</p></li>
+<li><h3>Referrals</h3><p>The manager earns a 15 percent share of all revenue from the traders they refer directly.</p></li>
+<li><h3>Social Bond services</h3><p>The manager earns the yield from putting money in or standing as a Bonder on Social Bonds, using their secondary accounts.</p></li>
+</ol>
+</section>
 
-      <div id="sb-status" class="status-box">Social Bond idle.</div>
-      
-      <button id="btn-trigger-sb" class="btn-warning" disabled>Activate Social Bond ($5,000 Credit)</button>
-      <button id="btn-expire-sb" class="btn-danger" disabled>Expire 30-Day Contract (Settle Collateral/Liens)</button>
-    </section>
+<section class="wrap" id="referrals">
+<h2>Referrals</h2>
+<p>Nobody joins on their own. Every trader comes in through a referral. C&amp;SB records who referred whom, when, whether the trader qualified and became a buyer, what the referrer earned, whether it was paid, and the whole chain of referrals. Referral earnings are kept apart from the money in trading accounts. A manager earns a 15 percent share of all revenue from the traders they refer directly.</p>
+<p>If a referrer goes quiet for 45 days, the trader can be moved to a new referrer through the Referral Marketplace. The trader keeps up to 5 points of the referral share and the rest goes to the new referrer. The first referrer, the current referrer and the full history are all kept. Nothing is erased.</p>
+</section>
 
-    <!-- 4. 7-Channel Intercept Engine -->
-    <section class="card">
-      <h2>4. 7-Channel Offending Manager Intercept Engine</h2>
-      <p>Reroute 100% of offending manager's revenue channels to recover lost equity.</p>
-      
-      <label for="intercept-source">Select Manager Revenue Channel</label>
-      <select id="intercept-source">
-        <option value="Channel 1: Primary Account (50%)">Channel 1: Primary Account Share (50%)</option>
-        <option value="Channel 2: Sub-Account 1 (25%)">Channel 2: Sub-Account 1 Share (25%)</option>
-        <option value="Channel 3: Sub-Account 2 (25%)">Channel 3: Sub-Account 2 Share (25%)</option>
-        <option value="Channel 4: Sub-Account 3 (25%)">Channel 4: Sub-Account 3 Share (25%)</option>
-        <option value="Channel 5: Sub-Account 4 (25%)">Channel 5: Sub-Account 4 Share (25%)</option>
-        <option value="Channel 6: Referral Earnings (15%)">Channel 6: Referral Income (15%)</option>
-        <option value="Channel 7: SB Bonding Income">Channel 7: External SB Bonding Income</option>
-      </select>
+<section class="wrap" id="earn">
+<h2>How people earn</h2>
+<p>One person can earn in several ways at the same time. Each way has its own record, and none of them is mixed with the balance of an account.</p>
+<div class="roles">
+<div><h3>The trader</h3><p>Earns from the profit on their own account, from the extra accounts, from managing accounts for other traders, from submanaging, from referrals and from the Referral Marketplace.</p></div>
+<div><h3>The manager</h3><p>Earns through the seven channels above. When a manager reaches the 50 percent limit, every one of these earnings goes to the trader recovery record until the account is rebuilt.</p></div>
+<div><h3>The partner</h3><p>Earns 8 percent of the amount put in, paid at activation, within 30 days.</p></div>
+<div><h3>The Bonder</h3><p>Earns 0.8 percent of the amount on every Social Bond joined. The ten Bonders together earn 8 percent.</p></div>
+<div><h3>C&amp;SB</h3><p>Earns from subscriptions, a 1 percent service charge on every account bought, 6 percent of the amount on each Social Bond, a 15 percent fee on withdrawals, a rebate from the broker on the lots traded and other services on the platform.</p></div>
+</div>
+</section>
 
-      <label for="intercept-amount">Generated Channel Income ($)</label>
-      <input type="number" id="intercept-amount" value="500">
+<section class="wrap" id="win">
+<h2>Why each side takes part</h2>
+<div class="roles">
+<div><h3>The trader</h3><p>A fall does not end the story. The trader adds no money to rebuild the account, because the earnings of the manager do that. The trader also earns from referrals.</p></div>
+<div><h3>The broker</h3><p>Traders who fall by half keep trading, so fewer of them leave and more lots are traded. The broker pays C&amp;SB a rebate of up to $12 on each lot.</p></div>
+<div><h3>The partner</h3><p>Puts money in for 30 days and earns 8 percent of the amount. The bond in the trader account stands behind it first, and the ten Bonder holds stand behind that.</p></div>
+<div><h3>The Bonder</h3><p>Earns 0.8 percent of the amount for standing behind a Social Bond. Nothing is taken from a Bonder unless the bond in the trader account is not enough.</p></div>
+</div>
+</section>
 
-      <button id="btn-process-intercept" class="btn-success" disabled>Intercept & Route to Recovery</button>
-      <div id="intercept-status" class="status-box">Intercept engine idle.</div>
-    </section>
+<section class="wrap" id="fifteen">
+<h2>Social Bond in fifteen steps</h2>
+<p>The match in step 5 and step 6 looks at the trader, the amount, the account size, what is left in the account, who is free, the limit of each partner, what is already out, how fast each one answers, the past settlement record and how much money is on hand.</p>
+<ol class="build">
+<li><p>The watcher sees the account fall by half. The manager is flagged as breached and isolated, and all seven channels go to recovery.</p></li>
+<li><p>C&amp;SB checks that the trader is eligible.</p></li>
+<li><p>A Social Bond case is opened.</p></li>
+<li><p>The request is written for the amount that fell.</p></li>
+<li><p>A partner is matched. One partner can put in all or part, and what is not covered goes to the next.</p></li>
+<li><p>The ten Bonders are matched, each with a hold of 10 percent.</p></li>
+<li><p>The full amount is put in and the account is back to its full size.</p></li>
+<li><p>The trader receives the money and is told.</p></li>
+<li><p>The 22 percent activation fee is paid. It is a separate record from the money put in.</p></li>
+<li><p>The fee is shared at once, 8 percent to the partner, 8 percent to the Bonders and 6 percent to C&amp;SB.</p></li>
+<li><p>The Social Bond is active and trading continues.</p></li>
+<li><p>The intercepted earnings go to the recovery record. If a second manager also breaches, both are isolated and their earnings are combined.</p></li>
+<li><p>The money out goes down as recovery comes in.</p></li>
+<li><p>The case settles. If money is still out, the bond in the account pays it first, then the ten holds equally.</p></li>
+<li><p>The money is released and used again.</p></li>
+</ol>
+</section>
 
-    <!-- 5. Bonder Network -->
-    <section class="card full-width">
-      <h2>5. Temp Bonder Protection Network (10 Accounts)</h2>
-      <div id="bonders-list" class="bonders-grid">
-        <!-- Rendered dynamically -->
-      </div>
-    </section>
+<section class="wrap" id="company">
+<h2>C&amp;SB as a company</h2>
+<p>Now look at C&amp;SB as a company. Set the numbers below. The page shows what C&amp;SB earns in a month and where the money sits. The numbers are inputs to play with. They are not forecasts.</p>
+<p>What traders pay becomes C&amp;SB money, and C&amp;SB decides how to use it. What it owes back is the refund for a trader who stops before an account opens, so that amount is always kept ready.</p>
+<div id="ctl"></div>
+<div class="result">
+<h3>What C&amp;SB earns in a month</h3>
+<dl class="rows" id="rev"></dl>
+<h3>Where the money is</h3>
+<dl class="rows" id="mon"></dl>
+<h3>If every trader used the daily plan</h3>
+<dl class="rows" id="dly"></dl>
+<p>Payments planned are not the same as money ready to use. Timing and what is already out have to be counted.</p>
+</div>
+</section>
 
-    <!-- Master Audit Log -->
-    <section class="card full-width">
-      <h2>Master Protocol Ledger Audit Log</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Tx ID</th>
-              <th>Timestamp</th>
-              <th>Source Account</th>
-              <th>Destination Account</th>
-              <th>Amount ($)</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody id="ledger-rows">
-            <!-- Rendered dynamically -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+<section class="wrap" id="build">
+<h2>Building C&amp;SB from the ground up</h2>
+<p>Build the desks in this order. Each one stands on the one before it.</p>
+<ol class="build">
+<li><h3>The join desk</h3><p>Takes the referral, checks who the trader is, and starts the subscription. Keeps the subscription status, the renewal date, the payment history, failed payments, suspension and reactivation. Subscription money is never mixed with account money.</p></li>
+<li><h3>The account desk</h3><p>Shows the trader the price, the payment plan, the service fee and the account rules before the first payment. Takes the payment, opens the account, counts the days and locks the funded amount until it is paid. Keeps the account size, the price, the fee, what is paid, what is left, every payment date, the start date, the end date, whether the account is issued, whether it is complete and whether it ended in a refund. Never calls an account real unless it is.</p></li>
+<li><h3>The manager desk</h3><p>Lists managers with their trading records and shows a trader three choices. Records who trades which account, who has handed an account to a submanager, and every manager an account has had. Every account has a manager and every manager has a manager.</p></li>
+<li><h3>The referral desk</h3><p>Records who referred whom and every step from the referral to the sale and the payment. Moves a trader to a new referrer when the old one is quiet for 45 days, and keeps the whole history.</p></li>
+<li><h3>The broker link</h3><p>The broker holds the accounts and enforces the rules, including the stop at half. C&amp;SB reads every account through this link.</p></li>
+<li><h3>The watcher</h3><p>Reads every account all day. When an account falls by half, it opens Social Bond on its own.</p></li>
+<li><h3>The Social Bond desk</h3><p>Opens each case, sends the request to a partner and to the ten Bonders, starts the 5 minute clocks. Takes the 22 percent fee and shares it at once, 8, 8 and 6 percent of the amount. Records the trader, the partner, the Bonders, the amount put in, the fee, the bond, the recovery, what is still out and whether the case is settled. The money put in is never C&amp;SB revenue.</p></li>
+<li><h3>The Bonder hold desk</h3><p>Places the 10 percent hold on each of the ten Bonder accounts and pays each Bonder the 0.8 percent. Releases the holds when recovery finishes in time. On day 54 it takes the bond in the trader account first and the holds only for what the bond does not cover, split equally.</p></li>
+<li><h3>The intercept desk</h3><p>Watches every manager. When a manager reaches the 50 percent limit, flags the manager as breached, isolates them, and sends 100 percent of their earnings from all seven channels to the trader recovery record. If a second manager breaches, isolates both and combines their earnings. The trader never has to add money.</p></li>
+<li><h3>The recovery desk</h3><p>Keeps the recovery record for each Social Bond. Recovered money pays down what is out. On day 54 it settles what is left from the bond in the account, then from the ten holds. Later earnings rebuild the account to its full size, or go back to the Bonders.</p></li>
+<li><h3>The limits desk</h3><p>Watches how much money is out, in total and for each partner, Bonder, manager, trader, account, group of traders, country, market and case size. Stops a request that would go past a limit.</p></li>
+<li><h3>The money record</h3><p>Every dollar has a line saying where it came from and where it went. Trader payments, account money, partner money and C&amp;SB earnings never share a line. The same recovered dollar is never counted twice.</p></li>
+<li><h3>The automation</h3><p>Runs the routine work. It works out payments, tracks each group of traders, checks who can be funded, works out funding milestones, assigns account sizes, watches manager room, spots falls, opens cases, sends requests, starts the timers, works out fees and shares them, tracks recovery, Bonder holds and partner money, works out withdrawal fees, referral shares and management shares, releases settled money, updates account history and keeps the record.</p></li>
+<li><h3>The dashboards</h3><p>Each person sees their own. The next section shows what is on each.</p></li>
+</ol>
+<p>Before launch, test the whole thing with recovery at 0, 25, 50, 75 and 100 percent, and with more Social Bonds opening than money coming back for a long stretch. The company section above does this.</p>
+</section>
 
-  <script src="app.js"></script>
+<section class="wrap" id="boards">
+<h2>The five dashboards</h2>
+<div class="roles">
+<div><h3>The trader</h3><p>Payment progress, accounts, managers, extra accounts, Social Bond, recovery, referrals and subscription.</p></div>
+<div><h3>The manager</h3><p>Active accounts, results, money out, earnings, submanager shares, room for more accounts, trading status and recovery still to collect.</p></div>
+<div><h3>The partner</h3><p>Open requests, the amount asked, time left to answer, money out now, fee share, settlement history and how much more the partner can put in.</p></div>
+<div><h3>The Bonder</h3><p>Open requests, the amount asked, the hold each would carry, time left to answer, holds in place now, fee share and settlement status.</p></div>
+<div><h3>C&amp;SB</h3><p>Traders, payments in, accounts funded, Social Bond total, money on hand, accounts, manager room, trading volume, cases, recovery, money out and earnings.</p></div>
+</div>
+</section>
+
+<section class="wrap" id="records">
+<h2>What C&amp;SB keeps on record</h2>
+<div class="roles">
+<div><h3>Every money event</h3><p>A line with a number, the trader, the account, where it came from, where it went, the amount, the currency, the kind of event, the percentage used, the fee, what was left after the fee, the time, the manager, the submanager, the Social Bond case, the group the trader joined in, the referral, the status, and a link to what it undoes if it is reversed.</p></div>
+<div><h3>Every trader</h3><p>Identity, referral, subscription, payment plan, group joined in, payments, target, funding, main account, extra accounts, where each account came from, who owns it, manager, submanager, Trading Leader, trading history, results, falls, Social Bond case, partner, Bonders, amount put in, fee, bond, recovery, withdrawals, revenue, money out, settlement and the history of each account.</p></div>
+<div><h3>Groups of traders</h3><p>New traders join all the time, so each group that joins together has its own record. It keeps the entry date, the target, the payments so far, the fees, when funding is allowed, the funding status and the finish date. C&amp;SB tells apart payments planned, money gathered, service fees, money given to accounts, funding waiting, money ready to use, money locked in trading, money released and finished plans.</p></div>
+<div><h3>The kinds of record the system needs</h3><p>Users, referrals, Referral Marketplace listings, subscriptions, payment plans, payments, groups of traders, trading accounts, account sources, account owners, manager profiles, manager assignments, submanager assignments, Trading Leaders, trading results, falls, Social Bond cases, partners, Bonders, Bonder holds, money put in, recovery events, bonds, withdrawals, fees, revenue, money partners, money pools, money lines, reservations, notices and records of who did what.</p></div>
+<div><h3>The states money moves through</h3><p>Planned, gathered, ready for an account, given to an account, trading, in a Social Bond, in recovery, held as a bond, released, ready to use again, settled and withdrawn.</p></div>
+</div>
+</section>
+
+<section class="wrap" id="numbers">
+<h2>The numbers C&amp;SB runs on</h2>
+<dl class="nums">
+<div><dt>Price of an account</dt><dd>The account plus 1 percent, $10,100 for a $10,000 account</dd></div>
+<div><dt>Ways to pay</dt><dd>In full up front, or in installments</dd></div>
+<div><dt>Time to finish installments</dt><dd>90 days</dd></div>
+<div><dt>Installment plan</dt><dd>3 to 5 payments inside 90 days, the size depends on the account</dd></div>
+<div><dt>Daily payment plan</dt><dd>1 percent for the account and 0.1 percent fee, 1.1 percent a day for 100 days</dd></div>
+<div><dt>Example on a $5,000 account</dt><dd>$50 account money and $5 fee a day, $55 in all</dd></div>
+<div><dt>Over 100 days on $5,000</dt><dd>$5,000 account money, $500 fees, $5,500 in all</dd></div>
+<div><dt>Earliest account on the daily plan</dt><dd>Day 30, when money on hand, eligibility, place in the group and risk limits allow</dd></div>
+<div><dt>Account confirmed by</dt><dd>Day 100 at the latest on the daily plan</dd></div>
+<div><dt>Sub accounts of the same size</dt><dd>Up to 4, five accounts in all</dd></div>
+<div><dt>Manager channels</dt><dd>7</dd></div>
+<div><dt>Main account share</dt><dd>50 percent of the profit to the manager</dd></div>
+<div><dt>Sub account share</dt><dd>25 percent to the manager on each</dd></div>
+<div><dt>Referral share</dt><dd>15 percent to the manager</dd></div>
+<div><dt>Profit split</dt><dd>Half to the owner, half to the manager side</dd></div>
+<div><dt>Split with a submanager</dt><dd>Half owner, a quarter original manager, a quarter submanager</dd></div>
+<div><dt>Trading Leader</dt><dd>Up to 1,000 managers</dd></div>
+<div><dt>Referrer quiet for</dt><dd>45 days</dd></div>
+<div><dt>Kept by the trader from the referral share</dt><dd>Up to 5 points</dd></div>
+<div><dt>Fall that opens Social Bond</dt><dd>Half the account</dd></div>
+<div><dt>Manager earnings intercepted</dt><dd>100 percent, from all seven channels</dd></div>
+<div><dt>Bonders in each Social Bond</dt><dd>10</dd></div>
+<div><dt>Hold on each Bonder account</dt><dd>10 percent of the amount</dd></div>
+<div><dt>Earned by each Bonder</dt><dd>0.8 percent of the amount</dd></div>
+<div><dt>Time to answer a request</dt><dd>5 minutes for a partner, 5 minutes for a Bonder</dd></div>
+<div><dt>Social Bond window</dt><dd>30 days</dd></div>
+<div><dt>Activation fee</dt><dd>22 percent of the amount put in</dd></div>
+<div><dt>Who receives the fee</dt><dd>8 partner, 8 Bonders, 6 C&amp;SB, as percent of the amount</dd></div>
+<div><dt>Paid first on day 54</dt><dd>The bond in the trader account, then the ten holds equally</dd></div>
+<div><dt>Subscription</dt><dd>$4.99 a month</dd></div>
+<div><dt>Withdrawal fee</dt><dd>15 percent</dd></div>
+<div><dt>Locked until settled</dt><dd>On installments, all profit until the last payment. The Social Bond amount for 30 days</dd></div>
+<div><dt>Withdrawable</dt><dd>Profit above the funded amount, once the account is paid in full</dd></div>
+<div><dt>Broker rebate</dt><dd>Up to $12 a lot, set with the broker, tested at $6 and $12</dd></div>
+<div><dt>Scale used in the tests</dt><dd>10,000 traders at about $5,000, 1,000,000 at about $6,000, 100,000,000 at about $8,500</dd></div>
+<div><dt>Recovery tests</dt><dd>0, 25, 50, 75 and 100 percent</dd></div>
+</dl>
+</section>
+
+<section class="wrap" id="promise">
+<h2>What is not promised</h2>
+<p>C&amp;SB does not promise a trading profit, that losses will be won back, that a trader will finish paying, that an account will be profitable, that a manager will be profitable, that a withdrawal will go through outside the rules, or that an account continues after a missed payment. All trading follows the account rules, the risk limits and the broker rules.</p>
+</section>
+
+<footer class="wrap">
+<p>C&amp;SB Capital and Social Bond. This is a simulation. It does not promise trading results.</p>
+</footer>
+
+<script>
+(function(){
+"use strict";
+function $(id){return document.getElementById(id);}
+function m(n){return "$"+Math.round(Math.max(0,n)).toLocaleString("en-US");}
+function m2(n){return "$"+Math.max(0,n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});}
+function big(n){n=Math.max(0,n);if(n>=1e9)return "$"+(n/1e9).toFixed(2)+" billion";if(n>=1e6)return "$"+(n/1e6).toFixed(2)+" million";return m(n);}
+function txt(x){return typeof x==="function"?x():x;}
+
+var SIZES=[1000,5000,10000,25000];
+var PAYS=[["install","Pay in installments"],["full","Pay in full"]];
+var CHAN=[["The main account",35],["Sub account 1",12],["Sub account 2",12],["Sub account 3",12],["Sub account 4",12],["Referrals",12],["Social Bond services",5]];
+var FALL=6,SBS=7,REC=8;
+var T={S:10000,pay:"install",step:0,day:1,paid:0,bal:0,put:0,earn:0.9,twoDay:0,gap:false,gapDay:0,end:"",shown:-1};
+
+function cost(){return T.S*1.01;}
+function first(){return T.S*0.1;}
+function paidAt(d){if(T.pay==="full")return cost();var f=first();return Math.min(cost(),f+(cost()-f)*(d-1)/89);}
+function paidFull(){return T.pay==="full"||T.paid>=cost()-0.5;}
+function perDay(){return T.S*T.earn/100;}
+function rate(d){return perDay()*((T.twoDay&&d>=T.twoDay)?2:1);}
+function cum(d){var r=0,k;for(k=25;k<=d;k++){r+=rate(k);}return r;}
+function sb(){var P=T.S/2;return {P:P,fee:P*0.22,hold:P*0.1,each:P*0.008,fp:P*0.08,fb:P*0.08,fc:P*0.06};}
+function set54(){var P=T.S/2,x=Math.max(0,P-cum(54)),col=T.gap?T.S*0.1:P,fc=Math.min(x,col);return {x:x,fromCol:fc,bond:x-fc};}
+function acct(d){
+  var q=set54();
+  if(T.gap){
+    if(d<T.gapDay)return T.S;
+    if(d<54)return T.S*0.1;
+    return Math.max(0,T.S*0.1-q.fromCol);
+  }
+  if(d<54)return T.S;
+  return Math.min(T.S,(T.S-q.fromCol)+(cum(d)-cum(54)));
+}
+function outAt(d){
+  var q=set54();
+  if(d<54)return {v:Math.max(0,T.S/2-cum(d)),l:"Still out with the partner"};
+  if(T.gap)return {v:Math.max(0,q.bond-(cum(d)-cum(54))),l:"Still out with the Bonders"};
+  return {v:Math.max(0,T.S-acct(d)),l:"Still to rebuild in the account"};
+}
+function wd(){if(T.end&&T.end!=="done")return 0;if(!paidFull())return 0;return Math.max(0,T.bal-T.S);}
+
+var steps=[
+{
+  t:"The trader needs an account.",
+  b:function(){return "<p>The trader wants a real account of "+m(T.S)+". The trader has "+m(first())+" today. That is not enough to trade it. Without C&amp;SB, this is where the story stops.</p>";},
+  btn:"Join C&SB"
+},
+{
+  t:"The trader joins.",
+  b:function(){return "<p>The trader comes in through a referral, is verified, and subscribes for $4.99 a month. The subscription gives access to the platform. It is never part of the account money.</p><p>The account costs "+m(T.S)+" plus a 1 percent service charge of "+m(T.S*0.01)+", "+m(cost())+" in all. Before the first payment, the trader sees the price, the payment plan and the account rules. The trader pays in full or in installments. Everyone enters this way. There is no direct deposit route.</p>";},
+  btn:function(){return T.pay==="full"?"Pay "+m(cost())+" in full":"Start with "+m(first());}
+},
+{
+  t:"The account opens.",
+  b:function(){
+    if(T.pay==="full"){return "<p>The trader pays "+m(cost())+" in full, the "+m(T.S)+" account and the "+m(T.S*0.01)+" service charge. Full access to the account unlocks and a manager is assigned automatically. It is real money in a real account. Profit above the funded amount can be withdrawn at any time.</p>";}
+    return "<p>The trader pays "+m(first())+" and the account opens with "+m(T.S)+" to trade. It is real money in a real account. Where C&amp;SB approves, the account opens right after the first payment and the trader accepts the payments that follow over 90 days. The total cost is "+m(cost())+". C&amp;SB tracks what is paid against it.</p><p>On installments, no profit can be withdrawn until the last payment is made.</p>";
+  },
+  btn:"Bring in a manager",
+  on:function(){T.day=1;T.paid=paidAt(1);T.bal=T.S;}
+},
+{
+  t:"A manager trades the account.",
+  b:function(){return "<p>The Manager Marketplace shows the trader three managers, picked by trading record, results, risk, room for more accounts and style. The trader picks one. The manager trades the account while the trader keeps paying. Profit is shared, half to the trader and half to the manager side.</p><p>The manager also has another manager trading their own account, so every manager stands on both sides. The manager can use an alias so a personal identity is not shown.</p>";},
+  btn:"Add more accounts"
+},
+{
+  t:"More accounts follow.",
+  b:function(){return "<p>After the account is funded, the trader can receive up to four sub accounts of the same size. Five accounts of "+m(T.S)+" make "+m(T.S*5)+" of accounts to manage. It is not cash.</p><p>Sub accounts can come from C&amp;SB, from other traders, from banks and fintechs, and from approved partners. They can also be given to other traders to manage. Each one is a channel the manager earns from, and every account carries a record of where it came from.</p>";},
+  btn:"Let the days pass"
+},
+{
+  t:"The account grows.",
+  b:function(){
+    var p=T.bal-T.S;
+    return "<p>By day 12 the account is at "+m(T.bal)+". The trader has paid "+m(T.paid)+" of "+m(cost())+".</p>"+(T.pay==="full"?"<p>The "+m(p)+" above the funded amount is profit and can be withdrawn at any time. A withdrawal of "+m(p)+" costs the 15 percent fee, "+m(p*0.15)+", and pays "+m(p*0.85)+".</p>":"<p>The "+m(p)+" above the funded amount is profit. On installments it stays locked until the trader makes the last payment. Nothing can be withdrawn yet.</p>");
+  },
+  btn:"Keep going",
+  on:function(){T.day=12;T.bal=Math.round(T.S*1.08);T.paid=paidAt(12);}
+},
+{
+  t:"The account falls by half.",
+  b:function(){return "<p>On day 24 a run of bad trades takes the account down to "+m(T.bal)+", a fall of half. The manager reaches the 50 percent limit. C&amp;SB flags the manager as breached and isolates the manager. From this moment, 100 percent of the manager earnings from all seven channels go to the trader recovery record, not to the manager.</p><p>For a trader on their own, this is where the story ends.</p>";},
+  btn:"Open Social Bond",
+  on:function(){T.day=24;T.bal=T.S/2;T.paid=paidAt(24);}
+},
+{
+  t:"Social Bond opens.",
+  b:function(){
+    var s=sb();
+    return "<p>The "+m(s.P)+" still in the account is locked as the bond. The trader needs "+m(s.P)+" to get back to trading. The request goes to a partner and to Bonders whose trading capital is above "+m(s.P)+", and the platform picks ten. Each has 5 minutes to answer.</p>"+
+    "<p>The partner puts in "+m(s.P)+" and the account is back at "+m(T.S)+". If one partner puts in only part, the rest goes to the next partner. Each of the ten Bonders agrees to a hold of 10 percent of the amount on their own trading account, as second backing behind the bond.</p>"+
+    "<table class='tbl'>"+
+    "<tr><td>The partner puts in</td><td>"+m(s.P)+"</td></tr>"+
+    "<tr><td>The account is back at</td><td>"+m(T.S)+"</td></tr>"+
+    "<tr><td>Hold on each of the ten Bonder accounts, 10 percent</td><td>"+m(s.hold)+"</td></tr>"+
+    "<tr><td>Activation fee, 22 percent of the amount</td><td>"+m(s.fee)+"</td></tr>"+
+    "<tr><td>Fee to the partner, 8 percent</td><td>"+m(s.fp)+"</td></tr>"+
+    "<tr><td>Fee to the ten Bonders, 8 percent</td><td>"+m(s.fb)+"</td></tr>"+
+    "<tr><td>Earned by each Bonder, 0.8 percent</td><td>"+m(s.each)+"</td></tr>"+
+    "<tr><td>Fee to C&amp;SB, 6 percent</td><td>"+m(s.fc)+"</td></tr></table>"+
+    "<p>The fee is paid at activation and shared at once. The trader is told the money has arrived and is trading again. The partner earns 8 percent within 30 days. The Social Bond amount cannot be withdrawn until the 30 days end.</p>";
+  },
+  btn:"Recovery begins",
+  on:function(){var s=sb();T.put=s.P;T.bal=T.S;}
+},
+{
+  t:"Recovery.",
+  b:function(){
+    var rows="",i,h,q=set54(),o=outAt(T.day);
+    for(i=0;i<CHAN.length;i++){rows+="<tr><td>"+CHAN[i][0]+"</td><td>"+m2(perDay()*CHAN[i][1]/100)+" a day</td></tr>";}
+    h="<p>All the manager earnings go to recovery, from seven channels. The Social Bond window is 30 days, from day 24 to day 54. Recovered money pays down what the partner put in. This is one example of how a manager earnings could split.</p>"+
+    "<table class='tbl'>"+rows+"<tr><td>All seven together</td><td>"+m2(perDay())+" a day</td></tr></table>";
+    if(T.twoDay){h+="<p>A second manager breached. Both managers are isolated and the earnings from both are combined, "+m2(perDay()*2)+" a day. The trader adds no money.</p>";}
+    if(T.gap&&T.day<54){h+="<p>On day "+T.gapDay+" the market gaps past the stop. The account closes at "+m(T.S*0.1)+", below the "+m(T.S/2)+" the partner put in. The ten holds are now second in line for day 54.</p>";}
+    if(T.day>=54){
+      if(q.x<=0){
+        h+="<p>Day 54. Recovery finished inside the 30 days. The holds on the Bonder accounts are released"+(T.gap?".":" and the account stays at "+m(T.S)+".")+"</p>";
+      }else if(T.gap){
+        h+=q.bond>0?"<p>Day 54. The 30 days are over with "+m(q.x)+" still out. The account closed at "+m(T.S*0.1)+" and the bond in it pays "+m(q.fromCol)+" first. The ten holds cover the other "+m(q.bond)+" equally, "+m(q.bond/10)+" from each. The partner is paid in full. From here, earnings go back to the Bonders.</p>":"<p>Day 54. The 30 days are over with "+m(q.x)+" still out. The bond in the account pays all of it and the partner is paid in full. The holds are not touched.</p>";
+      }else{
+        h+="<p>Day 54. The 30 days are over with "+m(q.x)+" still out. The bond in the account pays it first and the partner is paid in full. The ten holds are not touched. From here, earnings keep rebuilding the account to "+m(T.S)+".</p>";
+      }
+    }
+    h+="<p>Recovered so far "+m(Math.min(cum(T.day),T.put))+" of "+m(T.put)+". "+o.l+" "+m(o.v)+".</p>";
+    if(T.end==="done"){
+      if(T.gap){h+="<p>Day 90. The account closed at the gap. "+(o.v>0?"Earnings keep going back to the Bonders, "+m(o.v)+" still out.":"The partner and the Bonders have all their money back.")+"</p>";}
+      else{h+="<p>Day 90. The trader has paid "+m(cost())+" and the account belongs to the trader. "+(T.bal>=T.S-0.5?"The account is back at "+m(T.S)+" and the trader added no money.":"The account is at "+m(T.bal)+" and earnings keep rebuilding it.")+"</p>";}
+    }
+    return h;
+  },
+  x:function(){return "<div class='extra'><label for='eRange'><span>Manager earnings each day, percent of the account</span><output id='eOutv'>"+T.earn.toFixed(1)+"</output></label><input type='range' id='eRange' min='0' max='3' step='0.1' value='"+T.earn+"'></div>";}
+}
+];
+
+function endBody(){
+  var fee=T.S*0.01;
+  if(T.end==="refund"){
+    return "<p>The trader pays "+m(first())+" and no account opens, because early opening is not approved for this trader. The trader does not finish paying. On day 90 the purchase ends. The payments come back to the trader less the service charge of "+m(fee)+". The trader receives "+m(first()-fee)+".</p>";
+  }
+  return "<p>The trader stops paying after "+m(T.paid)+". The account was already opened. On day 90 the purchase ends, the account is taken back and closed, and there is no standard refund. What happens to the amount already paid follows the terms the trader accepted before the first payment.</p>";
+}
+
+function state(){
+  if(T.end==="refund")return "Refunded";
+  if(T.end==="taken")return "Account closed";
+  if(T.step>=REC){
+    if(T.gap&&T.day>=T.gapDay)return "Closed at the gap";
+    if(T.end==="done")return "Account paid";
+    return T.twoDay?"Two managers isolated":"Recovering";
+  }
+  return ["Waiting","Joining","Account open","Manager trading","More accounts","Growing","Fallen by half","Social Bond active"][T.step];
+}
+
+function altLabel(){
+  if(T.end)return "";
+  if(T.pay==="install"){
+    if(T.step===1)return "Pay and stop before an account opens";
+    if(T.step>=2&&T.step<=5)return "Show a trader who stops paying";
+  }
+  if(T.step===REC&&!T.twoDay)return "Add a second manager breach";
+  return "";
+}
+function alt2Label(){
+  if(!T.end&&T.step===REC&&!T.gap&&T.day<54)return "Show a gap past the stop";
+  return "";
+}
+
+function render(){
+  var s=steps[T.step],S=T.S,bw,o,al,al2,sp=(T.end==="refund"||T.end==="taken");
+  if(T.step>=REC&&!sp)T.bal=acct(T.day);
+  $("stepTitle").textContent=sp?(T.end==="refund"?"The trader stops before an account opens.":"The trader stops paying."):txt(s.t);
+  $("stepBody").innerHTML=sp?endBody():s.b();
+  if(sp){$("stepExtra").innerHTML="";T.shown=-1;}
+  else if(T.shown!==T.step){$("stepExtra").innerHTML=s.x?s.x():"";T.shown=T.step;}
+  bw=Math.min(T.bal,S)/S*100;
+  $("bBal").style.width=bw+"%";
+  $("bFall").style.left=bw+"%";
+  $("bFall").style.width=((T.step>=FALL||sp)?100-bw:0)+"%";
+  $("bPaid").style.width=Math.min(100,T.paid/cost()*100)+"%";
+  o=T.step>=REC?outAt(T.day):{v:T.put,l:"Still out with the partner"};
+  $("rowOut").hidden=T.step<SBS;
+  $("barOut").hidden=T.step<SBS;
+  $("bOut").style.width=Math.min(100,o.v/S*100)+"%";
+  $("sDay").textContent=T.day;
+  $("sState").textContent=state();
+  $("sBal").textContent=m(T.bal);
+  $("sPaid").textContent=m(T.paid);
+  $("sOut").textContent=m(o.v);
+  $("sOutLab").textContent=o.l;
+  $("sWd").textContent=m(wd());
+  var nb=$("nextBtn"),ab=$("altBtn"),ab2=$("alt2Btn");
+  if(sp){nb.hidden=true;}
+  else if(T.step<REC){nb.hidden=false;nb.textContent=txt(s.btn);}
+  else if(!T.end){nb.hidden=false;nb.textContent="Move ahead 10 days";}
+  else{nb.hidden=true;}
+  al=sp?"":altLabel();
+  al2=sp?"":alt2Label();
+  ab.hidden=(al==="");
+  ab.textContent=al;
+  ab2.hidden=(al2==="");
+  ab2.textContent=al2;
+}
+
+function next(){
+  if(T.step<REC){
+    T.step++;
+    if(steps[T.step].on)steps[T.step].on();
+  }else if(!T.end){
+    T.day=Math.min(90,T.day+10);
+    T.paid=paidAt(T.gap?Math.min(T.day,T.gapDay):T.day);
+    if(T.day>=90)T.end="done";
+  }
+  render();
+}
+
+function alt(){
+  if(T.pay==="install"&&T.step===1){T.end="refund";T.paid=first();T.bal=0;T.day=90;}
+  else if(T.pay==="install"&&T.step>=2&&T.step<=5){T.end="taken";T.bal=0;T.day=90;}
+  else if(T.step===REC){T.twoDay=T.day+1;}
+  render();
+}
+function alt2(){
+  T.gap=true;
+  T.gapDay=T.day;
+  render();
+}
+
+function buildSizes(){
+  var h="",i;
+  for(i=0;i<SIZES.length;i++){h+="<button type='button' data-s='"+SIZES[i]+"' aria-pressed='"+(SIZES[i]===T.S)+"'>"+m(SIZES[i])+"</button>";}
+  $("sizeChips").innerHTML=h;
+}
+function buildPay(){
+  var h="",i;
+  for(i=0;i<PAYS.length;i++){h+="<button type='button' data-p='"+PAYS[i][0]+"' aria-pressed='"+(PAYS[i][0]===T.pay)+"'>"+PAYS[i][1]+"</button>";}
+  $("payChips").innerHTML=h;
+}
+
+function reset(){
+  T.step=0;T.day=1;T.paid=0;T.bal=0;T.put=0;T.twoDay=0;T.gap=false;T.gapDay=0;T.end="";T.shown=-1;
+  buildSizes();
+  buildPay();
+  render();
+}
+
+$("sizeChips").addEventListener("click",function(e){
+  var b=e.target.closest("button");
+  if(!b)return;
+  T.S=+b.getAttribute("data-s");
+  reset();
+});
+$("payChips").addEventListener("click",function(e){
+  var b=e.target.closest("button");
+  if(!b)return;
+  T.pay=b.getAttribute("data-p");
+  reset();
+});
+$("nextBtn").addEventListener("click",next);
+$("altBtn").addEventListener("click",alt);
+$("alt2Btn").addEventListener("click",alt2);
+$("resetBtn").addEventListener("click",reset);
+$("stepExtra").addEventListener("input",function(e){
+  var t=e.target;
+  if(t.id==="eRange"){
+    T.earn=+t.value;
+    $("eOutv").textContent=T.earn.toFixed(1);
+    render();
+  }
+});
+
+/* The company */
+var C={traders:10000,join:10,size:5000,first:10,plan:40,stop:3,fall:8,rec:50,gap:5,late:30,wPct:20,wAmt:300,lots:4,perLot:12};
+var cfg=[
+  {g:"The traders"},
+  {k:"traders",l:"Traders on C&amp;SB",type:"chips",opts:[100,1000,10000,100000,1000000,100000000]},
+  {k:"join",l:"Traders joining this month, percent of all traders",type:"range",min:0,max:30,step:1},
+  {k:"size",l:"Average account size",type:"chips",opts:[1000,5000,6000,8500,10000,25000],money:true},
+  {k:"first",l:"Paid on day 1, percent of the account",type:"range",min:5,max:100,step:5},
+  {k:"plan",l:"New traders on the daily plan, percent",type:"range",min:0,max:100,step:5},
+  {k:"stop",l:"Traders who stop before an account opens, percent of new traders",type:"range",min:0,max:20,step:1},
+  {g:"The falls"},
+  {k:"fall",l:"Accounts that fall by half this month, percent",type:"range",min:0,max:30,step:1},
+  {k:"rec",l:"Recovered from managers inside 30 days, percent",type:"chips",opts:[0,25,50,75,100]},
+  {k:"gap",l:"Falls where the market gaps past the stop, percent of the falls",type:"range",min:0,max:50,step:1},
+  {k:"late",l:"Late recovery each month, percent of what is still out with the Bonders",type:"range",min:0,max:100,step:5},
+  {g:"The other earnings"},
+  {k:"wPct",l:"Traders who withdraw this month, percent",type:"range",min:0,max:60,step:5},
+  {k:"wAmt",l:"Average withdrawal",type:"range",min:0,max:2000,step:50,money:true},
+  {k:"lots",l:"Lots traded by each trader in a month",type:"range",min:0,max:20,step:1},
+  {k:"perLot",l:"Earned on each lot",type:"chips",opts:[6,12],money:true}
+];
+var CF={};
+function lab(o,v){return o.money?m(v):v.toLocaleString("en-US");}
+function buildC(){
+  var h="",i,j,o;
+  for(i=0;i<cfg.length;i++){
+    o=cfg[i];
+    if(o.g){h+="<h3 class='grp'>"+o.g+"</h3>";continue;}
+    CF[o.k]=o;
+    if(o.type==="chips"){
+      h+="<div class='field'><div class='fl'>"+o.l+"</div><div class='chips' data-k='"+o.k+"'>";
+      for(j=0;j<o.opts.length;j++){h+="<button type='button' data-v='"+o.opts[j]+"' aria-pressed='"+(C[o.k]===o.opts[j])+"'>"+lab(o,o.opts[j])+"</button>";}
+      h+="</div></div>";
+    }else{
+      h+="<div class='field'><label class='fl' for='r"+o.k+"'><span>"+o.l+"</span><output id='o"+o.k+"'>"+lab(o,C[o.k])+"</output></label><input type='range' id='r"+o.k+"' data-k='"+o.k+"' min='"+o.min+"' max='"+o.max+"' step='"+o.step+"' value='"+C[o.k]+"'></div>";
+    }
+  }
+  $("ctl").innerHTML=h;
+}
+function row(l,v,cls){return "<div"+(cls?" class='"+cls+"'":"")+"><dt>"+l+"</dt><dd>"+v+"</dd></div>";}
+function calc(){
+  var N=C.traders,S=C.size,nu=N*C.join/100,falls=N*C.fall/100,P=S/2,i,o=0,o6=0,o12=0;
+  var sub=N*4.99,svc=nu*S*(C.plan/100*0.10+(1-C.plan/100)*0.01),act=falls*P*0.06,wit=N*C.wPct/100*C.wAmt*0.15,trd=N*C.lots*C.perLot;
+  var tot=sub+svc+act+wit+trd;
+  $("rev").innerHTML=
+    row("Subscriptions at $4.99 a trader",big(sub))+
+    row("Service charges, 1 percent on accounts bought and 10 percent over the daily plan",big(svc))+
+    row("C&amp;SB share of Social Bond fees, 6 percent of the amount put in",big(act))+
+    row("Withdrawal fees, 15 percent",big(wit))+
+    row("Trading rebate from the broker",big(trd))+
+    row("C&amp;SB earns in a month",big(tot),"total")+
+    row("Average for each trader",m2(tot/N));
+  var need=nu*S,fi=nu*S*C.first/100,put=falls*P,rc=put*C.rec/100,sh=put-rc,bnd=sh*C.gap/100*0.8;
+  var refund=nu*C.stop/100*Math.max(0,S*C.first/100-S*0.01);
+  for(i=1;i<=12;i++){o=o*(1-C.late/100)+bnd;if(i===6)o6=o;if(i===12)o12=o;}
+  $("mon").innerHTML=
+    row("Real account money new traders need",big(need))+
+    row("Paid in by them on day 1",big(fi))+
+    row("C&amp;SB must have ready for the rest",big(need-fi),"total")+
+    row("Refunds to hold for traders who stop before an account opens",big(refund))+
+    row("Put in by partners for the falls",big(put))+
+    row("Held on Bonder accounts while the cases run",big(put))+
+    row("Recovered from managers inside 30 days",big(rc))+
+    row("Taken from the bond in the accounts on day 54",big(sh-bnd))+
+    row("Taken from Bonder accounts when the market gaps past the stop",big(bnd))+
+    row("Still out with the Bonders after 6 months",big(o6))+
+    row("Still out with the Bonders after 12 months",big(o12))+
+    row("Fee shares paid to partners and Bonders",big(falls*P*0.16));
+  $("dly").innerHTML=
+    row("Payments each day, all traders",big(N*S*0.011))+
+    row("Account money each day",big(N*S*0.01))+
+    row("Fees each day",big(N*S*0.001))+
+    row("Account money in 30 days",big(N*S*0.01*30))+
+    row("Fees in 30 days",big(N*S*0.001*30));
+}
+$("ctl").addEventListener("click",function(e){
+  var b=e.target.closest("button"),p,k,i;
+  if(!b)return;
+  p=b.parentNode;
+  k=p.getAttribute("data-k");
+  C[k]=+b.getAttribute("data-v");
+  for(i=0;i<p.children.length;i++){p.children[i].setAttribute("aria-pressed",p.children[i]===b?"true":"false");}
+  calc();
+});
+$("ctl").addEventListener("input",function(e){
+  var t=e.target,k;
+  if(t.type!=="range")return;
+  k=t.getAttribute("data-k");
+  C[k]=+t.value;
+  $("o"+k).textContent=lab(CF[k],C[k]);
+  calc();
+});
+
+reset();
+buildC();
+calc();
+})();
+</script>
 </body>
 </html>
