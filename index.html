@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C&SB Platform Architecture Engine</title>
+  <title>C&SB Platform Architecture & Revenue Engine</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>C&SB Capital and Social Bond Platform</h1>
-    <p>Complete Trader-Manager Architecture & Risk Intercept Engine</p>
+    <h1>C&SB Capital & Social Bond Architecture</h1>
+    <p>Complete Enterprise Financial Engine & Multi-Channel Intercept</p>
   </header>
 
   <main class="grid-container">
-    <!-- Treasury Overview -->
+    <!-- Corporate Treasury Overview -->
     <section class="card full-width">
-      <h2>System Core State</h2>
+      <h2>C&SB Corporate Revenue Metrics</h2>
       <div class="metrics-grid">
-        <div class="metric"><span class="label">C&SB Revenue</span><span id="sys-revenue" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">Active Account Equity</span><span id="sys-equity" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">Bonder Liens Active</span><span id="sys-liens" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">Manager Intercept Pool</span><span id="sys-intercept" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">1% Service Charge Revenue</span><span id="rev-service" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">15% Withdrawal Fee Revenue</span><span id="rev-withdraw" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">Brokerage Rebate Revenue ($12/lot)</span><span id="rev-rebate" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">6% SB Protocol Fee Revenue</span><span id="rev-sb" class="val">$0.00</span></div>
       </div>
     </section>
 
-    <!-- 1. Purchase Engine -->
+    <!-- 1. Account Purchase Engine -->
     <section class="card">
-      <h2>1. Account Purchase & Reciprocal Assignment</h2>
+      <h2>1. Capital Purchase Engine</h2>
       <form id="capital-form">
         <label for="user-name">Trader / Account Owner Name</label>
         <input type="text" id="user-name" value="Trader Alex" required>
@@ -36,94 +36,99 @@
 
         <label for="purchase-type">Purchase Method</label>
         <select id="purchase-type">
-          <option value="direct">Direct One-Time Purchase</option>
+          <option value="direct">Direct Purchase (1% Fee Included)</option>
           <option value="installment">Installment Plan (Up to 90 Days)</option>
         </select>
 
-        <button type="submit" class="btn-primary">Purchase Account & Assign Manager</button>
+        <button type="submit" class="btn-primary">Purchase Account</button>
       </form>
 
-      <div id="capital-status" class="status-box">No active account.</div>
+      <div id="capital-status" class="status-box">No active account purchase.</div>
       
       <div class="control-group">
         <label for="installment-pay-amt">Submit Installment Payment ($)</label>
         <input type="number" id="installment-pay-amt" value="2500">
-        <button id="btn-pay-installment" class="btn-secondary" disabled>Process Payment</button>
+        <button id="btn-pay-installment" class="btn-secondary" disabled>Process Installment Payment</button>
+      </div>
+
+      <div class="control-group">
+        <label for="withdraw-amt">Request Profit Withdrawal ($)</label>
+        <input type="number" id="withdraw-amt" value="1000">
+        <button id="btn-withdraw" class="btn-success" disabled>Withdraw Profits (15% Fee Applies)</button>
       </div>
     </section>
 
-    <!-- 2. Sub-Manager Delegation & Execution -->
+    <!-- 2. Multi-Account Management & Trading -->
     <section class="card">
-      <h2>2. Reciprocal Management & Sub-Managers</h2>
-      <p>Assign secondary/expansion accounts to sub-managers for a 25/25/50 profit split.</p>
+      <h2>2. Reciprocal Accounts & Trading Volume</h2>
+      <p>Simulate market execution and volume rebates ($12/lot).</p>
       
-      <div id="management-status" class="status-box">No assigned accounts.</div>
+      <div id="management-status" class="status-box">No active accounts assigned.</div>
 
       <div class="control-group">
-        <button id="btn-assign-submanager" class="btn-secondary" disabled>Delegate Account to Sub-Manager</button>
-      </div>
-
-      <div class="control-group">
-        <label for="trade-pct">Simulate Trading Return on Assigned Account (%)</label>
+        <label for="lots-traded">Simulate Traded Volume (Lots)</label>
+        <input type="number" id="lots-traded" value="10" min="1">
+        <label for="trade-pct">Trade Return (%)</label>
         <input type="number" id="trade-pct" value="-50" min="-90" max="50">
-        <button id="btn-run-trade" class="btn-danger" disabled>Execute Market Trades</button>
+        <button id="btn-run-trade" class="btn-danger" disabled>Execute Market Position</button>
       </div>
     </section>
 
-    <!-- 3. Social Bond & Facilitators -->
+    <!-- 3. Social Bond (SB) Credit Mechanism -->
     <section class="card">
-      <h2>3. Social Bond (SB) Credit Mechanism</h2>
-      <p>Lock remaining 50% collateral to receive external liquidity from facilitators.</p>
+      <h2>3. Social Bond (SB) Facility (30 Days)</h2>
+      <p>Lock remaining collateral to receive credit from external facilitators.</p>
 
-      <div id="sb-status" class="status-box">Social Bond inactive.</div>
+      <div id="sb-status" class="status-box">Social Bond idle.</div>
       
-      <button id="btn-trigger-sb" class="btn-warning" disabled>Activate Social Bond ($5,000 Advance)</button>
-      <button id="btn-expire-sb" class="btn-danger" disabled>Expire 30-Day Contract (Liquidate/Settle)</button>
+      <button id="btn-trigger-sb" class="btn-warning" disabled>Activate Social Bond ($5,000 Credit)</button>
+      <button id="btn-expire-sb" class="btn-danger" disabled>Expire 30-Day Contract (Settle Collateral/Liens)</button>
     </section>
 
-    <!-- 4. Multi-Channel Intercept Engine -->
+    <!-- 4. 7-Channel Intercept Engine -->
     <section class="card">
-      <h2>4. 6-Channel Manager Revenue Intercept</h2>
-      <p>Reroute 100% of offending manager's revenue channels to recover account baseline.</p>
+      <h2>4. 7-Channel Offending Manager Intercept Engine</h2>
+      <p>Reroute 100% of offending manager's revenue channels to recover lost equity.</p>
       
-      <label for="intercept-source">Select Intercept Channel</label>
+      <label for="intercept-source">Select Manager Revenue Channel</label>
       <select id="intercept-source">
-        <option value="Channel 1: Direct Management Fees">1. Direct Management Fees (50%)</option>
-        <option value="Channel 2: Sub-Manager Fee Allocations">2. Sub-Manager Allocations (25%)</option>
-        <option value="Channel 3: Manager Primary Trading Account">3. Manager Primary Account Profits</option>
-        <option value="Channel 4: Manager Secondary Accounts">4. Manager Secondary Account Profits</option>
-        <option value="Channel 5: Referral Commissions">5. Referral Program Commissions</option>
-        <option value="Channel 6: Referral Marketplace Sales">6. Referral Marketplace Sales</option>
+        <option value="Channel 1: Primary Account (50%)">Channel 1: Primary Account Share (50%)</option>
+        <option value="Channel 2: Sub-Account 1 (25%)">Channel 2: Sub-Account 1 Share (25%)</option>
+        <option value="Channel 3: Sub-Account 2 (25%)">Channel 3: Sub-Account 2 Share (25%)</option>
+        <option value="Channel 4: Sub-Account 3 (25%)">Channel 4: Sub-Account 3 Share (25%)</option>
+        <option value="Channel 5: Sub-Account 4 (25%)">Channel 5: Sub-Account 4 Share (25%)</option>
+        <option value="Channel 6: Referral Earnings (15%)">Channel 6: Referral Income (15%)</option>
+        <option value="Channel 7: SB Bonding Income">Channel 7: External SB Bonding Income</option>
       </select>
 
-      <label for="intercept-amount">Generated Revenue Amount ($)</label>
+      <label for="intercept-amount">Generated Channel Income ($)</label>
       <input type="number" id="intercept-amount" value="500">
 
-      <button id="btn-process-intercept" class="btn-success" disabled>Intercept Income Stream</button>
-      <div id="intercept-status" class="status-box">Intercept inactive.</div>
+      <button id="btn-process-intercept" class="btn-success" disabled>Intercept & Route to Recovery</button>
+      <div id="intercept-status" class="status-box">Intercept engine idle.</div>
     </section>
 
-    <!-- 5. Bonder Pool Network -->
+    <!-- 5. Bonder Network -->
     <section class="card full-width">
-      <h2>5. Temp Bonder Protection Network (10 Qualified Accounts)</h2>
+      <h2>5. Temp Bonder Protection Network (10 Accounts)</h2>
       <div id="bonders-list" class="bonders-grid">
         <!-- Rendered dynamically -->
       </div>
     </section>
 
-    <!-- Audit Ledger -->
+    <!-- Master Audit Log -->
     <section class="card full-width">
-      <h2>Master Protocol Audit Log</h2>
+      <h2>Master Protocol Ledger Audit Log</h2>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
               <th>Tx ID</th>
               <th>Timestamp</th>
-              <th>From Account</th>
-              <th>To Account</th>
+              <th>Source Account</th>
+              <th>Destination Account</th>
               <th>Amount ($)</th>
-              <th>Details</th>
+              <th>Description</th>
             </tr>
           </thead>
           <tbody id="ledger-rows">
