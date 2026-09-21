@@ -1,18 +1,21 @@
 /**
- * C&SB Platform Architecture Engine
+ * C&SB Architecture & Revenue Platform Simulation Engine
  */
 
 const state = {
-  companyRevenue: 0,
-  interceptPool: 0,
+  // C&SB Revenue Channels
+  revenue: {
+    serviceCharge: 0, // 1% on purchase
+    withdrawFee: 0,   // 15% on withdrawals
+    brokerRebate: 0,  // $12 per lot
+    sbProtocolFee: 0  // 6% on SB
+  },
+
   ledger: [],
-  txCounter: 2001,
+  txCounter: 3001,
 
-  // User Purchased Account State
+  // Active Trader Account State
   account: null,
-
-  // Managed Expansion Accounts (Up to 5)
-  expansionAccounts: [],
 
   // Active Social Bond State
   sb: {
@@ -27,16 +30,16 @@ const state = {
   bonders: Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
     name: `Bonder ${i + 1}`,
-    equity: 6000, // Qualified (> $5,000)
+    equity: 7000,
     lien: 0
   }))
 };
 
 const elements = {
-  sysRevenue: document.getElementById('sys-revenue'),
-  sysEquity: document.getElementById('sys-equity'),
-  sysLiens: document.getElementById('sys-liens'),
-  sysIntercept: document.getElementById('sys-intercept'),
+  revService: document.getElementById('rev-service'),
+  revWithdraw: document.getElementById('rev-withdraw'),
+  revRebate: document.getElementById('rev-rebate'),
+  revSb: document.getElementById('rev-sb'),
 
   capitalForm: document.getElementById('capital-form'),
   userName: document.getElementById('user-name'),
@@ -45,9 +48,11 @@ const elements = {
   capitalStatus: document.getElementById('capital-status'),
   installmentPayAmt: document.getElementById('installment-pay-amt'),
   btnPayInstallment: document.getElementById('btn-pay-installment'),
+  withdrawAmt: document.getElementById('withdraw-amt'),
+  btnWithdraw: document.getElementById('btn-withdraw'),
 
   managementStatus: document.getElementById('management-status'),
-  btnAssignSubmanager: document.getElementById('btn-assign-submanager'),
+  lotsTraded: document.getElementById('lots-traded'),
   tradePct: document.getElementById('trade-pct'),
   btnRunTrade: document.getElementById('btn-run-trade'),
 
@@ -82,98 +87,111 @@ function recordLedger(src, dst, amt, desc) {
 }
 
 function setupEventListeners() {
-  // 1. Purchase Account & Assign Random Manager
+  // 1. Account Purchase (1% Service Charge Included)
   elements.capitalForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const targetSize = parseFloat(elements.accountPrice.value);
+    const baseSize = parseFloat(elements.accountPrice.value);
+    const serviceFee = baseSize * 0.01; // 1% service charge
+    const totalCost = baseSize + serviceFee;
     const method = elements.purchaseType.value;
-    const initialPaid = method === 'direct' ? targetSize : targetSize * 0.25;
+    const initialPaid = method === 'direct' ? totalCost : totalCost * 0.25;
 
     state.account = {
       traderName: elements.userName.value,
-      baseline: targetSize,
-      equity: targetSize,
+      baseline: baseSize,
+      equity: baseSize,
+      totalCost: totalCost,
       totalPaid: initialPaid,
       isFullyPaid: method === 'direct',
-      managerAssigned: `Manager_${Math.floor(100 + Math.random() * 900)}`,
-      subManagerAssigned: null,
-      method: method
+      managerAssigned: `Manager_${Math.floor(100 + Math.random() * 900)}`
     };
 
-    // Auto-assign reciprocal account for management
-    state.expansionAccounts = [{
-      id: "RECIPROCAL-1",
-      baseline: targetSize,
-      equity: targetSize,
-      subManager: null
-    }];
-
-    state.companyRevenue += initialPaid;
-    recordLedger('TRADER', 'C&SB_TREASURY', initialPaid, `Account Purchase (${method.toUpperCase()})`);
-    recordLedger('SYSTEM', 'PARTNER_BROKER', targetSize, `Random Manager ${state.account.managerAssigned} Enforced`);
+    state.revenue.serviceCharge += serviceFee;
+    recordLedger('TRADER', 'C&SB_TREASURY', initialPaid, `Account Purchase (${method.toUpperCase()}). Includes 1% Service Fee.`);
+    recordLedger('SYSTEM', 'PARTNER_BROKER', baseSize, `Enforced Random Manager ${state.account.managerAssigned}`);
 
     render();
   });
 
-  // 2. Installment Payments
+  // 2. Process Installments
   elements.btnPayInstallment.addEventListener('click', () => {
     if (!state.account || state.account.isFullyPaid) return;
 
     const payment = parseFloat(elements.installmentPayAmt.value);
     state.account.totalPaid += payment;
-    state.companyRevenue += payment;
 
     recordLedger('TRADER', 'C&SB_TREASURY', payment, 'Installment Payment Received');
 
-    if (state.account.totalPaid >= state.account.baseline) {
+    if (state.account.totalPaid >= state.account.totalCost) {
       state.account.isFullyPaid = true;
-      recordLedger('C&SB_TREASURY', 'TRADER', 0, '90-Day Contract Fully Paid. Principal Lock Lifted.');
+      recordLedger('C&SB_TREASURY', 'TRADER', 0, 'Purchase Completed. Principal Account Unlocked.');
     }
 
     render();
   });
 
-  // 3. Delegate to Sub-Manager
-  elements.btnAssignSubmanager.addEventListener('click', () => {
+  // 3. Withdraw Profits (15% Fee)
+  elements.btnWithdraw.addEventListener('click', () => {
     if (!state.account) return;
-    state.account.subManagerAssigned = `SubManager_${Math.floor(1000 + Math.random() * 9000)}`;
-    recordLedger('MANAGER', state.account.subManagerAssigned, 0, 'Delegated Account to Sub-Manager (25/25/50 Split)');
+    const reqAmt = parseFloat(elements.withdrawAmt.value);
+    const withdrawable = state.account.isFullyPaid 
+      ? state.account.equity 
+      : Math.max(0, state.account.equity - state.account.baseline);
+
+    if (reqAmt > withdrawable) return;
+
+    const withdrawFee = reqAmt * 0.15; // 15% withdrawal fee
+    const netPayout = reqAmt - withdrawFee;
+
+    state.account.equity -= reqAmt;
+    state.revenue.withdrawFee += withdrawFee;
+
+    recordLedger('ACCOUNT_EQUITY', 'C&SB_REVENUE', withdrawFee, '15% Withdrawal Fee Deducted');
+    recordLedger('ACCOUNT_EQUITY', 'TRADER_BANK', netPayout, 'Net Profit Withdrawal Dispatched');
+
     render();
   });
 
-  // 4. Simulate Market Execution & 50% Drawdown Trigger
+  // 4. Trade Execution & Rebates ($12/lot)
   elements.btnRunTrade.addEventListener('click', () => {
     if (!state.account) return;
+    const lots = parseFloat(elements.lotsTraded.value);
     const pct = parseFloat(elements.tradePct.value) / 100;
+    
+    // Calculate Broker Rebate ($12 per lot)
+    const rebate = lots * 12;
+    state.revenue.brokerRebate += rebate;
+    recordLedger('BROKER_PARTNER', 'C&SB_REVENUE', rebate, `Brokerage Rebate Earned (${lots} lots @ $12/lot)`);
+
+    // Execute Trade Loss/Profit
     const change = state.account.equity * pct;
     state.account.equity += change;
-
-    recordLedger('MARKET', 'ACCOUNT_EQUITY', change, `Trading Results Execution (${pct * 100}%)`);
+    recordLedger('MARKET', 'ACCOUNT_EQUITY', change, `Trade Execution (${pct * 100}%)`);
 
     if (state.account.equity <= (state.account.baseline * 0.50)) {
-      recordLedger('PARTNER_BROKER', 'SYSTEM', 0, `50% Drawdown Triggered! ${state.account.managerAssigned} Removed.`);
+      recordLedger('PARTNER_BROKER', 'SYSTEM', 0, `50% Drawdown Limit Breached! Offending Manager Removed.`);
     }
 
     render();
   });
 
-  // 5. Activate Social Bond (SB) Credit Facility
+  // 5. Trigger Social Bond (SB) Credit (6% Fee to C&SB)
   elements.btnTriggerSb.addEventListener('click', () => {
     if (!state.account || state.sb.active) return;
 
-    const sbAmount = state.account.baseline * 0.50; // $5,000 on $10,000
-    const facilitatorReturn = sbAmount * 0.08; // 8% = $400
-    const bonderTotalFee = sbAmount * 0.08;      // 8% total = $400 ($40 per bonder)
-    const companyFee = sbAmount * 0.04;          // 4% = $200
+    const sbAmount = state.account.baseline * 0.50; // $5,000 credit
+    const facilitatorReturn = sbAmount * 0.08;      // 8% to Facilitator
+    const bonderTotalFee = sbAmount * 0.08;          // 0.8% x 10 = 8% total
+    const csbFee = sbAmount * 0.06;                  // 6% to C&SB Protocol
 
     state.sb.active = true;
     state.sb.facilitatorAdvanced = sbAmount;
-    state.sb.lienPerBonder = sbAmount * 0.10; // 10% lien = $500
+    state.sb.lienPerBonder = sbAmount * 0.10;
     state.sb.recoveryTarget = sbAmount;
     state.sb.recoveredAmount = 0;
 
-    state.account.equity += sbAmount; // Restore account to 100% equity
-    state.companyRevenue += companyFee;
+    state.account.equity += sbAmount; // Account equity restored to 100%
+    state.revenue.sbProtocolFee += csbFee;
 
     const feePerBonder = bonderTotalFee / 10;
     state.bonders.forEach(b => {
@@ -181,60 +199,58 @@ function setupEventListeners() {
       b.equity += feePerBonder; // Earn 0.8% return
     });
 
-    recordLedger('FACILITATOR', 'ACCOUNT_EQUITY', sbAmount, 'Social Bond Credit Advanced (50% Restored)');
+    recordLedger('FACILITATOR', 'ACCOUNT_EQUITY', sbAmount, 'Social Bond Capital Dispatched');
     recordLedger('ACCOUNT_EQUITY', 'FACILITATOR', facilitatorReturn, 'Facilitator Return (8%)');
-    recordLedger('ACCOUNT_EQUITY', 'BONDERS_POOL', bonderTotalFee, 'Bonder Earnings Dispersal (0.8% each)');
-    recordLedger('ACCOUNT_EQUITY', 'C&SB_REVENUE', companyFee, 'Protocol Facilitation Fee (4%)');
+    recordLedger('ACCOUNT_EQUITY', 'BONDERS_POOL', bonderTotalFee, 'Bonder Dispersal (0.8% each)');
+    recordLedger('ACCOUNT_EQUITY', 'C&SB_REVENUE', csbFee, 'C&SB SB Protocol Fee (6%)');
 
     render();
   });
 
-  // 6. Expire 30-Day SB Window
+  // 6. Expire 30-Day Window
   elements.btnExpireSb.addEventListener('click', () => {
     if (!state.sb.active) return;
 
     const unrecovered = state.sb.recoveryTarget - state.sb.recoveredAmount;
 
     if (unrecovered > 0) {
-      // Settle using account collateral first, then bonder liens as fallback
-      const liquidFromCollateral = Math.min(state.account.equity, unrecovered);
-      state.account.equity -= liquidFromCollateral;
+      const liquidCollateral = Math.min(state.account.equity, unrecovered);
+      state.account.equity -= liquidCollateral;
       
-      const remainingUncovered = unrecovered - liquidFromCollateral;
-      if (remainingUncovered > 0) {
-        const liquidationPerBonder = remainingUncovered / 10;
+      const unrecoveredBalance = unrecovered - liquidCollateral;
+      if (unrecoveredBalance > 0) {
+        const bonderLiq = unrecoveredBalance / 10;
         state.bonders.forEach(b => {
-          b.equity -= liquidationPerBonder;
+          b.equity -= bonderLiq;
           b.lien = 0;
         });
-        recordLedger('BONDERS_POOL', 'FACILITATOR', remainingUncovered, '30-Day Window Expired: Liquidated Bonder Liens');
+        recordLedger('BONDERS_POOL', 'FACILITATOR', unrecoveredBalance, '30-Day Contract Expired: Executed Bonder Liens');
       }
-      recordLedger('ACCOUNT_COLLATERAL', 'FACILITATOR', liquidFromCollateral, '30-Day Window Expired: Liquidated Account Collateral');
+      recordLedger('ACCOUNT_COLLATERAL', 'FACILITATOR', liquidCollateral, '30-Day Contract Expired: Liquidated Account Collateral');
     } else {
       state.bonders.forEach(b => b.lien = 0);
-      recordLedger('SYSTEM', 'BONDERS_POOL', 0, 'Social Bond Settled. Bonder Liens Fully Released.');
+      recordLedger('SYSTEM', 'BONDERS_POOL', 0, '30-Day Contract Settled. Liens Released.');
     }
 
     state.sb.active = false;
     render();
   });
 
-  // 7. Multi-Channel Revenue Intercept
+  // 7. Process Multi-Channel Intercept
   elements.btnProcessIntercept.addEventListener('click', () => {
     if (!state.sb.active) return;
 
     const amt = parseFloat(elements.interceptAmount.value);
-    const source = elements.interceptSource.value;
+    const channel = elements.interceptSource.value;
 
     state.sb.recoveredAmount += amt;
-    state.interceptPool += amt;
 
-    recordLedger(`OFFENDING_MANAGER:${source}`, 'INTERCEPT_POOL', amt, '100% Revenue Stream Intercepted');
+    recordLedger(`OFFENDING_MANAGER:${channel}`, 'ACCOUNT_OWNER', amt, '100% Intercepted Revenue Dispatched to Trader');
 
     if (state.sb.recoveredAmount >= state.sb.recoveryTarget) {
       state.sb.active = false;
       state.bonders.forEach(b => b.lien = 0);
-      recordLedger('INTERCEPT_POOL', 'ACCOUNT_OWNER', state.sb.recoveryTarget, 'Account 100% Restored via Intercept. SB Event Closed.');
+      recordLedger('INTERCEPT_ENGINE', 'SYSTEM', 0, 'Full Recovery Achieved. SB Event Completed.');
     }
 
     render();
@@ -242,41 +258,41 @@ function setupEventListeners() {
 }
 
 function render() {
-  elements.sysRevenue.textContent = `$${state.companyRevenue.toFixed(2)}`;
-  elements.sysEquity.textContent = state.account ? `$${state.account.equity.toFixed(2)}` : '$0.00';
-  
-  const totalLiens = state.bonders.reduce((acc, b) => acc + b.lien, 0);
-  elements.sysLiens.textContent = `$${totalLiens.toFixed(2)}`;
-  elements.sysIntercept.textContent = `$${state.interceptPool.toFixed(2)}`;
+  elements.revService.textContent = `$${state.revenue.serviceCharge.toFixed(2)}`;
+  elements.revWithdraw.textContent = `$${state.revenue.withdrawFee.toFixed(2)}`;
+  elements.revRebate.textContent = `$${state.revenue.brokerRebate.toFixed(2)}`;
+  elements.revSb.textContent = `$${state.revenue.sbProtocolFee.toFixed(2)}`;
 
   if (!state.account) {
     elements.capitalStatus.textContent = "No active purchase.";
-    elements.managementStatus.textContent = "No reciprocal assigned accounts.";
+    elements.managementStatus.textContent = "No accounts active.";
     elements.btnPayInstallment.disabled = true;
-    elements.btnAssignSubmanager.disabled = true;
+    elements.btnWithdraw.disabled = true;
     elements.btnRunTrade.disabled = true;
   } else {
     elements.btnPayInstallment.disabled = state.account.isFullyPaid;
-    elements.btnAssignSubmanager.disabled = state.account.subManagerAssigned !== null;
-    elements.btnRunTrade.disabled = false;
-
-    let withdrawable = state.account.isFullyPaid 
+    
+    const withdrawable = state.account.isFullyPaid 
       ? state.account.equity 
       : Math.max(0, state.account.equity - state.account.baseline);
+    
+    elements.btnWithdraw.disabled = withdrawable <= 0;
+    elements.btnRunTrade.disabled = false;
 
     elements.capitalStatus.innerHTML = `
       <strong>Trader Name:</strong> ${state.account.traderName}<br>
-      <strong>Account Size:</strong> $${state.account.baseline.toFixed(2)}<br>
-      <strong>Payment Progress:</strong> $${state.account.totalPaid.toFixed(2)} / $${state.account.baseline.toFixed(2)}<br>
-      <strong>Status:</strong> ${state.account.isFullyPaid ? '<span style="color:#16a34a">PURCHASE COMPLETE (Full Access)</span>' : '<span style="color:#d97706">INSTALLMENT (Profits Withdrawable)</span>'}<br>
+      <strong>Account Base Capital:</strong> $${state.account.baseline.toFixed(2)}<br>
+      <strong>Total Price (Incl. 1% Fee):</strong> $${state.account.totalCost.toFixed(2)}<br>
+      <strong>Amount Paid:</strong> $${state.account.totalPaid.toFixed(2)} / $${state.account.totalCost.toFixed(2)}<br>
+      <strong>Status:</strong> ${state.account.isFullyPaid ? '<span style="color:#16a34a">PURCHASE COMPLETE (Full Access)</span>' : '<span style="color:#d97706">INSTALLMENT PLAN (Principal Locked)</span>'}<br>
       <strong>Current Equity:</strong> $${state.account.equity.toFixed(2)}<br>
-      <strong>Withdrawable Funds:</strong> $${withdrawable.toFixed(2)}
+      <strong>Withdrawable Profits:</strong> $${withdrawable.toFixed(2)}
     `;
 
     elements.managementStatus.innerHTML = `
       <strong>Assigned Manager:</strong> ${state.account.managerAssigned} (Randomized)<br>
-      <strong>Sub-Manager Status:</strong> ${state.account.subManagerAssigned || 'None (Direct Management)'}<br>
-      <strong>Reciprocal Account Assigned:</strong> Yes ($${state.account.baseline.toFixed(2)})
+      <strong>Expansion Accounts (Channels 2-5):</strong> 4 Sub-Accounts Active<br>
+      <strong>Referral Channel (Channel 6):</strong> 15% Active Share
     `;
   }
 
@@ -292,20 +308,20 @@ function render() {
     if (state.sb.active) {
       elements.sbStatus.innerHTML = `
         <strong style="color:#d97706">ACTIVE SOCIAL BOND (30-DAY WINDOW)</strong><br>
-        <strong>Facilitator Liquidity:</strong> $${state.sb.facilitatorAdvanced.toFixed(2)}<br>
+        <strong>Facilitator Advanced:</strong> $${state.sb.facilitatorAdvanced.toFixed(2)}<br>
         <strong>Lien per Bonder (10):</strong> $${state.sb.lienPerBonder.toFixed(2)}<br>
-        <strong>Intercept Recovery Progress:</strong> $${state.sb.recoveredAmount.toFixed(2)} / $${state.sb.recoveryTarget.toFixed(2)}
+        <strong>Intercept Progress:</strong> $${state.sb.recoveredAmount.toFixed(2)} / $${state.sb.recoveryTarget.toFixed(2)}
       `;
     } else if (isFiftyPctDrawdown) {
-      elements.sbStatus.innerHTML = `<strong style="color:#dc2626">50% Drawdown Breach! Manager Removed. SB Activation Ready.</strong>`;
+      elements.sbStatus.innerHTML = `<strong style="color:#dc2626">50% Drawdown Breach! Manager Isolated. SB Ready.</strong>`;
     } else {
-      elements.sbStatus.textContent = "Account equity operational. SB trigger inactive.";
+      elements.sbStatus.textContent = "Account operating normally. SB trigger inactive.";
     }
   }
 
   elements.btnProcessIntercept.disabled = !state.sb.active;
   if (state.sb.active) {
-    elements.interceptStatus.innerHTML = `Intercepting offending manager earnings channels. Unrecovered: $${(state.sb.recoveryTarget - state.sb.recoveredAmount).toFixed(2)}`;
+    elements.interceptStatus.innerHTML = `Intercepting offending manager channels. Unrecovered: $${(state.sb.recoveryTarget - state.sb.recoveredAmount).toFixed(2)}`;
   } else {
     elements.interceptStatus.textContent = "Intercept engine idle.";
   }
