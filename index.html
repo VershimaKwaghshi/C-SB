@@ -3,114 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C&SB Capital and Social Bond Platform Simulation</title>
+  <title>C&SB Platform Architecture Engine</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>C&SB Capital and Social Bond</h1>
-    <p>Master Operating Platform & Core Ledger Simulation</p>
+    <h1>C&SB Capital and Social Bond Platform</h1>
+    <p>Complete Trader-Manager Architecture & Risk Intercept Engine</p>
   </header>
 
   <main class="grid-container">
-    <!-- Treasury Metrics -->
+    <!-- Treasury Overview -->
     <section class="card full-width">
-      <h2>System Treasury & Operational State</h2>
+      <h2>System Core State</h2>
       <div class="metrics-grid">
-        <div class="metric"><span class="label">Company Revenue</span><span id="sys-revenue" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">Total Active Equity</span><span id="sys-equity" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">Locked Lien Capital</span><span id="sys-liens" class="val">$0.00</span></div>
-        <div class="metric"><span class="label">Recovery Pool</span><span id="sys-recovery" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">C&SB Revenue</span><span id="sys-revenue" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">Active Account Equity</span><span id="sys-equity" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">Bonder Liens Active</span><span id="sys-liens" class="val">$0.00</span></div>
+        <div class="metric"><span class="label">Manager Intercept Pool</span><span id="sys-intercept" class="val">$0.00</span></div>
       </div>
     </section>
 
-    <!-- Capital Purchase Engine -->
+    <!-- 1. Purchase Engine -->
     <section class="card">
-      <h2>1. Capital Purchase Engine</h2>
+      <h2>1. Account Purchase & Reciprocal Assignment</h2>
       <form id="capital-form">
-        <label for="user-name">Trader Name</label>
-        <input type="text" id="user-name" value="Alex Trader" required>
+        <label for="user-name">Trader / Account Owner Name</label>
+        <input type="text" id="user-name" value="Trader Alex" required>
         
-        <label for="account-price">Funded Account Capital Size ($)</label>
+        <label for="account-price">Funded Capital Account Size ($)</label>
         <input type="number" id="account-price" value="10000" step="1000" required>
 
         <label for="purchase-type">Purchase Method</label>
         <select id="purchase-type">
-          <option value="direct">Direct One-Time Purchase (Full Payment)</option>
-          <option value="installment">Installment Purchase (90-Day Window)</option>
+          <option value="direct">Direct One-Time Purchase</option>
+          <option value="installment">Installment Plan (Up to 90 Days)</option>
         </select>
 
-        <button type="submit" class="btn-primary">Initiate Account Purchase</button>
+        <button type="submit" class="btn-primary">Purchase Account & Assign Manager</button>
       </form>
 
-      <div id="capital-status" class="status-box">No active purchase.</div>
+      <div id="capital-status" class="status-box">No active account.</div>
       
       <div class="control-group">
-        <label for="installment-pay-amt">Make Installment Payment ($)</label>
+        <label for="installment-pay-amt">Submit Installment Payment ($)</label>
         <input type="number" id="installment-pay-amt" value="2500">
-        <button id="btn-pay-installment" class="btn-secondary" disabled>Submit Installment Payment</button>
+        <button id="btn-pay-installment" class="btn-secondary" disabled>Process Payment</button>
       </div>
     </section>
 
-    <!-- Social Bond & Drawdown Simulator -->
+    <!-- 2. Sub-Manager Delegation & Execution -->
     <section class="card">
-      <h2>2. Social Bond Engine</h2>
-      <p>Simulate account trading performance and drawdown triggers.</p>
+      <h2>2. Reciprocal Management & Sub-Managers</h2>
+      <p>Assign secondary/expansion accounts to sub-managers for a 25/25/50 profit split.</p>
       
+      <div id="management-status" class="status-box">No assigned accounts.</div>
+
       <div class="control-group">
-        <label for="trade-loss">Simulate Equity Change (%)</label>
-        <input type="number" id="trade-loss" value="-50" min="-90" max="50">
-        <button id="btn-run-trade" class="btn-danger" disabled>Execute Market Movement</button>
+        <button id="btn-assign-submanager" class="btn-secondary" disabled>Delegate Account to Sub-Manager</button>
       </div>
 
-      <div id="sb-status" class="status-box">No active drawdown event.</div>
-      <button id="btn-trigger-sb" class="btn-warning" disabled>Activate Social Bond (50% SB)</button>
-      <button id="btn-expire-sb" class="btn-danger" disabled>Expire 30-Day Window (Liquidate Liens)</button>
+      <div class="control-group">
+        <label for="trade-pct">Simulate Trading Return on Assigned Account (%)</label>
+        <input type="number" id="trade-pct" value="-50" min="-90" max="50">
+        <button id="btn-run-trade" class="btn-danger" disabled>Execute Market Trades</button>
+      </div>
     </section>
 
-    <!-- Manager Intercept & Recovery -->
+    <!-- 3. Social Bond & Facilitators -->
     <section class="card">
-      <h2>3. Multi-Channel Intercept Engine</h2>
-      <p>Simulate manager incoming earnings across 6 channels to recover bonder funds.</p>
+      <h2>3. Social Bond (SB) Credit Mechanism</h2>
+      <p>Lock remaining 50% collateral to receive external liquidity from facilitators.</p>
+
+      <div id="sb-status" class="status-box">Social Bond inactive.</div>
       
-      <label for="intercept-source">Earnings Channel Source</label>
+      <button id="btn-trigger-sb" class="btn-warning" disabled>Activate Social Bond ($5,000 Advance)</button>
+      <button id="btn-expire-sb" class="btn-danger" disabled>Expire 30-Day Contract (Liquidate/Settle)</button>
+    </section>
+
+    <!-- 4. Multi-Channel Intercept Engine -->
+    <section class="card">
+      <h2>4. 6-Channel Manager Revenue Intercept</h2>
+      <p>Reroute 100% of offending manager's revenue channels to recover account baseline.</p>
+      
+      <label for="intercept-source">Select Intercept Channel</label>
       <select id="intercept-source">
-        <option value="Direct Management Fee">1. Direct Management Fees (50%)</option>
-        <option value="Submanager Share">2. Submanager Fee Share (25%)</option>
-        <option value="Manager Primary Account">3. Manager Primary Account Profits</option>
-        <option value="Manager Secondary Account">4. Manager Secondary Account Profits</option>
-        <option value="Referral Earnings">5. Referral Program Income</option>
-        <option value="Referral Marketplace">6. Referral Marketplace Sales</option>
+        <option value="Channel 1: Direct Management Fees">1. Direct Management Fees (50%)</option>
+        <option value="Channel 2: Sub-Manager Fee Allocations">2. Sub-Manager Allocations (25%)</option>
+        <option value="Channel 3: Manager Primary Trading Account">3. Manager Primary Account Profits</option>
+        <option value="Channel 4: Manager Secondary Accounts">4. Manager Secondary Account Profits</option>
+        <option value="Channel 5: Referral Commissions">5. Referral Program Commissions</option>
+        <option value="Channel 6: Referral Marketplace Sales">6. Referral Marketplace Sales</option>
       </select>
 
-      <label for="intercept-amount">Generated Earnings ($)</label>
-      <input type="number" id="intercept-amount" value="250">
+      <label for="intercept-amount">Generated Revenue Amount ($)</label>
+      <input type="number" id="intercept-amount" value="500">
 
-      <button id="btn-process-intercept" class="btn-success" disabled>Intercept & Route to Recovery</button>
-      <div id="intercept-status" class="status-box">Recovery inactive.</div>
+      <button id="btn-process-intercept" class="btn-success" disabled>Intercept Income Stream</button>
+      <div id="intercept-status" class="status-box">Intercept inactive.</div>
     </section>
 
-    <!-- Bonders Pool State -->
-    <section class="card">
-      <h2>4. Bonder Protection Network (10 Accounts)</h2>
+    <!-- 5. Bonder Pool Network -->
+    <section class="card full-width">
+      <h2>5. Temp Bonder Protection Network (10 Qualified Accounts)</h2>
       <div id="bonders-list" class="bonders-grid">
         <!-- Rendered dynamically -->
       </div>
     </section>
 
-    <!-- Master System Ledger Audit Log -->
+    <!-- Audit Ledger -->
     <section class="card full-width">
-      <h2>System Master Ledger Audit Log</h2>
+      <h2>Master Protocol Audit Log</h2>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
               <th>Tx ID</th>
               <th>Timestamp</th>
-              <th>Source Account</th>
-              <th>Destination Account</th>
+              <th>From Account</th>
+              <th>To Account</th>
               <th>Amount ($)</th>
-              <th>Description</th>
+              <th>Details</th>
             </tr>
           </thead>
           <tbody id="ledger-rows">
